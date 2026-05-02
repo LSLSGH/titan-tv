@@ -5,7 +5,7 @@
 :root {
   --primary: #ff0000;
   --bg-dark: #000000;
-  --glass: rgba(255, 255, 255, 0.03);
+  --border: rgba(255, 255, 255, 0.05);
 }
 
 * {
@@ -17,106 +17,79 @@
 body {
   background-color: var(--bg-dark);
   color: white;
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* --- Industrial Brutalist Effects --- */
+/* --- Refined Industrial Aesthetics --- */
 
 .h-titan {
   font-family: 'Outfit', sans-serif;
-  font-weight: 900;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: -0.05em;
-  line-height: 0.8;
+  letter-spacing: -0.02em;
 }
 
-.text-ghost {
+.text-ghost-fine {
   position: relative;
   color: var(--primary);
-  text-shadow: 
-    4px 4px 0px rgba(255, 0, 0, 0.3),
-    8px 8px 0px rgba(255, 0, 0, 0.1);
+  text-shadow: 2px 2px 0px rgba(255, 0, 0, 0.15);
 }
 
-.text-glitch {
-  text-transform: uppercase;
-  font-weight: 900;
-  color: white;
-  position: relative;
-}
-
-.text-glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  left: 2px;
-  text-shadow: -1px 0 red;
-  top: 0;
-  color: white;
-  background: black;
-  overflow: hidden;
-  clip: rect(0, 900px, 0, 0);
-  animation: noise-anim 2s infinite linear alternate-reverse;
-}
-
-@keyframes noise-anim {
-  0% { clip: rect(10px, 9999px, 50px, 0); }
-  100% { clip: rect(80px, 9999px, 100px, 0); }
-}
-
-/* --- Logo Grid Aesthetics --- */
+/* --- Elegant Logo Grid --- */
 
 .logo-grid-item {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   aspect-ratio: 1;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .logo-grid-item:hover {
-  background: var(--primary);
-  transform: scale(1.1);
-  box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
-}
-
-/* --- Premium Buttons --- */
-
-.btn-brutal {
-  background: var(--primary);
-  color: white;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.3em;
-  padding: 20px 40px;
-  border-radius: 4px;
-  font-size: 10px;
-  transition: all 0.3s ease;
-}
-
-.btn-brutal:hover {
-  filter: brightness(1.2);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 40px rgba(255, 0, 0, 0.4);
+  background: rgba(255, 0, 0, 0.05);
+  border-color: var(--primary);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(255, 0, 0, 0.1);
 }
 
 /* --- Navigation --- */
 
 .nav-link {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.4em;
-  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.3);
   transition: all 0.3s ease;
 }
 
 .nav-link:hover {
   color: var(--primary);
+}
+
+/* --- Premium Buttons --- */
+
+.btn-fine {
+  background: white;
+  color: black;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  padding: 18px 40px;
+  border-radius: 4px;
+  font-size: 10px;
+  transition: all 0.3s ease;
+}
+
+.btn-fine:hover {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 10px 40px rgba(255, 0, 0, 0.3);
 }
 
 /* Hide Scrollbar */

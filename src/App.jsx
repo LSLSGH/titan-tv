@@ -18,14 +18,22 @@ import { supabase } from './lib/supabase';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// --- Massive Logo Set for Industrial Grid ---
+// --- Guaranteed Official SVG Logos ---
 
-const GRID_LOGOS = [
-  'netflix', 'hbo', 'disney', 'amazon', 'hulu', 'apple', 'espn', 'fox', 'cnn', 'discovery',
-  'natgeo', 'mtv', 'hgtv', 'food', 'travel', 'bbc', 'sky', 'dazn', 'bein', 'canal',
-  'warner', 'paramount', 'universal', 'sony', 'marvel', 'dc', 'nfl', 'nba', 'ufc', 'f1',
-  'spotify', 'youtube', 'twitch', 'tiktok', 'instagram', 'facebook', 'twitter', 'discord', 'telegram', 'whatsapp',
-  'google', 'microsoft', 'adobe', 'nvidia', 'intel', 'amd', 'tesla', 'spacex', 'bmw', 'audi'
+const MAIN_CHANNELS = [
+  { name: 'Netflix', url: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg' },
+  { name: 'HBO Max', url: 'https://upload.wikimedia.org/wikipedia/commons/1/17/HBO_logo.svg' },
+  { name: 'Disney+', url: 'https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg' },
+  { name: 'Prime Video', url: 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video_logo.svg' },
+  { name: 'DAZN', url: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/DAZN_logo.svg' },
+  { name: 'beIN SPORTS', url: 'https://upload.wikimedia.org/wikipedia/commons/2/25/BeIN_Sports_logo.svg' },
+  { name: 'Canal+', url: 'https://upload.wikimedia.org/wikipedia/commons/d/d3/Canal%2B_logo.svg' }
+];
+
+const GRID_DOMAINS = [
+  'netflix.com', 'hbo.com', 'disneyplus.com', 'amazon.com', 'espn.com', 'fox.com', 'cnn.com', 
+  'discovery.com', 'natgeo.com', 'mtv.com', 'bbc.co.uk', 'sky.com', 'dazn.com', 'beinsports.com',
+  'canalplus.com', 'warnerbros.com', 'paramount.com', 'universalpictures.com', 'sony.com', 'marvel.com'
 ];
 
 const Navbar = ({ user }) => {
@@ -33,7 +41,7 @@ const Navbar = ({ user }) => {
   return (
     <nav className="fixed top-0 w-full z-[1000] px-6 md:px-16 py-8 flex justify-between items-center bg-black/80 backdrop-blur-md border-b border-white/5">
       <div className="flex items-center gap-16">
-        <Link to="/" className="h-titan text-3xl text-[#ff0000] tracking-tighter">TITANTV</Link>
+        <Link to="/" className="h-titan text-2xl text-[#ff0000] tracking-tighter">TITAN<span className="text-white">TV</span></Link>
         <div className="hidden lg:flex items-center gap-10">
           {['Catalog', 'Networks', 'Tech', 'Pricing'].map(item => (
             <Link key={item} to={item === 'Pricing' ? '/pricing' : '/'} className="nav-link">{item}</Link>
@@ -43,16 +51,16 @@ const Navbar = ({ user }) => {
 
       <div className="flex items-center gap-8">
         {user ? (
-          <Link to="/dashboard" className="btn-brutal px-8 py-3 rounded-sm">Dashboard</Link>
+          <Link to="/dashboard" className="btn-fine px-8 py-3">Dashboard</Link>
         ) : (
-          <button onClick={() => navigate('/auth')} className="btn-brutal px-8 py-3 rounded-sm">Sync Now</button>
+          <button onClick={() => navigate('/auth')} className="btn-fine px-8 py-3">Sync Now</button>
         )}
       </div>
     </nav>
   );
 };
 
-// --- Page: Home (Red Glitch Hero) ---
+// --- Page: Home ---
 
 const HomePage = ({ user }) => {
   const navigate = useNavigate();
@@ -62,52 +70,55 @@ const HomePage = ({ user }) => {
     <div ref={containerRef} className="pt-40 pb-40">
       <div className="container mx-auto px-6 text-center">
         
-        {/* Stats Grid (Red Ghosting) */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-40 max-w-6xl mx-auto">
+        {/* Finer Stats Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-40 max-w-6xl mx-auto">
           {[
             { val: '21K+', label: 'Channels' },
             { val: '150K+', label: 'VOD' },
             { val: '<0.8MS', label: 'Latency' },
             { val: '99.9%', label: 'Uptime' }
           ].map((stat, i) => (
-            <div key={i} className="text-center group">
-              <h2 className="h-titan text-6xl md:text-8xl text-ghost mb-2 transition-all group-hover:scale-110">{stat.val}</h2>
-              <p className="nav-link opacity-20 group-hover:opacity-100">{stat.label}</p>
+            <div key={i} className="text-center group border-l border-white/5 pl-6">
+              <h2 className="h-titan text-5xl md:text-7xl text-ghost-fine mb-2">{stat.val}</h2>
+              <p className="nav-link opacity-20">{stat.label}</p>
             </div>
           ))}
         </div>
 
-        {/* Massive Glitch Title */}
+        {/* Finer Hero Title */}
         <div className="mb-60">
-          <h1 className="h-titan text-[12vw] md:text-[15vw] leading-none mb-12 text-white/5 relative">
+          <h1 className="h-titan text-[10vw] leading-none mb-12 text-white relative">
             CHANNELS.
-            <span className="absolute inset-0 text-ghost opacity-80">CHANNELS.</span>
+            <span className="absolute inset-0 text-[#ff0000] opacity-10 -translate-x-1">CHANNELS.</span>
           </h1>
-          <button onClick={() => navigate('/pricing')} className="btn-brutal scale-150 mt-10">Get Your Access</button>
+          <button onClick={() => navigate('/pricing')} className="btn-fine scale-110 mt-6">Initialize Link</button>
         </div>
 
-        {/* THE MASSIVE LOGO GRID (The "Wall of Content") */}
+        {/* ELEGANT LOGO GRID */}
         <div className="mt-60 max-w-7xl mx-auto">
-          <h3 className="nav-link mb-12 text-center text-white/20">Network Library</h3>
-          <div className="grid grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-4">
-            {GRID_LOGOS.map((name, i) => (
-              <div key={i} className="logo-grid-item p-4">
+          <div className="flex items-center justify-center gap-4 mb-20">
+            <div className="h-px w-20 bg-white/10" />
+            <h3 className="nav-link text-white/40">Network Infrastructure</h3>
+            <div className="h-px w-20 bg-white/10" />
+          </div>
+          
+          <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
+            {MAIN_CHANNELS.map((logo, i) => (
+              <div key={i} className="logo-grid-item p-6 group">
                 <img 
-                  src={`https://logo.clearbit.com/${name}.com`} 
-                  className="w-full opacity-40 group-hover:opacity-100 transition-all grayscale brightness-[2]" 
-                  alt={name}
-                  onError={(e) => e.target.style.display = 'none'}
+                  src={logo.url} 
+                  className="w-full h-10 object-contain opacity-40 group-hover:opacity-100 transition-all filter brightness-[3]" 
+                  alt={logo.name} 
                 />
               </div>
             ))}
-            {/* Double the logos for density */}
-            {GRID_LOGOS.map((name, i) => (
-              <div key={`2-${i}`} className="logo-grid-item p-4">
+            {/* Fill with domains for density */}
+            {GRID_DOMAINS.map((domain, i) => (
+              <div key={`domain-${i}`} className="logo-grid-item p-6 group">
                 <img 
-                  src={`https://logo.clearbit.com/${name}.com`} 
-                  className="w-full opacity-40 group-hover:opacity-100 transition-all grayscale brightness-[2]" 
-                  alt={name}
-                  onError={(e) => e.target.style.display = 'none'}
+                  src={`https://logo.clearbit.com/${domain}`} 
+                  className="w-full h-10 object-contain opacity-40 group-hover:opacity-100 transition-all filter brightness-[3] grayscale" 
+                  alt={domain} 
                 />
               </div>
             ))}
@@ -140,19 +151,19 @@ const PricingPage = ({ user }) => {
     <div className="pt-40 pb-80 px-6">
       <div className="container mx-auto">
         <div className="text-center mb-40">
-          <h2 className="h-titan text-[10vw] text-ghost leading-none mb-12">PRICING.</h2>
+          <h2 className="h-titan text-[8vw] text-ghost-fine leading-none mb-12">PRICING.</h2>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {[
             { t: 'MONTHLY', p: '19', f: ['21K+ Channels', '4K Quality', '1 Device'] },
-            { t: 'ANNUAL PRO', p: '59', f: ['8K RAW Quality', '3 Devices', 'Anti-Buffer', 'VOD 150K+'], featured: true },
+            { t: 'ANNUAL ELITE', p: '59', f: ['8K RAW Quality', '3 Devices', 'Anti-Buffer', 'VOD 150K+'], featured: true },
             { t: 'ULTIMATE', p: '99', f: ['Uncompressed Feed', '5 Devices', 'VPN Ghost', 'Full Support'] }
           ].map((plan, i) => (
             <div key={i} className={`p-12 border border-white/5 bg-white/[0.01] flex flex-col ${plan.featured ? 'md:scale-105 border-[#ff0000]/40' : ''}`}>
               <h3 className="nav-link mb-8 text-[#ff0000]">{plan.t}</h3>
               <div className="flex items-baseline gap-2 mb-12">
-                <span className="h-titan text-8xl text-white">${plan.p}</span>
+                <span className="h-titan text-7xl text-white">${plan.p}</span>
                 <span className="nav-link opacity-20">/ Year</span>
               </div>
               <div className="space-y-6 mb-16 flex-grow">
@@ -170,7 +181,7 @@ const PricingPage = ({ user }) => {
                 }} 
                 className={`w-full py-6 text-[10px] font-black uppercase tracking-[0.3em] transition-all ${plan.featured ? 'bg-[#ff0000] text-white' : 'border border-white/20 hover:bg-white hover:text-black'}`}
               >
-                Activate Node
+                Sync Node
               </button>
             </div>
           ))}
@@ -180,24 +191,24 @@ const PricingPage = ({ user }) => {
       <AnimatePresence>
         {checkoutPlan && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/98 p-6 backdrop-blur-xl">
-            <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="max-w-xl w-full border border-[#ff0000]/20 bg-black p-16 relative text-center">
+            <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="max-w-xl w-full border border-white/10 bg-black p-16 relative text-center">
               <button onClick={() => setCheckoutPlan(null)} className="absolute top-12 right-12 text-white/20 hover:text-white"><X size={32} /></button>
               <h2 className="h-titan text-5xl mb-6 text-[#ff0000]">Authorize.</h2>
               <p className="nav-link mb-16 italic tracking-[0.4em]">Secure Session for ${checkoutPlan.p}</p>
-              <button onClick={handlePurchase} className="btn-brutal w-full text-[12px]">Pay with Stripe</button>
+              <button onClick={handlePurchase} className="btn-fine w-full text-[12px]">Pay Securely</button>
             </motion.div>
           </motion.div>
         )}
         {iptvCode && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[1100] flex items-center justify-center bg-black/98 p-6 backdrop-blur-2xl">
-            <motion.div initial={{ scale: 0.7, y: 100 }} animate={{ scale: 1, y: 0 }} className="max-w-2xl w-full border border-[#ff0000]/60 bg-black p-24 relative text-center shadow-[0_0_100px_rgba(255,0,0,0.2)]">
+            <motion.div initial={{ scale: 0.7, y: 100 }} animate={{ scale: 1, y: 0 }} className="max-w-2xl w-full border border-[#ff0000]/60 bg-black p-24 relative text-center">
               <h2 className="h-titan text-7xl mb-8 text-[#ff0000]">SUCCESS.</h2>
-              <p className="nav-link opacity-40 mb-20">Access Code Synchronized with your Node.</p>
+              <p className="nav-link opacity-40 mb-20">Access Code Synchronized.</p>
               <div className="bg-white/5 p-16 border border-white/10 mb-20 flex items-center justify-center gap-12 group cursor-pointer hover:bg-white/10" onClick={() => { navigator.clipboard.writeText(iptvCode); confetti({ particleCount: 50 }); }}>
                 <span className="h-titan text-7xl tracking-[0.4em] text-white">{iptvCode}</span>
                 <Copy size={48} className="text-white/20 group-hover:text-white transition-all" />
               </div>
-              <button onClick={() => setIptvCode(null)} className="nav-link opacity-20 hover:opacity-100 transition-all">Close Terminal</button>
+              <button onClick={() => setIptvCode(null)} className="nav-link opacity-20 hover:opacity-100 transition-all">Close</button>
             </motion.div>
           </motion.div>
         )}
@@ -257,12 +268,12 @@ const DashboardPage = ({ user }) => {
     <div className="pt-40 pb-80 px-6 md:px-16 overflow-y-auto">
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-40">
-          <h2 className="h-titan text-7xl md:text-[9rem] text-ghost">DASHBOARD.</h2>
+          <h2 className="h-titan text-7xl text-ghost-fine">DASHBOARD.</h2>
         </div>
 
         <div className="flex gap-16 mb-20 border-b border-white/5 pb-10">
-          <button onClick={() => setActiveTab('codes')} className={`nav-link ${activeTab === 'codes' ? 'text-[#ff0000]' : ''}`}>Codes</button>
-          <button onClick={() => setActiveTab('billing')} className={`nav-link ${activeTab === 'billing' ? 'text-[#ff0000]' : ''}`}>Billing</button>
+          <button onClick={() => setActiveTab('codes')} className={`nav-link ${activeTab === 'codes' ? 'text-[#ff0000]' : ''}`}>Active Codes</button>
+          <button onClick={() => setActiveTab('billing')} className={`nav-link ${activeTab === 'billing' ? 'text-[#ff0000]' : ''}`}>Secure Billing</button>
         </div>
 
         {loading ? (
@@ -270,7 +281,7 @@ const DashboardPage = ({ user }) => {
         ) : activeTab === 'codes' ? (
           <div className="grid gap-8">
             {purchases.length === 0 ? (
-              <div className="py-40 text-center border border-white/5 opacity-20 h-titan text-4xl">No Node Access Detected.</div>
+              <div className="py-40 text-center border border-white/5 opacity-20 h-titan text-4xl">No Node Access.</div>
             ) : (
               purchases.map(p => (
                 <div key={p.id} className="border border-white/5 p-12 flex flex-col md:flex-row justify-between items-center group bg-white/[0.01]">
@@ -310,7 +321,7 @@ const DashboardPage = ({ user }) => {
                   <input type="text" required placeholder="MM/YY" className="w-full bg-black border border-white/10 p-6 text-sm outline-none focus:border-[#ff0000] transition-all font-mono text-white" value={expiry} onChange={e => setExpiry(e.target.value)} />
                   <input type="text" required placeholder="CVC" className="w-full bg-black border border-white/10 p-6 text-sm outline-none focus:border-[#ff0000] transition-all font-mono text-white" value={cvc} onChange={e => setCvc(e.target.value)} />
                 </div>
-                <button disabled={savingCard} className="btn-brutal w-full py-6">
+                <button disabled={savingCard} className="btn-fine w-full py-6">
                   {savingCard ? 'Syncing...' : 'Sync Card'}
                 </button>
               </form>
@@ -339,7 +350,7 @@ const AuthPage = () => {
       if (mode === 'signup') {
         const { error } = await supabase.auth.signUp({ email, password });
         if (error) throw error;
-        setMessage("Activation link transmitted to your node.");
+        setMessage("Activation link transmitted.");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -350,27 +361,27 @@ const AuthPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-6">
-      <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} className="max-w-md w-full border border-white/5 bg-black p-12 relative">
+      <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} className="max-w-md w-full border border-white/10 bg-black p-12 relative">
         <div className="text-center mb-16">
           <h2 className="h-titan text-5xl mb-6 text-[#ff0000]">{mode === 'login' ? 'Recall.' : 'Initialize.'}</h2>
-          <p className="nav-link opacity-40 text-white">Node Authentication</p>
+          <p className="nav-link opacity-40">Node Authentication</p>
         </div>
 
         {message ? (
           <div className="text-center py-10 space-y-12">
             <p className="nav-link text-white leading-loose">{message}</p>
-            <button onClick={() => navigate('/')} className="btn-brutal w-full py-5 text-[10px]">Back to Home</button>
+            <button onClick={() => navigate('/')} className="btn-fine w-full py-5 text-[10px]">Back to Home</button>
           </div>
         ) : (
           <form onSubmit={handleAuth} className="space-y-8">
             <input type="email" required placeholder="NEURAL.ID" className="w-full rounded-sm py-6 px-10 text-sm outline-none bg-black border border-white/10 focus:border-[#ff0000] transition-all font-mono text-white" value={email} onChange={(e) => setEmail(e.target.value)} />
             <input type="password" required placeholder="ACCESS.KEY" className="w-full rounded-sm py-6 px-10 text-sm outline-none bg-black border border-white/10 focus:border-[#ff0000] transition-all font-mono text-white" value={password} onChange={(e) => setPassword(e.target.value)} />
             {error && <div className="text-[#ff0000] text-[10px] text-center font-bold uppercase tracking-widest py-4">{error}</div>}
-            <button disabled={loading} className="btn-brutal w-full py-6">
+            <button disabled={loading} className="btn-fine w-full py-6">
               {loading ? 'Transmitting...' : mode === 'login' ? 'Establish Link' : 'Initialize Node'}
             </button>
             <div className="text-center pt-8">
-              <button type="button" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')} className="nav-link text-[9px] opacity-20 hover:opacity-100 transition-all">
+              <button type="button" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')} className="nav-link text-[9px] opacity-20 hover:opacity-100 transition-all text-white">
                 {mode === 'login' ? "New Neural Link? Sync" : "Existing Link? Recall"}
               </button>
             </div>
@@ -404,7 +415,7 @@ export default function App() {
 
         <footer className="py-40 bg-black border-t border-white/5 text-center">
           <h1 className="h-titan text-[10vw] opacity-10 text-white">TITANTV</h1>
-          <p className="nav-link opacity-10 text-[8px] tracking-[1em]">© 2026 INDUSTRIAL GRID INFRASTRUCTURE</p>
+          <p className="nav-link opacity-10 text-[8px] tracking-[1em]">© 2026 REFINED INDUSTRIAL GRID</p>
         </footer>
       </main>
     </Router>
