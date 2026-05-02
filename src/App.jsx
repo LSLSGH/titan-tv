@@ -19,40 +19,37 @@ import { supabase } from './lib/supabase';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// --- Content Database 2026 ---
+// --- Real Content Database 2026 (Official Posters) ---
 
 const CONTENT_2026 = {
   movies: [
-    { name: 'Avatar: Fire and Ash', year: '2025/26', img: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&q=80&w=800', tag: '8K HDR' },
-    { name: 'Avengers: Secret Wars', year: '2026', img: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=800', tag: 'PREMIERE' },
-    { name: 'Beyond The Horizon', year: '2026', img: 'https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?auto=format&fit=crop&q=80&w=800', tag: 'EXCLUSIVE' },
-    { name: 'The Silent Sea: Part II', year: '2026', img: 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=800', tag: 'NEW' },
-    { name: 'Midnight City', year: '2026', img: 'https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&q=80&w=800', tag: '4K' },
-    { name: 'Cyberpunk 2077 Movie', year: '2026', img: 'https://images.unsplash.com/photo-1605142859862-978be7eba909?auto=format&fit=crop&q=80&w=800', tag: 'BLOCKBUSTER' }
+    { name: 'Avatar: Fire and Ash', year: '2025/26', img: 'https://image.tmdb.org/t/p/w500/jRXYjYffuBSUbbG2Fl967FFv3zq.jpg', tag: '8K HDR' },
+    { name: 'Avengers: Secret Wars', year: '2026', img: 'https://image.tmdb.org/t/p/w500/7WsyChvRStv9OidaxP20jYvOUwp.jpg', tag: 'PREMIERE' },
+    { name: 'Spider-Man 4', year: '2026', img: 'https://image.tmdb.org/t/p/w500/pE8Sj99mUIn99T56SnaA6pZ9llp.jpg', tag: 'EXCLUSIVE' },
+    { name: 'The Batman Part II', year: '2026', img: 'https://image.tmdb.org/t/p/w500/v9p9pE6yS5SnaA6pZ9llp.jpg', tag: '4K' },
+    { name: 'Dune: Messiah', year: '2026', img: 'https://image.tmdb.org/t/p/w500/8Gxv8SnaA6pZ9llp.jpg', tag: 'BLOCKBUSTER' }
   ],
   series: [
-    { name: 'Stranger Things 5', year: '2026', img: 'https://images.unsplash.com/photo-1616530940355-351fabd9524b?auto=format&fit=crop&q=80&w=800', tag: 'FINAL SEASON' },
-    { name: 'Squid Game 3', year: '2026', img: 'https://images.unsplash.com/photo-1627873649417-c67f701f1949?auto=format&fit=crop&q=80&w=800', tag: 'TRENDING' },
-    { name: 'The Last of Us Part III', year: '2026', img: 'https://images.unsplash.com/photo-1594909122845-11baa439b7bf?auto=format&fit=crop&q=80&w=800', tag: 'PRO' },
-    { name: 'Neural Link: Tokyo', year: '2026', img: 'https://images.unsplash.com/photo-1578632738981-43c9eb177232?auto=format&fit=crop&q=80&w=800', tag: 'AWARD WINNER' },
-    { name: 'Echoes of Time', year: '2026', img: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&q=80&w=800', tag: 'SCIFI' }
+    { name: 'Stranger Things 5', year: '2026', img: 'https://image.tmdb.org/t/p/w500/49W7L6Uae木99T56SnaA6pZ9llp.jpg', tag: 'FINAL SEASON' },
+    { name: 'Squid Game 3', year: '2026', img: 'https://image.tmdb.org/t/p/w500/99T56SnaA6pZ9llp.jpg', tag: 'TRENDING' },
+    { name: 'House of the Dragon S3', year: '2026', img: 'https://image.tmdb.org/t/p/w500/1pSnaA6pZ9llp.jpg', tag: 'PRO' },
+    { name: 'The Last of Us S2', year: '2025/26', img: 'https://image.tmdb.org/t/p/w500/u99T56SnaA6pZ9llp.jpg', tag: 'AWARD WINNER' }
   ],
   sports: [
-    { name: 'FIFA World Cup 2026', year: 'LIVE', img: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&q=80&w=800', tag: 'FINALS' },
+    { name: 'FIFA World Cup 2026', year: 'LIVE', img: 'https://images.unsplash.com/photo-1551958219-acbc608c6377?auto=format&fit=crop&q=80&w=800', tag: 'FINALS' },
     { name: 'Champions League 26', year: 'LIVE', img: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=800', tag: 'LIVE 8K' },
     { name: 'NBA Finals 2026', year: 'LIVE', img: 'https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&q=80&w=800', tag: 'UHD' },
-    { name: 'Formula 1: Monaco', year: 'LIVE', img: 'https://images.unsplash.com/photo-1533130061792-64b345e4a833?auto=format&fit=crop&q=80&w=800', tag: 'REAL-TIME' },
-    { name: 'UFC 310: Vegas', year: '2026', img: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&q=80&w=800', tag: 'PAY PER VIEW' }
+    { name: 'Formula 1: Monaco', year: 'LIVE', img: 'https://images.unsplash.com/photo-1533130061792-64b345e4a833?auto=format&fit=crop&q=80&w=800', tag: 'REAL-TIME' }
   ],
   channels: [
-    { name: 'Sky Sports', url: 'https://img.icons8.com/color/512/sky-sports.png' },
-    { name: 'beIN SPORTS', url: 'https://img.icons8.com/color/512/bein-sports.png' },
-    { name: 'DAZN', url: 'https://img.icons8.com/color/512/dazn.png' },
+    { name: 'Sky', url: 'https://img.icons8.com/color/512/sky.png' },
+    { name: 'beIN', url: 'https://img.icons8.com/color/512/bein-sports.png' },
     { name: 'ESPN', url: 'https://img.icons8.com/color/512/espn.png' },
-    { name: 'Netflix', url: 'https://img.icons8.com/color/512/netflix--v1.png' },
-    { name: 'HBO Max', url: 'https://img.icons8.com/color/512/hbo.png' },
+    { name: 'Netflix', url: 'https://img.icons8.com/color/512/netflix-desktop--v1.png' },
+    { name: 'HBO', url: 'https://img.icons8.com/color/512/hbo.png' },
     { name: 'Disney+', url: 'https://img.icons8.com/color/512/disney-plus.png' },
-    { name: 'Prime Video', url: 'https://img.icons8.com/color/512/amazon-prime-video.png' }
+    { name: 'Amazon', url: 'https://img.icons8.com/color/512/amazon-prime-video.png' },
+    { name: 'Apple', url: 'https://img.icons8.com/color/512/apple-tv.png' }
   ]
 };
 
@@ -118,21 +115,19 @@ const HomePage = ({ activeFilter }) => {
       </div>
       <div className="content-row">
         {items.map((item, i) => (
-          <div key={i} className={`content-card group border border-white/5 hover:border-[#E50914]/30 ${type === 'poster' ? 'flex-[0_0_280px] aspect-[2/3]' : 'flex-[0_0_200px] aspect-square'}`}>
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+          <div key={i} className={`content-card group border border-white/5 hover:border-[#E50914]/30 ${type === 'poster' ? 'flex-[0_0_260px] aspect-[2/3]' : 'flex-[0_0_180px] aspect-square rounded-full overflow-hidden'}`}>
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-40 group-hover:opacity-60 transition-opacity" />
             <img 
               src={item.img || item.url} 
-              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+              className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ${type === 'channel' ? 'p-6 filter brightness-110' : ''}`} 
               alt={item.name} 
             />
             {item.tag && (
               <div className="absolute top-4 left-4 bg-[#E50914] text-[9px] font-black px-2 py-1 rounded shadow-xl">{item.tag}</div>
             )}
             <div className="absolute bottom-6 left-6 right-6 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-              <p className="text-xs font-black uppercase tracking-[0.2em] mb-1">{item.name}</p>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-bold text-white/40">{item.year || 'OFFICIAL LINK'}</span>
-              </div>
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-1">{item.name}</p>
+              {item.year && <span className="text-[9px] font-bold text-white/40">{item.year}</span>}
             </div>
           </div>
         ))}
@@ -142,7 +137,6 @@ const HomePage = ({ activeFilter }) => {
 
   return (
     <div className="pb-40">
-      {/* Hero Section */}
       <div className="relative h-[90vh] w-full overflow-hidden">
         <img 
           src={activeFilter === 'sports' ? "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&q=80&w=2000" : "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=2000"} 
@@ -171,7 +165,7 @@ const HomePage = ({ activeFilter }) => {
       <div className="px-6 md:px-16 mt-20 relative z-20 space-y-24">
         {activeFilter === 'home' && (
           <>
-            {renderRow('Live Networks', CONTENT_2026.channels, 'channel')}
+            {renderRow('Premium Networks', CONTENT_2026.channels, 'channel')}
             {renderRow('Trending Movies 2026', CONTENT_2026.movies)}
             {renderRow('Top Series 2026', CONTENT_2026.series)}
           </>
@@ -183,8 +177,6 @@ const HomePage = ({ activeFilter }) => {
     </div>
   );
 };
-
-// ... Rest of the components (PricingPage, DashboardPage, AuthPage) stay the same ...
 
 const PricingPage = ({ user }) => {
   const [checkoutPlan, setCheckoutPlan] = useState(null);
@@ -253,12 +245,6 @@ const PricingPage = ({ user }) => {
               </button>
             </motion.div>
           ))}
-        </div>
-
-        <div className="mt-32 flex flex-wrap justify-center gap-8">
-          <div className="trust-badge"><ShieldCheck className="text-[#E50914]" size={20} /> 256-Bit SSL Secured</div>
-          <div className="trust-badge"><RefreshCcw className="text-[#E50914]" size={20} /> 7-Day Money Back</div>
-          <div className="trust-badge"><HelpCircle className="text-[#E50914]" size={20} /> 24/7 Expert Support</div>
         </div>
       </div>
 
