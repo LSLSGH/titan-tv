@@ -18,33 +18,32 @@ import { supabase } from './lib/supabase';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// --- Real Logos Infrastructure ---
+// --- Fixed High-Quality Logos ---
 
-const LOGOS = [
-  { name: 'beIN SPORTS', url: 'https://upload.wikimedia.org/wikipedia/commons/2/25/BeIN_Sports_logo.svg' },
-  { name: 'DAZN', url: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/DAZN_logo.svg' },
-  { name: 'Sky Sports', url: 'https://upload.wikimedia.org/wikipedia/en/b/b7/Sky_Sports_logo_2017.svg' },
-  { name: 'Canal+', url: 'https://upload.wikimedia.org/wikipedia/commons/d/d3/Canal%2B_logo.svg' },
-  { name: 'ESPN', url: 'https://upload.wikimedia.org/wikipedia/commons/b/bd/ESPN_wordmark.svg' },
-  { name: 'HBO', url: 'https://upload.wikimedia.org/wikipedia/commons/1/17/HBO_logo.svg' },
-  { name: 'Netflix', url: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg' }
+const RELIABLE_LOGOS = [
+  { name: 'Netflix', url: 'https://logo.clearbit.com/netflix.com' },
+  { name: 'HBO', url: 'https://logo.clearbit.com/hbo.com' },
+  { name: 'ESPN', url: 'https://logo.clearbit.com/espn.com' },
+  { name: 'DAZN', url: 'https://logo.clearbit.com/dazn.com' },
+  { name: 'Disney+', url: 'https://logo.clearbit.com/disneyplus.com' },
+  { name: 'Prime Video', url: 'https://logo.clearbit.com/amazon.com' },
+  { name: 'Sky', url: 'https://logo.clearbit.com/sky.com' },
+  { name: 'Canal+', url: 'https://logo.clearbit.com/canal-plus.com' }
 ];
 
-// --- Cinematic Background ---
+// --- Cinematic Components ---
 
-const Background3D = () => (
+const BackgroundMaster = () => (
   <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden bg-[#000000]">
-    <div className="absolute top-0 w-full h-full bg-[radial-gradient(circle_at_50%_-20%,#ff003c15,transparent_70%)]" />
-    <div className="absolute bottom-0 w-full h-[50vh] bg-gradient-to-t from-[#7000ff08] to-transparent" />
+    <div className="absolute top-[-20%] left-[-10%] w-[100vw] h-[100vw] bg-[#ff003c]/10 blur-[250px] rounded-full opacity-30 animate-pulse" />
+    <div className="absolute bottom-[-20%] right-[-10%] w-[80vw] h-[80vw] bg-[#7000ff]/05 blur-[200px] rounded-full opacity-30 animate-pulse" style={{ animationDelay: '-5s' }} />
     <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay" />
   </div>
 );
 
-// --- Navbar ---
-
 const Navbar = ({ user }) => {
-  const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
     const handle = () => setScrolled(window.scrollY > 40);
@@ -57,20 +56,22 @@ const Navbar = ({ user }) => {
       <div className="flex items-center gap-24">
         <Link to="/" className="text-titan text-5xl">TITAN <span className="text-white">TV</span></Link>
         <div className="hidden xl:flex items-center gap-12">
-          {['Network', 'Pricing', 'Infrastructure'].map(item => (
-            <Link key={item} to={item === 'Pricing' ? '/pricing' : '/'} className="label-tech text-[9px] opacity-30 hover:opacity-100 transition-all">{item}</Link>
-          ))}
+          <Link to="/" className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 hover:text-white transition-all">Network</Link>
+          <Link to="/pricing" className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 hover:text-white transition-all">Pricing</Link>
+          <Link to="/dashboard" className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 hover:text-white transition-all">Dashboard</Link>
         </div>
       </div>
 
       <div className="flex items-center gap-8">
         {user ? (
           <div className="flex items-center gap-6">
-            <Link to="/dashboard" className="btn-titan-3d py-3 px-10 text-[9px] bg-white text-black shadow-none hover:bg-[#ff003c] hover:text-white">DASHBOARD</Link>
+            <Link to="/dashboard" className="flex items-center gap-3 bg-white text-black px-10 py-3 rounded-lg text-[9px] font-black uppercase tracking-widest hover:bg-[#ff003c] hover:text-white transition-all">
+              <Layout size={14} /> My Node
+            </Link>
             <button onClick={() => supabase.auth.signOut()} className="text-white/20 hover:text-[#ff003c] transition-colors"><Power size={20} /></button>
           </div>
         ) : (
-          <button onClick={() => navigate('/auth')} className="btn-titan-3d py-4 px-12">START UPLINK</button>
+          <button onClick={() => navigate('/auth')} className="btn-uplink py-4 px-12 text-[10px]">Establish Uplink</button>
         )}
       </div>
     </nav>
@@ -84,101 +85,63 @@ const HomePage = ({ user }) => {
   const navigate = useNavigate();
 
   useGSAP(() => {
-    // Entrance Animation
-    const tl = gsap.timeline();
-    tl.from('.tv-reveal', { y: 200, opacity: 0, rotateX: 45, duration: 2, ease: "power4.out" })
-      .from('.logo-fly', { z: -1000, opacity: 0, scale: 0, duration: 1.5, stagger: 0.1, ease: "back.out(1.7)" }, "-=1");
-
-    // Scroll Animation
-    gsap.to('.logo-fly', {
-      z: 500,
-      opacity: 0,
-      stagger: 0.05,
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: 1
-      }
-    });
-
-    gsap.to('.tv-master', {
-      rotateX: 0,
-      rotateY: 0,
-      scale: 1.2,
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: 1
-      }
-    });
+    gsap.from('.reveal-hero', { y: 100, opacity: 0, duration: 2, ease: "power4.out", stagger: 0.3 });
   }, { scope: containerRef });
 
   return (
-    <div ref={containerRef} className="scene-3d pt-60 pb-80">
-      <div className="container mx-auto text-center px-6 relative z-10">
-        <div className="mb-20">
-          <span className="label-tech mb-12 block animate-pulse">Neural Streaming Infrastructure v8.4.2</span>
-          <h1 className="text-titan text-[clamp(4.5rem,15vw,20rem)] mb-24 leading-none">
+    <div ref={containerRef} className="pt-60 pb-80">
+      <section className="container mx-auto text-center px-6">
+        <div className="reveal-hero mb-24">
+          <span className="text-[10px] font-black uppercase tracking-[0.8em] text-[#ff003c] mb-12 block animate-pulse">Neural Streaming Engine v8.4.2</span>
+          <h1 className="text-titan text-[clamp(4.5rem,15vw,18rem)] mb-24 leading-none">
             TITAN <span className="text-white opacity-10">TV.</span>
           </h1>
         </div>
 
-        {/* MASSIVE 3D TV */}
-        <div className="relative max-w-7xl mx-auto py-40">
-          {/* Logos flying out */}
-          <div className="absolute inset-0 z-20 pointer-events-none">
-            {LOGOS.map((logo, i) => (
-              <motion.img 
-                key={i} 
-                src={logo.url} 
-                className="logo-fly absolute w-24 md:w-32 opacity-80 filter brightness-200 contrast-125" 
-                style={{ 
-                  left: `${15 + (i * 12)}%`, 
-                  top: `${20 + (i % 3 * 20)}%`,
-                  zIndex: 30 + i 
-                }} 
-              />
-            ))}
-          </div>
+        {/* MASSIVE STRAIGHT TV WITH 3D VIDEO */}
+        <div className="reveal-hero max-w-[1200px] mx-auto py-20">
+          <div className="tv-master aspect-video relative group border-white/10">
+            {/* 3D Abstract Video Loop */}
+            <video 
+              autoPlay 
+              muted 
+              loop 
+              playsInline 
+              className="tv-screen-video"
+            >
+              <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-holographic-spheres-moving-31641-large.mp4" type="video/mp4" />
+            </video>
 
-          <div className="tv-reveal tv-master glass-pro p-6 rounded-[5rem] relative overflow-hidden group">
             <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
-            <img 
-              src="C:\Users\lenovo\Desktop\iptv\futuristic_3d_tv_8k_1777719653703.png" 
-              className="w-full rounded-[4rem] brightness-[0.9] group-hover:brightness-100 transition-all duration-[2000ms]" 
-              alt="4K TV" 
-            />
             
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-12">
               {!user ? (
-                <button onClick={() => navigate('/auth')} className="btn-titan-3d scale-150">Initialize Protocol</button>
+                <button onClick={() => navigate('/auth')} className="btn-uplink scale-125">Initialize Protocol</button>
               ) : !user.email_confirmed_at ? (
-                <div className="glass-pro p-16 rounded-[4rem] border-yellow-500/20 max-w-xl backdrop-blur-3xl">
+                <div className="bg-black/60 backdrop-blur-3xl p-16 rounded-[4rem] border border-yellow-500/20 max-w-xl">
                   <AlertCircle className="mx-auto mb-8 text-yellow-500 animate-bounce" size={64} />
-                  <h4 className="text-titan text-3xl mb-4">Neural Verify.</h4>
-                  <p className="label-tech opacity-40 leading-loose">Activation link transmitted. Confirm to access the grid.</p>
+                  <h4 className="text-titan text-3xl mb-4">Verification Needed</h4>
+                  <p className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40 leading-loose">Confirm your identity link in your neural inbox.</p>
                 </div>
               ) : (
-                <button onClick={() => navigate('/pricing')} className="btn-titan-3d scale-150">Select Uplink</button>
+                <button onClick={() => navigate('/pricing')} className="btn-uplink scale-125 shadow-[0_0_100px_rgba(255,0,60,0.5)]">SELECT UPLINK</button>
               )}
             </div>
           </div>
         </div>
 
-        {/* LOGO MARQUEE */}
-        <div className="mt-80 marquee-wrapper border-y border-white/5 bg-white/[0.01]">
-          <div className="flex gap-40 animate-marquee whitespace-nowrap py-16">
-            {[...LOGOS, ...LOGOS].map((logo, i) => (
-              <div key={i} className="flex items-center gap-8 group cursor-pointer px-12">
-                <img src={logo.url} className="h-12 md:h-20 opacity-20 group-hover:opacity-100 transition-all filter brightness-200" alt={logo.name} />
-                <span className="label-tech text-[10px] opacity-10 group-hover:opacity-100 transition-all">{logo.name}</span>
+        {/* FIXED LOGO MARQUEE */}
+        <div className="reveal-hero mt-80 marquee-wrapper border-y border-white/5 bg-white/[0.01]">
+          <div className="flex gap-60 animate-marquee whitespace-nowrap py-20">
+            {[...RELIABLE_LOGOS, ...RELIABLE_LOGOS].map((logo, i) => (
+              <div key={i} className="flex items-center gap-10 group cursor-pointer px-12">
+                <img src={logo.url} className="logo-item" alt={logo.name} onError={(e) => e.target.style.display = 'none'} />
+                <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/10 group-hover:text-white transition-all">{logo.name}</span>
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
@@ -205,27 +168,27 @@ const PricingPage = ({ user }) => {
     <div className="pt-60 pb-80 px-6">
       <div className="container mx-auto">
         <div className="text-center mb-60">
-          <span className="label-tech mb-8 block">Access Protocol</span>
+          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[#ff003c] mb-8 block">Network Grid</span>
           <h2 className="text-titan text-7xl md:text-[12rem] leading-none mb-12">PRICING.</h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-16 max-w-7xl mx-auto scene-3d">
+        <div className="grid md:grid-cols-3 gap-16 max-w-7xl mx-auto">
           {[
-            { t: 'MONTHLY', p: '29', f: ['21K+ Channels', '4K Streaming', '1 Device Access'] },
+            { t: 'MONTHLY', p: '19', f: ['21K+ Channels', '4K Streaming', '1 Device Access'] },
             { t: 'ANNUAL ELITE', p: '59', f: ['8K RAW Quality', '3 Devices Access', 'Priority Tunnel', 'Anti-Buffer Pro'], featured: true },
             { t: 'ULTIMATE INF', p: '99', f: ['Uncompressed Feed', '5 Devices Access', 'VPN Integrated', 'Ghost Proxy Access'] }
           ].map((plan, i) => (
-            <div key={i} className={`glass-pro p-16 rounded-[5rem] flex flex-col ${plan.featured ? 'md:scale-110 border-[#ff003c]/40 shadow-[0_0_150px_rgba(255,0,60,0.2)]' : ''}`}>
-              <h3 className="label-tech mb-12 opacity-30 text-xl">{plan.t}</h3>
+            <div key={i} className={`bg-white/[0.02] backdrop-blur-3xl border border-white/5 p-16 rounded-[5rem] flex flex-col ${plan.featured ? 'md:scale-110 border-[#ff003c]/40 shadow-[0_0_150px_rgba(255,0,60,0.1)]' : ''}`}>
+              <h3 className="text-[10px] font-black uppercase tracking-[0.5em] opacity-30 mb-12">{plan.t}</h3>
               <div className="flex items-baseline gap-4 mb-20">
                 <span className="text-titan text-8xl">${plan.p}</span>
-                <span className="label-tech opacity-20">/ Year</span>
+                <span className="text-[10px] font-black uppercase tracking-widest opacity-20">/ Year</span>
               </div>
               <div className="space-y-8 mb-32 flex-grow">
                 {plan.f.map((feat, fi) => (
-                  <div key={fi} className="flex items-center gap-6 group/item">
-                    <div className="w-1.5 h-1.5 bg-[#ff003c] rounded-full opacity-20 group-hover/item:opacity-100 transition-opacity" />
-                    <span className="label-tech text-[9px] opacity-20 group-hover/item:opacity-100 transition-opacity">{feat}</span>
+                  <div key={fi} className="flex items-center gap-6 group">
+                    <div className="w-1.5 h-1.5 bg-[#ff003c] rounded-full opacity-20 group-hover:opacity-100 transition-opacity" />
+                    <span className="text-[9px] font-black uppercase tracking-widest opacity-20 group-hover:opacity-100 transition-opacity">{feat}</span>
                   </div>
                 ))}
               </div>
@@ -234,9 +197,9 @@ const PricingPage = ({ user }) => {
                   if (!user) navigate('/auth');
                   else setCheckoutPlan(plan);
                 }} 
-                className={`btn-titan-3d w-full py-8 text-[11px] ${plan.featured ? '' : 'bg-white/5 text-white border-white/10 hover:bg-white hover:text-black'}`}
+                className={`w-full py-8 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${plan.featured ? 'bg-[#ff003c] text-white' : 'bg-white/5 border border-white/10 hover:bg-white hover:text-black'}`}
               >
-                Initialize Sync
+                Sync Plan
               </button>
             </div>
           ))}
@@ -246,26 +209,26 @@ const PricingPage = ({ user }) => {
       <AnimatePresence>
         {checkoutPlan && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/98 backdrop-blur-[100px] p-6">
-            <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="max-w-xl w-full glass-pro p-20 rounded-[5rem] relative text-center">
+            <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="max-w-xl w-full bg-black/40 backdrop-blur-3xl border border-white/10 p-20 rounded-[5rem] relative text-center">
               <button onClick={() => setCheckoutPlan(null)} className="absolute top-12 right-12 text-white/20 hover:text-white"><X size={32} /></button>
               <div className="w-24 h-24 bg-[#ff003c]/10 rounded-full flex items-center justify-center mx-auto mb-12 border border-[#ff003c]/20 animate-pulse"><Crown className="text-[#ff003c]" size={56} /></div>
               <h2 className="text-titan text-5xl mb-6">Authorize.</h2>
-              <p className="label-tech opacity-20 mb-16 italic tracking-[0.4em]">Stripe Secure Uplink for ${checkoutPlan.p}</p>
-              <button onClick={handlePurchase} className="btn-titan-3d w-full text-[12px]">Confirm Transmission</button>
+              <p className="text-[9px] font-black uppercase tracking-[0.4em] text-white/20 mb-16 italic">Encrypted Stripe Session for ${checkoutPlan.p}</p>
+              <button onClick={handlePurchase} className="btn-uplink w-full text-[12px]">Confirm Transmission</button>
             </motion.div>
           </motion.div>
         )}
         {iptvCode && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[1100] flex items-center justify-center bg-black/98 backdrop-blur-[120px] p-6">
-            <motion.div initial={{ scale: 0.7, y: 100 }} animate={{ scale: 1, y: 0 }} className="max-w-2xl w-full glass-pro p-24 rounded-[6rem] relative text-center border-[#ff003c]/40 shadow-[0_0_200px_rgba(255,0,60,0.3)]">
+            <motion.div initial={{ scale: 0.7, y: 100 }} animate={{ scale: 1, y: 0 }} className="max-w-2xl w-full bg-black/40 backdrop-blur-3xl border border-[#ff003c]/40 p-24 rounded-[6rem] relative text-center shadow-[0_0_200px_rgba(255,0,60,0.3)]">
               <div className="w-32 h-32 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-12 border border-green-500/30 shadow-[0_0_100px_rgba(34,197,94,0.3)]"><CheckCircle2 className="text-green-500" size={64} /></div>
               <h2 className="text-titan text-7xl mb-8 text-green-500">SUCCESS.</h2>
-              <p className="label-tech opacity-40 mb-20 text-center leading-loose">Uplink Code Synchronized with your Neural Dashboard.</p>
-              <div className="bg-white/5 p-16 rounded-[4rem] border border-white/10 mb-20 flex items-center justify-center gap-12 group cursor-pointer hover:bg-white/10 transition-all shadow-[inset_0_0_50px_rgba(0,0,0,0.5)]" onClick={() => { navigator.clipboard.writeText(iptvCode); confetti({ particleCount: 50 }); }}>
+              <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-20 text-center leading-loose">Access Code Persisted in your Dashboard.</p>
+              <div className="bg-white/5 p-16 rounded-[4rem] border border-white/10 mb-20 flex items-center justify-center gap-12 group cursor-pointer hover:bg-white/10 transition-all" onClick={() => { navigator.clipboard.writeText(iptvCode); confetti({ particleCount: 50 }); }}>
                 <span className="text-titan text-7xl tracking-[0.4em]">{iptvCode}</span>
                 <Copy size={48} className="text-white/20 group-hover:text-white transition-all" />
               </div>
-              <button onClick={() => setIptvCode(null)} className="label-tech opacity-20 hover:opacity-100 transition-all">Terminate Uplink</button>
+              <button onClick={() => setIptvCode(null)} className="text-[9px] font-black uppercase tracking-[0.5em] opacity-30 hover:opacity-100 transition-all">Close Transmission</button>
             </motion.div>
           </motion.div>
         )}
@@ -327,32 +290,32 @@ const DashboardPage = ({ user }) => {
         <div className="absolute top-[-10%] right-[-10%] w-60 h-60 bg-[#ff003c]/10 blur-[100px] rounded-full animate-pulse" />
         <div className="flex justify-between items-center mb-40">
           <div>
-            <span className="label-tech mb-6 block text-[#ff003c]">Node Management</span>
+            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[#ff003c] mb-6 block">Node Management</span>
             <h2 className="text-titan text-7xl md:text-[9rem]">DASHBOARD.</h2>
           </div>
         </div>
 
         <div className="flex gap-16 mb-20 border-b border-white/5 pb-10">
-          <button onClick={() => setActiveTab('codes')} className={`label-tech text-[10px] transition-all ${activeTab === 'codes' ? 'text-[#ff003c]' : 'text-white/20'}`}>Active Transmissions</button>
-          <button onClick={() => setActiveTab('billing')} className={`label-tech text-[10px] transition-all ${activeTab === 'billing' ? 'text-[#ff003c]' : 'text-white/20'}`}>Secure Billing</button>
+          <button onClick={() => setActiveTab('codes')} className={`text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'codes' ? 'text-[#ff003c]' : 'text-white/20'}`}>Active Transmissions</button>
+          <button onClick={() => setActiveTab('billing')} className={`text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'billing' ? 'text-[#ff003c]' : 'text-white/20'}`}>Secure Billing</button>
         </div>
 
         {loading ? (
-          <div className="py-40 text-center label-tech animate-pulse">Syncing...</div>
+          <div className="py-40 text-center text-[10px] font-black uppercase tracking-widest animate-pulse">Syncing...</div>
         ) : activeTab === 'codes' ? (
           <div className="grid gap-12">
             {purchases.length === 0 ? (
-              <div className="py-40 text-center glass-pro rounded-[4rem] border-white/5 opacity-20 label-tech text-2xl">No codes detected.</div>
+              <div className="py-40 text-center bg-white/[0.01] border border-white/5 rounded-[4rem] opacity-20 text-2xl uppercase font-black">No codes detected.</div>
             ) : (
               purchases.map(p => (
-                <div key={p.id} className="glass-pro p-12 rounded-[4rem] flex flex-col md:flex-row justify-between items-center group relative overflow-hidden">
+                <div key={p.id} className="bg-white/[0.01] border border-white/5 p-12 rounded-[4rem] flex flex-col md:flex-row justify-between items-center group relative overflow-hidden">
                   <div className="flex items-center gap-12">
                     <div className="w-24 h-24 bg-[#ff003c]/10 rounded-[2.5rem] flex items-center justify-center text-[#ff003c] border border-[#ff003c]/20 group-hover:scale-110 transition-transform"><Monitor size={48} /></div>
                     <div>
                       <h4 className="text-titan text-4xl mb-4">{p.plan_name}</h4>
-                      <div className="flex gap-12 opacity-30 label-tech text-[8px]">
+                      <div className="flex gap-12 opacity-30 text-[9px] font-black uppercase tracking-widest">
                         <span className="flex items-center gap-3"><Calendar size={14} /> {new Date(p.created_at).toLocaleDateString()}</span>
-                        <span className="flex items-center gap-3"><CreditCard size={14} /> ${p.amount} INVESTED</span>
+                        <span className="flex items-center gap-3"><CreditCard size={14} /> ${p.amount} PAID</span>
                       </div>
                     </div>
                   </div>
@@ -367,14 +330,14 @@ const DashboardPage = ({ user }) => {
         ) : (
           <div className="grid lg:grid-cols-2 gap-20">
             <div className="space-y-12">
-              <h3 className="label-tech text-[10px] opacity-30 mb-12 uppercase tracking-[0.5em]">Registered Credentials</h3>
+              <h3 className="text-[10px] font-black opacity-30 mb-12 uppercase tracking-[0.5em]">Registered Credentials</h3>
               {cards.map(c => (
-                <div key={c.id} className="glass-pro p-10 rounded-[3rem] flex justify-between items-center border-l-4 border-l-[#ff003c]">
+                <div key={c.id} className="bg-white/[0.02] p-10 rounded-[3rem] flex justify-between items-center border border-white/5 border-l-4 border-l-[#ff003c]">
                   <div className="flex items-center gap-8">
                     <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center"><CardIcon size={32} /></div>
                     <div>
                       <p className="text-2xl font-bold tracking-widest font-mono">{c.card_number}</p>
-                      <p className="label-tech text-[8px] opacity-40">{c.card_holder} | {c.expiry}</p>
+                      <p className="text-[10px] font-black opacity-40 uppercase tracking-widest">{c.card_holder} | {c.expiry}</p>
                     </div>
                   </div>
                   <button onClick={async () => { await supabase.from('payment_methods').delete().eq('id', c.id); setCards(cards.filter(x => x.id !== c.id)); }} className="text-white/20 hover:text-[#ff003c] transition-all"><Trash2 size={24} /></button>
@@ -382,8 +345,8 @@ const DashboardPage = ({ user }) => {
               ))}
             </div>
 
-            <div className="glass-pro p-16 rounded-[5rem] border-[#ff003c]/20">
-              <h3 className="label-tech text-[12px] mb-16 uppercase tracking-[0.5em]">Initialize Secure Card Sync</h3>
+            <div className="bg-white/[0.02] p-16 rounded-[5rem] border border-[#ff003c]/20">
+              <h3 className="text-[12px] font-black mb-16 uppercase tracking-[0.5em]">Initialize Secure Card Sync</h3>
               <form onSubmit={handleAddCard} className="space-y-8">
                 <input type="text" required placeholder="HOLDER NAME" className="w-full bg-white/5 border border-white/10 rounded-2xl py-8 px-12 text-sm outline-none focus:border-[#ff003c] transition-all font-mono" value={cardHolder} onChange={e => setCardHolder(e.target.value)} />
                 <input type="text" required placeholder="CARD NUMBER" className="w-full bg-white/5 border border-white/10 rounded-2xl py-8 px-12 text-sm outline-none focus:border-[#ff003c] transition-all font-mono" value={cardNumber} onChange={e => setCardNumber(e.target.value)} />
@@ -391,7 +354,7 @@ const DashboardPage = ({ user }) => {
                   <input type="text" required placeholder="MM/YY" className="w-full bg-white/5 border border-white/10 rounded-2xl py-8 px-12 text-sm outline-none focus:border-[#ff003c] transition-all font-mono" value={expiry} onChange={e => setExpiry(e.target.value)} />
                   <input type="text" required placeholder="CVC" className="w-full bg-white/5 border border-white/10 rounded-2xl py-8 px-12 text-sm outline-none focus:border-[#ff003c] transition-all font-mono" value={cvc} onChange={e => setCvc(e.target.value)} />
                 </div>
-                <button disabled={savingCard} className="btn-titan-3d w-full py-8 flex items-center justify-center gap-6">
+                <button disabled={savingCard} className="btn-uplink w-full py-8 flex items-center justify-center gap-6">
                   <Plus size={24} /> {savingCard ? 'Transmitting...' : 'Sync Card'}
                 </button>
               </form>
@@ -431,28 +394,28 @@ const AuthPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center pt-20 px-6">
-      <motion.div initial={{ scale: 0.9, y: 50 }} animate={{ scale: 1, y: 0 }} className="max-w-md w-full glass-pro p-16 rounded-[4rem] relative">
+      <motion.div initial={{ scale: 0.9, y: 50 }} animate={{ scale: 1, y: 0 }} className="max-w-md w-full bg-white/[0.01] border border-white/10 backdrop-blur-3xl p-16 rounded-[4rem] relative">
         <div className="text-center mb-16">
           <h2 className="text-titan text-5xl mb-6">{mode === 'login' ? 'Recall.' : 'Initialize.'}</h2>
-          <p className="label-tech opacity-40">Titan Neural Network Access</p>
+          <p className="text-[10px] font-black uppercase tracking-widest opacity-40">Titan Neural Network Access</p>
         </div>
 
         {message ? (
           <div className="text-center py-10 space-y-12">
             <div className="w-24 h-24 bg-[#ff003c]/10 rounded-full flex items-center justify-center mx-auto border border-[#ff003c]/20 animate-pulse"><Mail className="text-[#ff003c]" size={40} /></div>
-            <p className="label-tech text-white/60 leading-loose text-center">{message}</p>
-            <button onClick={() => navigate('/')} className="btn-command w-full py-5 text-[10px]">Back to Home</button>
+            <p className="text-[10px] font-black uppercase tracking-widest text-white/60 leading-loose text-center">{message}</p>
+            <button onClick={() => navigate('/')} className="btn-uplink w-full py-5 text-[10px]">Back to Home</button>
           </div>
         ) : (
           <form onSubmit={handleAuth} className="space-y-8">
             <input type="email" required placeholder="NEURAL.ID" className="w-full rounded-2xl py-8 px-12 text-sm outline-none bg-white/5 border border-white/10 focus:border-[#ff003c] transition-all font-mono" value={email} onChange={(e) => setEmail(e.target.value)} />
             <input type="password" required placeholder="ACCESS.KEY" className="w-full rounded-2xl py-8 px-12 text-sm outline-none bg-white/5 border border-white/10 focus:border-[#ff003c] transition-all font-mono" value={password} onChange={(e) => setPassword(e.target.value)} />
             {error && <div className="text-[#ff003c] text-[10px] text-center font-bold uppercase tracking-widest bg-[#ff003c]/05 py-4 rounded-xl">{error}</div>}
-            <button disabled={loading} className="btn-titan-3d w-full py-8 text-[11px] shadow-3xl">
+            <button disabled={loading} className="btn-uplink w-full py-8 text-[11px] shadow-3xl">
               {loading ? 'Transmitting...' : mode === 'login' ? 'Establish Link' : 'Initialize Node'}
             </button>
             <div className="text-center pt-8">
-              <button type="button" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')} className="label-tech text-[8px] opacity-20 hover:opacity-100 transition-all">
+              <button type="button" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')} className="text-[9px] font-black uppercase tracking-widest opacity-20 hover:opacity-100 transition-all">
                 {mode === 'login' ? "New Neural Link? Sync" : "Existing Link? Recall"}
               </button>
             </div>
@@ -475,7 +438,7 @@ export default function App() {
   return (
     <Router>
       <main className="min-h-screen bg-[#000000] text-white">
-        <Background3D />
+        <BackgroundMaster />
         <Navbar user={user} />
         
         <Routes>
@@ -487,7 +450,7 @@ export default function App() {
 
         <footer className="py-60 bg-black/40 border-t border-white/5 text-center">
           <h1 className="text-titan text-[clamp(4rem,10vw,15rem)] opacity-10 mb-20">TITAN TV</h1>
-          <p className="label-tech opacity-10 text-[8px] tracking-[1em]">ALL DATA ENCRYPTED. [© 2026]</p>
+          <p className="text-[8px] font-black opacity-10 uppercase tracking-[1em]">ALL DATA ENCRYPTED. [© 2026]</p>
         </footer>
       </main>
     </Router>
