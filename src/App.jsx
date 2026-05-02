@@ -152,7 +152,12 @@ const HomePage = ({ activeFilter }) => {
         <div className="hero-overlay" />
         <div className="absolute bottom-[15%] left-[5%] max-w-4xl z-10">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
-            <h1 className="h-netflix text-4xl md:text-8xl mb-8 uppercase leading-[1.1]">ALL PREMIUM CHANNELS<br /><span className="text-white/20">AT REDUCED PRICE.</span></h1>
+            <h1 className="h-netflix text-4xl md:text-8xl mb-8 uppercase leading-[1.1]">
+              ALL PREMIUM CHANNELS<br />
+              <span className="bg-gradient-to-r from-[#E50914] via-white to-white/80 bg-clip-text text-transparent font-light italic text-2xl md:text-5xl tracking-[0.3em] block mt-4">
+                AT REDUCED PRICE.
+              </span>
+            </h1>
             <p className="text-xl text-white/80 mb-12 leading-relaxed font-medium max-w-2xl">Unleash the full power of your display. 21,000+ channels, movies, and sports in uncompressed 4K. No contracts, just pure entertainment.</p>
             <div className="flex items-center gap-6">
               <button onClick={() => navigate('/pricing')} className="btn-netflix-main px-10 py-4 scale-110 shadow-2xl">
