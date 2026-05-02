@@ -5,37 +5,70 @@
 :root {
   --titan-red: #ff0f1b;
   --titan-red-glow: rgba(255, 15, 27, 0.4);
-  --titan-black: #050505;
-  --titan-grey: #0a0a0a;
-  --glass-stroke: rgba(255, 255, 255, 0.04);
-  --glass-surface: rgba(255, 255, 255, 0.01);
-  --accent-gradient: linear-gradient(135deg, #ff0f1b 0%, #990a10 100%);
+  --titan-black: #020202;
+  --titan-grey: #080808;
+  --glass-stroke: rgba(255, 255, 255, 0.05);
+  --glass-surface: rgba(255, 255, 255, 0.015);
+  --accent-gradient: linear-gradient(135deg, #ff0f1b 0%, #660005 100%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
 }
 
 body {
   background-color: var(--titan-black);
   color: white;
   font-family: 'Plus Jakarta Sans', sans-serif;
-  margin: 0;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+}
+
+/* --- Noise Texture Layer --- */
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 9999;
 }
 
 /* --- High-End Typography --- */
 .h1-cinematic {
   font-family: 'Outfit', sans-serif;
   font-weight: 900;
-  letter-spacing: -0.06em;
-  line-height: 0.85;
+  letter-spacing: -0.07em;
+  line-height: 0.8;
   text-transform: uppercase;
-}
-
-.h2-premium {
-  font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1.1;
+  will-change: transform, opacity;
 }
 
 .label-luxury {
@@ -43,109 +76,94 @@ body {
   font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.4em;
+  letter-spacing: 0.5em;
   color: var(--titan-red);
 }
 
-/* --- Advanced Surfaces --- */
-.glass-ultra {
-  background: var(--glass-surface);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
+/* --- Ultra Glass --- */
+.glass-liquid {
+  background: rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(50px) saturate(200%);
+  -webkit-backdrop-filter: blur(50px) saturate(200%);
   border: 1px solid var(--glass-stroke);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+  box-shadow: 0 20px 80px -20px rgba(0, 0, 0, 0.9);
 }
 
-.glass-card {
-  background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.005) 100%);
+.glass-item {
+  background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.glass-card:hover {
-  background: rgba(255, 255, 255, 0.03);
+.glass-item:hover {
+  background: rgba(255, 255, 255, 0.06);
   border-color: rgba(255, 255, 255, 0.1);
-  transform: translateY(-5px);
-  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5);
+  transform: scale(1.02) translateY(-10px);
 }
 
-/* --- Animations --- */
-@keyframes pulse-soft {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(1.05); }
+/* --- Animated Borders --- */
+.animated-border {
+  position: relative;
 }
 
-.animate-pulse-soft {
-  animation: pulse-soft 8s ease-in-out infinite;
+.animated-border::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(90deg, transparent, var(--titan-red), transparent);
+  background-size: 200% 100%;
+  animation: border-flow 4s linear infinite;
+  z-index: -1;
+  opacity: 0.3;
+  border-radius: inherit;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+@keyframes border-flow {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
-.animate-float {
-  animation: float 10s ease-in-out infinite;
+/* --- Advanced Utilities --- */
+.text-mask {
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to bottom, #fff, #666);
 }
 
-/* --- Utilities --- */
-.text-glow-red {
-  text-shadow: 0 0 30px var(--titan-red-glow);
+.bg-aurora {
+  background: radial-gradient(circle at 0% 0%, rgba(255, 15, 27, 0.12) 0%, transparent 40%),
+              radial-gradient(circle at 100% 100%, rgba(255, 15, 27, 0.08) 0%, transparent 40%);
 }
 
-.bg-mesh {
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(229, 9, 20, 0.15) 0, transparent 50%),
-    radial-gradient(at 100% 100%, rgba(229, 9, 20, 0.1) 0, transparent 50%);
+/* --- Smooth Marquee (Fluid) --- */
+@keyframes marquee-fluid {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 
-.hero-gradient {
-  background: radial-gradient(circle at 50% 50%, transparent 0%, var(--titan-black) 100%);
+.animate-marquee-fluid {
+  display: flex;
+  width: max-content;
+  animation: marquee-fluid 80s linear infinite;
+  will-change: transform;
 }
 
-/* Custom Scrollbar */
+.animate-marquee-fluid-reverse {
+  display: flex;
+  width: max-content;
+  animation: marquee-fluid 80s linear infinite reverse;
+  will-change: transform;
+}
+
+/* Custom Scrollbar (Hidden but functional) */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 0px;
 }
-::-webkit-scrollbar-track {
-  background: var(--titan-black);
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
+
+/* Selection */
+::selection {
   background: var(--titan-red);
-}
-
-/* Marquee Animations (Refined) */
-@keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
-
-.animate-marquee {
-  display: flex;
-  width: max-content;
-  animation: marquee 60s linear infinite;
-}
-
-.animate-marquee-reverse {
-  display: flex;
-  width: max-content;
-  animation: marquee 60s linear infinite reverse;
-}
-
-/* Input Styles */
-input {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.3s ease;
-}
-
-input:focus {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: var(--titan-red);
-  box-shadow: 0 0 20px rgba(229, 9, 20, 0.1);
+  color: white;
 }
