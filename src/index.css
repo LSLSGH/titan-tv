@@ -4,178 +4,131 @@
 
 :root {
   --titan-red: #ff0f1b;
-  --titan-red-glow: rgba(255, 15, 27, 0.4);
-  --titan-black: #030303;
-  --titan-dark: #080808;
-  --glass-stroke: rgba(255, 255, 255, 0.03);
-  --glass-surface: rgba(255, 255, 255, 0.01);
-  --accent-gradient: linear-gradient(135deg, #ff0f1b 0%, #660005 100%);
-  --sidebar-width: 80px;
+  --titan-red-glow: rgba(255, 15, 27, 0.6);
+  --titan-black: #020202;
+  --titan-deep: #050505;
+  --glass-border: rgba(255, 255, 255, 0.05);
+  --glass-shine: rgba(255, 255, 255, 0.02);
+  --accent-gradient: linear-gradient(135deg, #ff0f1b 0%, #3a0002 100%);
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
-/* Hide custom cursor on touch devices */
+/* Custom Cursor (Hidden on Touch) */
 @media (hover: hover) and (pointer: fine) {
-  * {
-    cursor: none !important;
-  }
+  * { cursor: none !important; }
 }
 
-@media (hover: none) {
-  .custom-cursor {
-    display: none !important;
-  }
-}
-
-html.lenis {
-  height: auto;
-}
-
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
+html {
+  scroll-behavior: auto;
+  background-color: var(--titan-black);
 }
 
 body {
   background-color: var(--titan-black);
   color: white;
   font-family: 'Plus Jakarta Sans', sans-serif;
-  -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  letter-spacing: -0.03em;
-  line-height: 1.5;
+  letter-spacing: -0.04em;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* --- Grain & Noise --- */
-body::after {
-  content: "";
+/* --- God Mode Visuals --- */
+
+.noise-overlay {
   position: fixed;
   inset: 0;
   background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity: 0.05;
+  opacity: 0.06;
   pointer-events: none;
   z-index: 9999;
 }
 
-/* --- Typography System --- */
-.h1-cinematic {
+.cinematic-vignette {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.4) 100%);
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* --- Master Typography --- */
+
+.h1-mega {
   font-family: 'Outfit', sans-serif;
   font-weight: 900;
-  letter-spacing: -0.08em;
-  line-height: 0.75;
+  letter-spacing: -0.1em;
+  line-height: 0.72;
   text-transform: uppercase;
 }
 
-.h2-display {
+.label-pro {
   font-family: 'Space Grotesk', sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.05em;
-  line-height: 0.9;
-  text-transform: uppercase;
-}
-
-.label-luxury {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 9px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.6em;
-  color: var(--titan-red);
-}
-
-/* --- Bento Grid System --- */
-.bento-container {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 24px;
-}
-
-.bento-item {
-  position: relative;
-  background: var(--glass-surface);
-  border: 1px solid var(--glass-stroke);
-  border-radius: 48px;
-  padding: 48px;
-  overflow: hidden;
-  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.bento-item:hover {
-  background: rgba(255, 255, 255, 0.02);
-  border-color: rgba(255, 255, 255, 0.1);
-  transform: translateY(-8px) scale(1.01);
-}
-
-/* --- Surfaces --- */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.01);
-  backdrop-filter: blur(60px) saturate(200%);
-  border: 1px solid var(--glass-stroke);
-  box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
-}
-
-.glow-red {
-  box-shadow: 0 0 100px -20px rgba(255, 15, 27, 0.2);
-}
-
-/* --- Advanced Animations --- */
-@keyframes plasma-flow {
-  0% { transform: scale(1) translate(0, 0); }
-  50% { transform: scale(1.2) translate(5%, 5%); }
-  100% { transform: scale(1) translate(0, 0); }
-}
-
-.animate-plasma {
-  animation: plasma-flow 20s ease-in-out infinite;
-}
-
-/* --- Marquee (High Perf) --- */
-@keyframes marquee-sync {
-  to { transform: translate3d(-50%, 0, 0); }
-}
-
-.marquee-sync {
-  display: flex;
-  width: max-content;
-  animation: marquee-sync 120s linear infinite;
-  will-change: transform;
-}
-
-/* --- Interactions --- */
-.btn-titan {
-  position: relative;
-  padding: 24px 56px;
-  border-radius: 24px;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.5em;
   font-size: 10px;
-  overflow: hidden;
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8em;
+  color: var(--titan-red);
+  text-shadow: 0 0 20px var(--titan-red-glow);
 }
 
-.btn-titan::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--titan-red);
-  transform: translateY(100%);
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  z-index: -1;
+/* --- Advanced Surfaces --- */
+
+.glass-ultra {
+  background: linear-gradient(145deg, rgba(255,255,255,0.015) 0%, rgba(255,255,255,0.005) 100%);
+  backdrop-filter: blur(80px) saturate(200%);
+  -webkit-backdrop-filter: blur(80px) saturate(200%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.9);
 }
 
-.btn-titan:hover::before {
-  transform: translateY(0);
+.glass-card {
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.btn-titan:hover {
+.glass-card:hover {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: var(--titan-red-glow);
+  transform: translateY(-15px) scale(1.02);
+}
+
+/* --- Motion Effects --- */
+
+.glow-text {
   color: white;
-  box-shadow: 0 20px 60px rgba(255, 15, 27, 0.3);
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
 }
 
-/* Custom Scrollbar */
+.glow-red-text {
+  color: var(--titan-red);
+  text-shadow: 0 0 40px var(--titan-red-glow);
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--titan-red), transparent);
+  opacity: 0.4;
+  animation: scanline 8s linear infinite;
+}
+
+/* Hide Scrollbar */
 ::-webkit-scrollbar { width: 0; }
+
+/* Custom Selection */
+::selection { background: var(--titan-red); color: white; }
