@@ -24,35 +24,35 @@ const CHANNEL_CATEGORIES = [
   {
     title: 'Sports & Live TV',
     logos: [
-      { name: 'Sky Sports', url: 'https://logo.clearbit.com/sky.com?size=512' },
-      { name: 'beIN SPORTS', url: 'https://logo.clearbit.com/beinsports.com?size=512' },
-      { name: 'DAZN', url: 'https://logo.clearbit.com/dazn.com?size=512' },
-      { name: 'ESPN', url: 'https://logo.clearbit.com/espn.com?size=512' },
-      { name: 'NFL', url: 'https://logo.clearbit.com/nfl.com?size=512' },
-      { name: 'NBA', url: 'https://logo.clearbit.com/nba.com?size=512' },
-      { name: 'MLB', url: 'https://logo.clearbit.com/mlb.com?size=512' },
-      { name: 'NHL', url: 'https://logo.clearbit.com/nhl.com?size=512' },
-      { name: 'Formula 1', url: 'https://logo.clearbit.com/f1.com?size=512' },
-      { name: 'UFC', url: 'https://logo.clearbit.com/ufc.com?size=512' },
-      { name: 'Fox Sports', url: 'https://logo.clearbit.com/foxsports.com?size=512' },
-      { name: 'Eurosport', url: 'https://logo.clearbit.com/eurosport.com?size=512' }
+      { name: 'Sky Sports', url: 'https://img.icons8.com/color/512/sky-sports.png' },
+      { name: 'beIN SPORTS', url: 'https://img.icons8.com/color/512/bein-sports.png' },
+      { name: 'DAZN', url: 'https://img.icons8.com/color/512/dazn.png' },
+      { name: 'ESPN', url: 'https://img.icons8.com/color/512/espn.png' },
+      { name: 'NFL', url: 'https://img.icons8.com/color/512/nfl.png' },
+      { name: 'NBA', url: 'https://img.icons8.com/color/512/nba.png' },
+      { name: 'MLB', url: 'https://img.icons8.com/color/512/mlb.png' },
+      { name: 'NHL', url: 'https://img.icons8.com/color/512/nhl.png' },
+      { name: 'Formula 1', url: 'https://img.icons8.com/color/512/f1.png' },
+      { name: 'UFC', url: 'https://img.icons8.com/color/512/ufc.png' },
+      { name: 'Fox Sports', url: 'https://img.icons8.com/color/512/fox.png' },
+      { name: 'Eurosport', url: 'https://img.icons8.com/color/512/eurosport.png' }
     ]
   },
   {
     title: 'Cinema & Series',
     logos: [
-      { name: 'Netflix', url: 'https://logo.clearbit.com/netflix.com?size=512' },
-      { name: 'HBO Max', url: 'https://logo.clearbit.com/hbomax.com?size=512' },
-      { name: 'Disney+', url: 'https://logo.clearbit.com/disneyplus.com?size=512' },
-      { name: 'Prime Video', url: 'https://logo.clearbit.com/amazon.com?size=512' },
-      { name: 'Canal+', url: 'https://logo.clearbit.com/canalplus.com?size=512' },
-      { name: 'Hulu', url: 'https://logo.clearbit.com/hulu.com?size=512' },
-      { name: 'Paramount+', url: 'https://logo.clearbit.com/paramountplus.com?size=512' },
-      { name: 'Apple TV+', url: 'https://logo.clearbit.com/apple.com?size=512' },
-      { name: 'Warner Bros', url: 'https://logo.clearbit.com/warnerbros.com?size=512' },
-      { name: 'Universal', url: 'https://logo.clearbit.com/universalpictures.com?size=512' },
-      { name: 'Marvel', url: 'https://logo.clearbit.com/marvel.com?size=512' },
-      { name: 'Sony Pictures', url: 'https://logo.clearbit.com/sonypictures.com?size=512' }
+      { name: 'Netflix', url: 'https://img.icons8.com/color/512/netflix--v1.png' },
+      { name: 'HBO Max', url: 'https://img.icons8.com/color/512/hbo.png' },
+      { name: 'Disney+', url: 'https://img.icons8.com/color/512/disney-plus.png' },
+      { name: 'Prime Video', url: 'https://img.icons8.com/color/512/amazon-prime-video.png' },
+      { name: 'Canal+', url: 'https://img.icons8.com/color/512/canal-plus.png' },
+      { name: 'Hulu', url: 'https://img.icons8.com/color/512/hulu.png' },
+      { name: 'Paramount+', url: 'https://img.icons8.com/color/512/paramount-plus.png' },
+      { name: 'Apple TV+', url: 'https://img.icons8.com/color/512/apple-tv.png' },
+      { name: 'Warner Bros', url: 'https://img.icons8.com/color/512/warner-bros.png' },
+      { name: 'Universal', url: 'https://img.icons8.com/color/512/universal-pictures.png' },
+      { name: 'Marvel', url: 'https://img.icons8.com/color/512/marvel.png' },
+      { name: 'Sony Pictures', url: 'https://img.icons8.com/color/512/sony-pictures.png' }
     ]
   }
 ];
@@ -118,7 +118,7 @@ const HomePage = ({ user }) => {
         </div>
       </div>
 
-      <div className="px-6 md:px-16 -mt-32 relative z-20 space-y-24">
+      <div className="px-6 md:px-16 mt-20 relative z-20 space-y-24">
         {CHANNEL_CATEGORIES.map((cat, ci) => (
           <div key={ci}>
             <div className="flex items-center gap-4 mb-8">
