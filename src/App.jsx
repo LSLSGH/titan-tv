@@ -7,7 +7,8 @@ import {
   Smartphone, Tv, CheckCircle2, Monitor, Lock, AlertCircle,
   Copy, Check, History, CreditCard, Calendar, Hash, Layout,
   Cpu, Wifi, Database, Layers, ExternalLink, Plus, Trash2, 
-  CreditCard as CardIcon, Info, HelpCircle, RefreshCcw, ShieldCheck
+  CreditCard as CardIcon, Info, HelpCircle, RefreshCcw, ShieldCheck,
+  TrendingUp, CalendarDays, Trophy, Film, Tv2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import Lenis from 'lenis';
@@ -18,46 +19,44 @@ import { supabase } from './lib/supabase';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// --- Official SVG Logos (Raw Links for Reliability) ---
+// --- Content Database 2026 ---
 
-const CHANNEL_CATEGORIES = [
-  {
-    title: 'Sports & Live TV',
-    logos: [
-      { name: 'Sky Sports', url: 'https://img.icons8.com/color/512/sky-sports.png' },
-      { name: 'beIN SPORTS', url: 'https://img.icons8.com/color/512/bein-sports.png' },
-      { name: 'DAZN', url: 'https://img.icons8.com/color/512/dazn.png' },
-      { name: 'ESPN', url: 'https://img.icons8.com/color/512/espn.png' },
-      { name: 'NFL', url: 'https://img.icons8.com/color/512/nfl.png' },
-      { name: 'NBA', url: 'https://img.icons8.com/color/512/nba.png' },
-      { name: 'MLB', url: 'https://img.icons8.com/color/512/mlb.png' },
-      { name: 'NHL', url: 'https://img.icons8.com/color/512/nhl.png' },
-      { name: 'Formula 1', url: 'https://img.icons8.com/color/512/f1.png' },
-      { name: 'UFC', url: 'https://img.icons8.com/color/512/ufc.png' },
-      { name: 'Fox Sports', url: 'https://img.icons8.com/color/512/fox.png' },
-      { name: 'Eurosport', url: 'https://img.icons8.com/color/512/eurosport.png' }
-    ]
-  },
-  {
-    title: 'Cinema & Series',
-    logos: [
-      { name: 'Netflix', url: 'https://img.icons8.com/color/512/netflix--v1.png' },
-      { name: 'HBO Max', url: 'https://img.icons8.com/color/512/hbo.png' },
-      { name: 'Disney+', url: 'https://img.icons8.com/color/512/disney-plus.png' },
-      { name: 'Prime Video', url: 'https://img.icons8.com/color/512/amazon-prime-video.png' },
-      { name: 'Canal+', url: 'https://img.icons8.com/color/512/canal-plus.png' },
-      { name: 'Hulu', url: 'https://img.icons8.com/color/512/hulu.png' },
-      { name: 'Paramount+', url: 'https://img.icons8.com/color/512/paramount-plus.png' },
-      { name: 'Apple TV+', url: 'https://img.icons8.com/color/512/apple-tv.png' },
-      { name: 'Warner Bros', url: 'https://img.icons8.com/color/512/warner-bros.png' },
-      { name: 'Universal', url: 'https://img.icons8.com/color/512/universal-pictures.png' },
-      { name: 'Marvel', url: 'https://img.icons8.com/color/512/marvel.png' },
-      { name: 'Sony Pictures', url: 'https://img.icons8.com/color/512/sony-pictures.png' }
-    ]
-  }
-];
+const CONTENT_2026 = {
+  movies: [
+    { name: 'Avatar: Fire and Ash', year: '2025/26', img: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&q=80&w=800', tag: '8K HDR' },
+    { name: 'Avengers: Secret Wars', year: '2026', img: 'https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?auto=format&fit=crop&q=80&w=800', tag: 'PREMIERE' },
+    { name: 'Beyond The Horizon', year: '2026', img: 'https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?auto=format&fit=crop&q=80&w=800', tag: 'EXCLUSIVE' },
+    { name: 'The Silent Sea: Part II', year: '2026', img: 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=800', tag: 'NEW' },
+    { name: 'Midnight City', year: '2026', img: 'https://images.unsplash.com/photo-1514565131-fce0801e5785?auto=format&fit=crop&q=80&w=800', tag: '4K' },
+    { name: 'Cyberpunk 2077 Movie', year: '2026', img: 'https://images.unsplash.com/photo-1605142859862-978be7eba909?auto=format&fit=crop&q=80&w=800', tag: 'BLOCKBUSTER' }
+  ],
+  series: [
+    { name: 'Stranger Things 5', year: '2026', img: 'https://images.unsplash.com/photo-1616530940355-351fabd9524b?auto=format&fit=crop&q=80&w=800', tag: 'FINAL SEASON' },
+    { name: 'Squid Game 3', year: '2026', img: 'https://images.unsplash.com/photo-1627873649417-c67f701f1949?auto=format&fit=crop&q=80&w=800', tag: 'TRENDING' },
+    { name: 'The Last of Us Part III', year: '2026', img: 'https://images.unsplash.com/photo-1594909122845-11baa439b7bf?auto=format&fit=crop&q=80&w=800', tag: 'PRO' },
+    { name: 'Neural Link: Tokyo', year: '2026', img: 'https://images.unsplash.com/photo-1578632738981-43c9eb177232?auto=format&fit=crop&q=80&w=800', tag: 'AWARD WINNER' },
+    { name: 'Echoes of Time', year: '2026', img: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?auto=format&fit=crop&q=80&w=800', tag: 'SCIFI' }
+  ],
+  sports: [
+    { name: 'FIFA World Cup 2026', year: 'LIVE', img: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&q=80&w=800', tag: 'FINALS' },
+    { name: 'Champions League 26', year: 'LIVE', img: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=800', tag: 'LIVE 8K' },
+    { name: 'NBA Finals 2026', year: 'LIVE', img: 'https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&q=80&w=800', tag: 'UHD' },
+    { name: 'Formula 1: Monaco', year: 'LIVE', img: 'https://images.unsplash.com/photo-1533130061792-64b345e4a833?auto=format&fit=crop&q=80&w=800', tag: 'REAL-TIME' },
+    { name: 'UFC 310: Vegas', year: '2026', img: 'https://images.unsplash.com/photo-1555597673-b21d5c935865?auto=format&fit=crop&q=80&w=800', tag: 'PAY PER VIEW' }
+  ],
+  channels: [
+    { name: 'Sky Sports', url: 'https://img.icons8.com/color/512/sky-sports.png' },
+    { name: 'beIN SPORTS', url: 'https://img.icons8.com/color/512/bein-sports.png' },
+    { name: 'DAZN', url: 'https://img.icons8.com/color/512/dazn.png' },
+    { name: 'ESPN', url: 'https://img.icons8.com/color/512/espn.png' },
+    { name: 'Netflix', url: 'https://img.icons8.com/color/512/netflix--v1.png' },
+    { name: 'HBO Max', url: 'https://img.icons8.com/color/512/hbo.png' },
+    { name: 'Disney+', url: 'https://img.icons8.com/color/512/disney-plus.png' },
+    { name: 'Prime Video', url: 'https://img.icons8.com/color/512/amazon-prime-video.png' }
+  ]
+};
 
-const Navbar = ({ user }) => {
+const Navbar = ({ user, activeFilter, setActiveFilter }) => {
   const navigate = useNavigate();
   const [scrolled, setScrolled] = useState(false);
 
@@ -67,14 +66,28 @@ const Navbar = ({ user }) => {
     return () => window.removeEventListener('scroll', handle);
   }, []);
 
+  const menuItems = [
+    { id: 'home', label: 'Home' },
+    { id: 'series', label: 'Series' },
+    { id: 'movies', label: 'Movies' },
+    { id: 'sports', label: 'Sports' }
+  ];
+
   return (
     <nav className={`fixed top-0 w-full z-[1000] px-6 md:px-16 py-6 flex justify-between items-center transition-all duration-500 ${scrolled ? 'bg-black/90 backdrop-blur-xl border-b border-white/5' : 'bg-gradient-to-b from-black/80 to-transparent'}`}>
       <div className="flex items-center gap-12">
-        <Link to="/" className="h-netflix text-4xl text-[#E50914]">TITANTV</Link>
+        <Link to="/" onClick={() => setActiveFilter('home')} className="h-netflix text-4xl text-[#E50914]">TITANTV</Link>
         <div className="hidden lg:flex items-center gap-8">
-          {['Home', 'Series', 'Movies', 'Sports', 'Pricing'].map(item => (
-            <Link key={item} to={item === 'Pricing' ? '/pricing' : '/'} className="text-sm font-bold text-white/70 hover:text-white transition-colors">{item}</Link>
+          {menuItems.map(item => (
+            <button 
+              key={item.id} 
+              onClick={() => { setActiveFilter(item.id); navigate('/'); }}
+              className={`text-sm font-bold transition-all ${activeFilter === item.id ? 'text-white' : 'text-white/40 hover:text-white'}`}
+            >
+              {item.label}
+            </button>
           ))}
+          <Link to="/pricing" className="text-sm font-bold text-white/40 hover:text-white transition-colors">Pricing</Link>
         </div>
       </div>
 
@@ -91,27 +104,59 @@ const Navbar = ({ user }) => {
   );
 };
 
-const HomePage = ({ user }) => {
+const HomePage = ({ activeFilter }) => {
   const navigate = useNavigate();
+
+  const renderRow = (title, items, type = 'poster') => (
+    <div className="space-y-8">
+      <div className="flex items-center gap-4">
+        <h3 className="text-2xl font-bold tracking-tight uppercase flex items-center gap-3">
+          {type === 'channel' ? <Signal className="text-[#E50914]" /> : <TrendingUp className="text-[#E50914]" />}
+          {title}
+        </h3>
+        <div className="h-px flex-grow bg-white/5" />
+      </div>
+      <div className="content-row">
+        {items.map((item, i) => (
+          <div key={i} className={`content-card group border border-white/5 hover:border-[#E50914]/30 ${type === 'poster' ? 'flex-[0_0_280px] aspect-[2/3]' : 'flex-[0_0_200px] aspect-square'}`}>
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
+            <img 
+              src={item.img || item.url} 
+              className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+              alt={item.name} 
+            />
+            {item.tag && (
+              <div className="absolute top-4 left-4 bg-[#E50914] text-[9px] font-black px-2 py-1 rounded shadow-xl">{item.tag}</div>
+            )}
+            <div className="absolute bottom-6 left-6 right-6 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+              <p className="text-xs font-black uppercase tracking-[0.2em] mb-1">{item.name}</p>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-bold text-white/40">{item.year || 'OFFICIAL LINK'}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
   return (
     <div className="pb-40">
+      {/* Hero Section */}
       <div className="relative h-[90vh] w-full overflow-hidden">
         <img 
-          src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=2000" 
+          src={activeFilter === 'sports' ? "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&q=80&w=2000" : "https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=2000"} 
           className="w-full h-full object-cover" 
           alt="Hero" 
         />
         <div className="hero-overlay" />
-        <div className="absolute bottom-[15%] left-[5%] max-w-2xl z-10">
+        <div className="absolute bottom-[15%] left-[5%] max-w-4xl z-10">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
             <h1 className="h-netflix text-4xl md:text-8xl mb-8 uppercase leading-[1.1]">ALL PREMIUM CHANNELS<br /><span className="text-white/20">AT REDUCED PRICE.</span></h1>
-            <p className="text-xl text-white/80 mb-12 leading-relaxed font-medium">Unleash the full power of your display. 21,000+ channels, movies, and sports in uncompressed 4K. No contracts, just pure entertainment.</p>
+            <p className="text-xl text-white/80 mb-12 leading-relaxed font-medium max-w-2xl">Unleash the full power of your display. 21,000+ channels, movies, and sports in uncompressed 4K. No contracts, just pure entertainment.</p>
             <div className="flex items-center gap-6">
               <button onClick={() => navigate('/pricing')} className="btn-netflix-main px-10 py-4 scale-110 shadow-2xl">
                 <Play fill="black" size={24} /> Get Access
-              </button>
-              <button className="bg-white/10 backdrop-blur-xl text-white px-10 py-4 rounded-md flex items-center gap-3 font-bold hover:bg-white/20 transition-all border border-white/10">
-                <Info size={24} /> Network Info
               </button>
             </div>
           </motion.div>
@@ -119,39 +164,22 @@ const HomePage = ({ user }) => {
       </div>
 
       <div className="px-6 md:px-16 mt-20 relative z-20 space-y-24">
-        {CHANNEL_CATEGORIES.map((cat, ci) => (
-          <div key={ci}>
-            <div className="flex items-center gap-4 mb-8">
-              <h3 className="text-2xl font-bold tracking-tight">{cat.title}</h3>
-              <div className="h-px flex-grow bg-white/5" />
-            </div>
-            <div className="content-row">
-              {cat.logos.map((logo, i) => (
-                <div key={i} className="content-card group border border-white/5 hover:border-[#E50914]/30">
-                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="w-full h-full flex items-center justify-center p-10 bg-zinc-950/50">
-                    <img 
-                      src={logo.url} 
-                      className="w-full h-full object-contain filter brightness-[1.2] group-hover:scale-110 transition-transform duration-500" 
-                      alt={logo.name} 
-                    />
-                  </div>
-                  <div className="absolute bottom-6 left-6 right-6 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
-                    <p className="text-xs font-black uppercase tracking-[0.2em] mb-1">{logo.name}</p>
-                    <div className="flex items-center gap-2">
-                      <Signal size={12} className="text-[#E50914] animate-pulse" />
-                      <span className="text-[10px] font-bold text-white/40">ULTRA HD 8K READY</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
+        {activeFilter === 'home' && (
+          <>
+            {renderRow('Live Networks', CONTENT_2026.channels, 'channel')}
+            {renderRow('Trending Movies 2026', CONTENT_2026.movies)}
+            {renderRow('Top Series 2026', CONTENT_2026.series)}
+          </>
+        )}
+        {activeFilter === 'movies' && renderRow('Latest Movies 2026', CONTENT_2026.movies)}
+        {activeFilter === 'series' && renderRow('Latest Series 2026', CONTENT_2026.series)}
+        {activeFilter === 'sports' && renderRow('Live Sports 2026', CONTENT_2026.sports)}
       </div>
     </div>
   );
 };
+
+// ... Rest of the components (PricingPage, DashboardPage, AuthPage) stay the same ...
 
 const PricingPage = ({ user }) => {
   const [checkoutPlan, setCheckoutPlan] = useState(null);
@@ -193,7 +221,7 @@ const PricingPage = ({ user }) => {
               transition={{ delay: i * 0.1 }}
               className={`pricing-card p-12 flex flex-col ${plan.featured ? 'featured min-h-[700px]' : 'min-h-[600px]'}`}
             >
-              {plan.featured && <div className="absolute top-0 left-0 right-0 py-2 bg-[#E50914] text-center text-[10px] font-black uppercase tracking-widest">MOST POPULAR SYNC</div>}
+              {plan.featured && <div className="absolute top-0 left-0 right-0 py-2 bg-[#E50914] text-center text-[10px] font-black uppercase tracking-widest">MOST POPULAR</div>}
               <div className="mb-16">
                 <h3 className="text-xs font-black uppercase tracking-[0.4em] text-white/30 mb-8">{plan.t}</h3>
                 <div className="flex items-baseline gap-2 mb-4">
@@ -222,7 +250,6 @@ const PricingPage = ({ user }) => {
           ))}
         </div>
 
-        {/* Trust Badges Section */}
         <div className="mt-32 flex flex-wrap justify-center gap-8">
           <div className="trust-badge"><ShieldCheck className="text-[#E50914]" size={20} /> 256-Bit SSL Secured</div>
           <div className="trust-badge"><RefreshCcw className="text-[#E50914]" size={20} /> 7-Day Money Back</div>
@@ -309,7 +336,7 @@ const DashboardPage = ({ user }) => {
   if (!user) return null;
 
   return (
-    <div className="pt-40 pb-80 px-6 md:px-16 overflow-y-auto bg-black">
+    <div className="pt-40 pb-80 px-6 md:px-16 bg-black">
       <div className="max-w-6xl mx-auto">
         <div className="mb-20">
           <span className="text-[#E50914] font-black uppercase tracking-[0.6em] text-[10px] mb-4 block">System Interface</span>
@@ -445,6 +472,7 @@ const AuthPage = () => {
 
 export default function App() {
   const [user, setUser] = useState(null);
+  const [activeFilter, setActiveFilter] = useState('home');
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => setUser(session?.user ?? null));
@@ -455,10 +483,10 @@ export default function App() {
   return (
     <Router>
       <main className="min-h-screen bg-black text-white">
-        <Navbar user={user} />
+        <Navbar user={user} activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
         
         <Routes>
-          <Route path="/" element={<HomePage user={user} />} />
+          <Route path="/" element={<HomePage activeFilter={activeFilter} />} />
           <Route path="/pricing" element={<PricingPage user={user} />} />
           <Route path="/dashboard" element={<DashboardPage user={user} />} />
           <Route path="/auth" element={<AuthPage />} />
