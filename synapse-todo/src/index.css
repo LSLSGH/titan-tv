@@ -1,0 +1,122 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@100;300;600;900&family=Syncopate:wght@400;700&display=swap');
+
+:root {
+  --synapse-cyan: #00f2ff;
+  --synapse-violet: #7000ff;
+  --synapse-black: #000000;
+  --synapse-glass: rgba(255, 255, 255, 0.01);
+  --synapse-border: rgba(255, 255, 255, 0.05);
+  --ease-synapse: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--synapse-black);
+  color: #fff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  overflow: hidden; /* App-like feel */
+}
+
+/* Spatial Field */
+.spatial-field {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(circle at 50% 50%, #050510 0%, #000 100%);
+}
+
+.energy-grid {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(0, 242, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 242, 255, 0.02) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(circle at 50% 50%, black, transparent 80%);
+}
+
+/* Neural Core */
+.neural-core {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle at center, var(--synapse-cyan) 0%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0.2;
+  filter: blur(20px);
+  pointer-events: none;
+  animation: pulse-core 4s infinite ease-in-out;
+}
+
+@keyframes pulse-core {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.2; }
+  50% { transform: translate(-50%, -50%) scale(1.5); opacity: 0.4; }
+}
+
+/* Task Orb */
+.task-orb {
+  position: absolute;
+  background: var(--synapse-glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--synapse-border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 20px;
+  cursor: grab;
+  transition: border-color 0.3s ease;
+}
+
+.task-orb:active {
+  cursor: grabbing;
+}
+
+.task-orb:hover {
+  border-color: var(--synapse-cyan);
+  box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
+}
+
+/* UI Elements */
+.h1-synapse {
+  font-family: 'Syncopate', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  text-transform: uppercase;
+}
+
+.label-mono {
+  font-size: 8px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  color: var(--synapse-cyan);
+}
+
+.input-glass {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem 2.5rem;
+  border-radius: 9999px;
+  color: #fff;
+  font-family: inherit;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.input-glass:focus {
+  border-color: var(--synapse-cyan);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 30px rgba(0, 242, 255, 0.1);
+}
