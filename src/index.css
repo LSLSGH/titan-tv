@@ -5,8 +5,9 @@
 :root {
   --primary: #00f2ff;
   --secondary: #7000ff;
-  --bg-dark: #020202;
-  --glass: rgba(255, 255, 255, 0.03);
+  --bg-deep: #020202;
+  --glass-bg: rgba(255, 255, 255, 0.015);
+  --glass-border: rgba(255, 255, 255, 0.08);
 }
 
 * {
@@ -16,73 +17,99 @@
 }
 
 body {
-  background-color: var(--bg-dark);
+  background-color: var(--bg-deep);
   color: white;
   font-family: 'Plus Jakarta Sans', sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* --- Futuristic Gradients --- */
+/* --- 3D Glass Morphism --- */
 
-.bg-futuristic {
-  background: radial-gradient(circle at 0% 0%, rgba(0, 242, 255, 0.08) 0%, transparent 50%),
-              radial-gradient(circle at 100% 100%, rgba(112, 0, 255, 0.08) 0%, transparent 50%);
+.glass-3d {
+  background: var(--glass-bg);
+  backdrop-filter: blur(80px) saturate(200%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.5),
+    inset 0 0 20px rgba(255, 255, 255, 0.02);
+  transform-style: preserve-3d;
+  transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.text-gradient {
+.glass-3d:hover {
+  border-color: var(--primary);
+  box-shadow: 
+    0 40px 100px -20px rgba(0, 242, 255, 0.2),
+    inset 0 0 30px rgba(255, 255, 255, 0.05);
+  transform: translateY(-20px) rotateX(10deg) rotateY(10deg);
+}
+
+/* --- Master Typography --- */
+
+.text-mega {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  letter-spacing: -0.06em;
+  line-height: 0.8;
+  text-transform: uppercase;
   background: linear-gradient(135deg, #fff 0%, #00f2ff 50%, #7000ff 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  filter: drop-shadow(0 0 30px rgba(0, 242, 255, 0.4));
 }
 
-.glass-card {
-  background: rgba(255, 255, 255, 0.01);
-  backdrop-filter: blur(40px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glass-card:hover {
-  background: rgba(255, 255, 255, 0.03);
-  border-color: var(--primary);
-  transform: translateY(-10px);
-}
-
-/* --- Hero Layout --- */
-
-.hero-title {
-  font-family: 'Outfit', sans-serif;
-  font-weight: 900;
-  letter-spacing: -0.06em;
-  line-height: 0.85;
-  text-transform: uppercase;
-}
-
-.label-futur {
+.label-pro {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 10px;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.6em;
+  letter-spacing: 0.8em;
   color: var(--primary);
 }
 
-/* --- Animations --- */
+/* --- Interactive Elements --- */
 
-@keyframes orb-float {
-  0% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(5%, 5%) scale(1.1); }
-  100% { transform: translate(0, 0) scale(1); }
+.btn-liquid {
+  background: white;
+  color: black;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  padding: 24px 60px;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  transition: all 0.5s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
 }
 
-.orb {
+.btn-liquid:hover {
+  transform: scale(1.1);
+  background: var(--primary);
+  box-shadow: 0 0 60px rgba(0, 242, 255, 0.4);
+}
+
+/* --- 3D Effects --- */
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.glow-orb {
   position: absolute;
   border-radius: full;
-  filter: blur(120px);
+  filter: blur(150px);
   z-index: -1;
-  animation: orb-float 20s ease-in-out infinite;
+  opacity: 0.15;
+  animation: orb-move 20s infinite alternate;
+}
+
+@keyframes orb-move {
+  from { transform: translate(-10%, -10%); }
+  to { transform: translate(10%, 10%); }
 }
 
 /* Hide Scrollbar */
