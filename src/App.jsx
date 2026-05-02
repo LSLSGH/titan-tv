@@ -24,23 +24,23 @@ const CHANNEL_CATEGORIES = [
   {
     title: 'Featured Networks',
     logos: [
-      { name: 'Netflix', url: 'https://logo.clearbit.com/netflix.com' },
-      { name: 'HBO Max', url: 'https://logo.clearbit.com/hbomax.com' },
-      { name: 'Disney+', url: 'https://logo.clearbit.com/disneyplus.com' },
-      { name: 'Prime Video', url: 'https://logo.clearbit.com/amazon.com' },
-      { name: 'DAZN', url: 'https://logo.clearbit.com/dazn.com' },
-      { name: 'beIN SPORTS', url: 'https://logo.clearbit.com/beinsports.com' },
-      { name: 'Canal+', url: 'https://logo.clearbit.com/canalplus.com' }
+      { name: 'Netflix', url: 'https://img.icons8.com/color/512/netflix--v1.png' },
+      { name: 'HBO Max', url: 'https://img.icons8.com/color/512/hbo.png' },
+      { name: 'Disney+', url: 'https://img.icons8.com/color/512/disney-plus.png' },
+      { name: 'Prime Video', url: 'https://img.icons8.com/color/512/amazon-prime-video.png' },
+      { name: 'DAZN', url: 'https://img.icons8.com/color/512/dazn.png' },
+      { name: 'beIN SPORTS', url: 'https://img.icons8.com/color/512/bein-sports.png' },
+      { name: 'Canal+', url: 'https://img.icons8.com/color/512/canal-plus.png' }
     ]
   },
   {
     title: 'Sports & Live TV',
     logos: [
-      { name: 'Sky Sports', url: 'https://logo.clearbit.com/sky.com' },
-      { name: 'ESPN', url: 'https://logo.clearbit.com/espn.com' },
-      { name: 'Fox Sports', url: 'https://logo.clearbit.com/foxsports.com' },
-      { name: 'Eurosport', url: 'https://logo.clearbit.com/eurosport.com' },
-      { name: 'UFC', url: 'https://logo.clearbit.com/ufc.com' }
+      { name: 'Sky Sports', url: 'https://img.icons8.com/color/512/sky.png' },
+      { name: 'ESPN', url: 'https://img.icons8.com/color/512/espn.png' },
+      { name: 'Fox Sports', url: 'https://img.icons8.com/color/512/fox.png' },
+      { name: 'Eurosport', url: 'https://img.icons8.com/color/512/eurosport.png' },
+      { name: 'UFC', url: 'https://img.icons8.com/color/512/ufc.png' }
     ]
   }
 ];
@@ -123,9 +123,8 @@ const HomePage = ({ user }) => {
                   <div className="w-full h-full flex items-center justify-center p-8 bg-zinc-900">
                     <img 
                       src={logo.url} 
-                      className="w-full h-full object-contain filter brightness-[2]" 
+                      className="w-full h-full object-contain filter brightness-[1.2]" 
                       alt={logo.name} 
-                      onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${logo.name}&background=E50914&color=fff`; }}
                     />
                   </div>
                   <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
