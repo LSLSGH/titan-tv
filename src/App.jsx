@@ -22,25 +22,29 @@ gsap.registerPlugin(ScrollTrigger);
 
 const CHANNEL_CATEGORIES = [
   {
-    title: 'Featured Networks',
+    title: 'Sports & Live TV',
+    logos: [
+      { name: 'Sky Sports', url: 'https://img.icons8.com/color/512/sky.png' },
+      { name: 'beIN SPORTS', url: 'https://img.icons8.com/color/512/bein-sports.png' },
+      { name: 'DAZN', url: 'https://img.icons8.com/color/512/dazn.png' },
+      { name: 'ESPN', url: 'https://img.icons8.com/color/512/espn.png' },
+      { name: 'Eurosport', url: 'https://img.icons8.com/color/512/eurosport.png' },
+      { name: 'UFC', url: 'https://img.icons8.com/color/512/ufc.png' },
+      { name: 'Fox Sports', url: 'https://img.icons8.com/color/512/fox.png' },
+      { name: 'Formula 1', url: 'https://img.icons8.com/color/512/f1.png' }
+    ]
+  },
+  {
+    title: 'Cinema & Series',
     logos: [
       { name: 'Netflix', url: 'https://img.icons8.com/color/512/netflix--v1.png' },
       { name: 'HBO Max', url: 'https://img.icons8.com/color/512/hbo.png' },
       { name: 'Disney+', url: 'https://img.icons8.com/color/512/disney-plus.png' },
       { name: 'Prime Video', url: 'https://img.icons8.com/color/512/amazon-prime-video.png' },
-      { name: 'DAZN', url: 'https://img.icons8.com/color/512/dazn.png' },
-      { name: 'beIN SPORTS', url: 'https://img.icons8.com/color/512/bein-sports.png' },
-      { name: 'Canal+', url: 'https://img.icons8.com/color/512/canal-plus.png' }
-    ]
-  },
-  {
-    title: 'Sports & Live TV',
-    logos: [
-      { name: 'Sky Sports', url: 'https://img.icons8.com/color/512/sky.png' },
-      { name: 'ESPN', url: 'https://img.icons8.com/color/512/espn.png' },
-      { name: 'Fox Sports', url: 'https://img.icons8.com/color/512/fox.png' },
-      { name: 'Eurosport', url: 'https://img.icons8.com/color/512/eurosport.png' },
-      { name: 'UFC', url: 'https://img.icons8.com/color/512/ufc.png' }
+      { name: 'Canal+', url: 'https://img.icons8.com/color/512/canal-plus.png' },
+      { name: 'Paramount+', url: 'https://img.icons8.com/color/512/paramount-plus.png' },
+      { name: 'Apple TV+', url: 'https://img.icons8.com/color/512/apple-tv.png' },
+      { name: 'Warner Bros', url: 'https://img.icons8.com/color/512/warner-bros.png' }
     ]
   }
 ];
