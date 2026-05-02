@@ -3,132 +3,104 @@
 @config "../tailwind.config.js";
 
 :root {
-  --titan-red: #ff0f1b;
-  --titan-red-glow: rgba(255, 15, 27, 0.6);
-  --titan-black: #020202;
-  --titan-deep: #050505;
-  --glass-border: rgba(255, 255, 255, 0.05);
-  --glass-shine: rgba(255, 255, 255, 0.02);
-  --accent-gradient: linear-gradient(135deg, #ff0f1b 0%, #3a0002 100%);
+  --primary: #00f2ff;
+  --primary-glow: rgba(0, 242, 255, 0.4);
+  --bg-dark: #00050a;
+  --bg-card: rgba(255, 255, 255, 0.02);
+  --accent: #ffffff;
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-}
-
-/* Custom Cursor (Hidden on Touch) */
-@media (hover: hover) and (pointer: fine) {
-  * { cursor: none !important; }
-}
-
-html {
-  scroll-behavior: auto;
-  background-color: var(--titan-black);
 }
 
 body {
-  background-color: var(--titan-black);
+  background-color: var(--bg-dark);
   color: white;
   font-family: 'Plus Jakarta Sans', sans-serif;
   overflow-x: hidden;
-  letter-spacing: -0.04em;
   -webkit-font-smoothing: antialiased;
 }
 
-/* --- God Mode Visuals --- */
+/* --- Cinema Styling --- */
 
-.noise-overlay {
-  position: fixed;
-  inset: 0;
-  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity: 0.06;
-  pointer-events: none;
-  z-index: 9999;
+.hero-gradient {
+  background: radial-gradient(circle at center, rgba(0, 242, 255, 0.05) 0%, transparent 70%);
 }
 
-.cinematic-vignette {
-  position: fixed;
-  inset: 0;
-  background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.4) 100%);
-  pointer-events: none;
-  z-index: 9998;
-}
-
-/* --- Master Typography --- */
-
-.h1-mega {
+.text-title {
   font-family: 'Outfit', sans-serif;
   font-weight: 900;
-  letter-spacing: -0.1em;
-  line-height: 0.72;
-  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  line-height: 0.9;
 }
 
-.label-pro {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 10px;
+.glass-morphism {
+  background: rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: black;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.8em;
-  color: var(--titan-red);
-  text-shadow: 0 0 20px var(--titan-red-glow);
+  letter-spacing: 0.1em;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  box-shadow: 0 0 30px var(--primary-glow);
 }
 
-/* --- Advanced Surfaces --- */
-
-.glass-ultra {
-  background: linear-gradient(145deg, rgba(255,255,255,0.015) 0%, rgba(255,255,255,0.005) 100%);
-  backdrop-filter: blur(80px) saturate(200%);
-  -webkit-backdrop-filter: blur(80px) saturate(200%);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.9);
+.btn-primary:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 50px var(--primary-glow);
+  background: white;
 }
 
-.glass-card {
-  background: rgba(255, 255, 255, 0.01);
-  border: 1px solid rgba(255, 255, 255, 0.03);
-  transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.glass-card:hover {
-  background: rgba(255, 255, 255, 0.03);
-  border-color: var(--titan-red-glow);
-  transform: translateY(-15px) scale(1.02);
-}
-
-/* --- Motion Effects --- */
-
-.glow-text {
+.input-hero {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
   color: white;
-  text-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
 }
 
-.glow-red-text {
-  color: var(--titan-red);
-  text-shadow: 0 0 40px var(--titan-red-glow);
+.input-hero:focus {
+  border-color: var(--primary);
+  background: rgba(255, 255, 255, 0.08);
 }
 
-@keyframes scanline {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100%); }
+/* --- Animations --- */
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+  100% { transform: translateY(0px); }
 }
 
-.scanline {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(to right, transparent, var(--titan-red), transparent);
-  opacity: 0.4;
-  animation: scanline 8s linear infinite;
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.marquee-container {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  gap: 40px;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.marquee-content {
+  display: flex;
+  gap: 40px;
+  animation: marquee 40s linear infinite;
 }
 
 /* Hide Scrollbar */
 ::-webkit-scrollbar { width: 0; }
-
-/* Custom Selection */
-::selection { background: var(--titan-red); color: white; }
