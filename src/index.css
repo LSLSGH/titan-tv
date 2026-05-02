@@ -3,11 +3,9 @@
 @config "../tailwind.config.js";
 
 :root {
-  --primary: #00f2ff;
-  --secondary: #7000ff;
-  --bg-dark: #020202;
-  --glass-bg: rgba(255, 255, 255, 0.02);
-  --glass-border: rgba(255, 255, 255, 0.05);
+  --primary: #ff0000;
+  --bg-dark: #000000;
+  --glass: rgba(255, 255, 255, 0.03);
 }
 
 * {
@@ -19,106 +17,106 @@
 body {
   background-color: var(--bg-dark);
   color: white;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: 'Space Grotesk', sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* --- Quantum Dark-Luxe Background --- */
-
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(150px);
-  z-index: -1;
-  opacity: 0.15;
-}
-
-.orb-primary { background: var(--primary); width: 60vw; height: 60vw; top: -10%; left: -10%; }
-.orb-secondary { background: var(--secondary); width: 50vw; height: 50vw; bottom: -10%; right: -10%; }
-
-.noise-overlay {
-  position: fixed;
-  inset: 0;
-  background: url('https://grainy-gradients.vercel.app/noise.svg');
-  opacity: 0.03;
-  z-index: 100;
-  pointer-events: none;
-  mix-blend-mode: overlay;
-}
-
-/* --- Glassmorphism Luxe --- */
-
-.glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(40px) saturate(150%);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.5);
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.glass-card:hover {
-  border-color: var(--primary);
-  background: rgba(255, 255, 255, 0.04);
-}
-
-/* --- Typography --- */
+/* --- Industrial Brutalist Effects --- */
 
 .h-titan {
   font-family: 'Outfit', sans-serif;
   font-weight: 900;
-  letter-spacing: -0.06em;
-  line-height: 0.8;
   text-transform: uppercase;
+  letter-spacing: -0.05em;
+  line-height: 0.8;
 }
 
-.label-futur {
-  font-family: 'Space Grotesk', sans-serif;
+.text-ghost {
+  position: relative;
+  color: var(--primary);
+  text-shadow: 
+    4px 4px 0px rgba(255, 0, 0, 0.3),
+    8px 8px 0px rgba(255, 0, 0, 0.1);
+}
+
+.text-glitch {
+  text-transform: uppercase;
+  font-weight: 900;
+  color: white;
+  position: relative;
+}
+
+.text-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 2px;
+  text-shadow: -1px 0 red;
+  top: 0;
+  color: white;
+  background: black;
+  overflow: hidden;
+  clip: rect(0, 900px, 0, 0);
+  animation: noise-anim 2s infinite linear alternate-reverse;
+}
+
+@keyframes noise-anim {
+  0% { clip: rect(10px, 9999px, 50px, 0); }
+  100% { clip: rect(80px, 9999px, 100px, 0); }
+}
+
+/* --- Logo Grid Aesthetics --- */
+
+.logo-grid-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.logo-grid-item:hover {
+  background: var(--primary);
+  transform: scale(1.1);
+  box-shadow: 0 0 30px rgba(255, 0, 0, 0.5);
+}
+
+/* --- Premium Buttons --- */
+
+.btn-brutal {
+  background: var(--primary);
+  color: white;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  padding: 20px 40px;
+  border-radius: 4px;
+  font-size: 10px;
+  transition: all 0.3s ease;
+}
+
+.btn-brutal:hover {
+  filter: brightness(1.2);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px rgba(255, 0, 0, 0.4);
+}
+
+/* --- Navigation --- */
+
+.nav-link {
   font-size: 10px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.6em;
+  letter-spacing: 0.4em;
+  color: rgba(255, 255, 255, 0.4);
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
   color: var(--primary);
-}
-
-/* --- Scanning Animation --- */
-
-.scanline {
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(to right, transparent, var(--primary), transparent);
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0.2;
-  animation: scan 4s linear infinite;
-}
-
-@keyframes scan {
-  0% { top: 0; opacity: 0; }
-  50% { opacity: 0.5; }
-  100% { top: 100%; opacity: 0; }
-}
-
-/* --- Buttons --- */
-
-.btn-premium {
-  background: white;
-  color: black;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  padding: 22px 50px;
-  border-radius: 14px;
-  font-size: 11px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  transition: all 0.4s ease;
-}
-
-.btn-premium:hover {
-  transform: scale(1.05);
-  background: var(--primary);
-  box-shadow: 0 20px 60px rgba(0, 242, 255, 0.3);
 }
 
 /* Hide Scrollbar */

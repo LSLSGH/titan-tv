@@ -18,137 +18,97 @@ import { supabase } from './lib/supabase';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// --- Original Reliable Logos ---
+// --- Massive Logo Set for Industrial Grid ---
 
-const STABLE_LOGOS = [
-  { name: 'Netflix', url: 'https://logo.clearbit.com/netflix.com' },
-  { name: 'HBO Max', url: 'https://logo.clearbit.com/hbomax.com' },
-  { name: 'Disney+', url: 'https://logo.clearbit.com/disneyplus.com' },
-  { name: 'Prime Video', url: 'https://logo.clearbit.com/amazon.com' },
-  { name: 'beIN SPORTS', url: 'https://logo.clearbit.com/beinsports.com' },
-  { name: 'DAZN', url: 'https://logo.clearbit.com/dazn.com' },
-  { name: 'Canal+', url: 'https://logo.clearbit.com/canalplus.com' }
+const GRID_LOGOS = [
+  'netflix', 'hbo', 'disney', 'amazon', 'hulu', 'apple', 'espn', 'fox', 'cnn', 'discovery',
+  'natgeo', 'mtv', 'hgtv', 'food', 'travel', 'bbc', 'sky', 'dazn', 'bein', 'canal',
+  'warner', 'paramount', 'universal', 'sony', 'marvel', 'dc', 'nfl', 'nba', 'ufc', 'f1',
+  'spotify', 'youtube', 'twitch', 'tiktok', 'instagram', 'facebook', 'twitter', 'discord', 'telegram', 'whatsapp',
+  'google', 'microsoft', 'adobe', 'nvidia', 'intel', 'amd', 'tesla', 'spacex', 'bmw', 'audi'
 ];
-
-// --- Global UI Components ---
-
-const AmbientBackdrop = () => (
-  <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden bg-[#020202]">
-    <div className="noise-overlay" />
-    <div className="orb orb-primary" />
-    <div className="orb orb-secondary" />
-    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#020202]/50 to-[#020202]" />
-  </div>
-);
 
 const Navbar = ({ user }) => {
   const navigate = useNavigate();
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handle = () => setScrolled(window.scrollY > 30);
-    window.addEventListener('scroll', handle);
-    return () => window.removeEventListener('scroll', handle);
-  }, []);
-
   return (
-    <nav className={`fixed top-0 w-full z-[1000] px-6 md:px-20 py-10 flex justify-between items-center transition-all duration-1000 ${scrolled ? 'bg-black/60 backdrop-blur-3xl py-6 border-b border-white/5' : ''}`}>
-      <div className="flex items-center gap-24">
-        <Link to="/" className="h-titan text-5xl text-white tracking-tighter">TITAN <span className="text-[#00f2ff]">TV</span></Link>
-        <div className="hidden xl:flex items-center gap-12">
-          {['Infrastructure', 'Pricing', 'Dashboard'].map(item => (
-            <Link key={item} to={item === 'Pricing' ? '/pricing' : item === 'Dashboard' ? '/dashboard' : '/'} className="label-futur text-[9px] opacity-40 hover:opacity-100 transition-all">{item}</Link>
+    <nav className="fixed top-0 w-full z-[1000] px-6 md:px-16 py-8 flex justify-between items-center bg-black/80 backdrop-blur-md border-b border-white/5">
+      <div className="flex items-center gap-16">
+        <Link to="/" className="h-titan text-3xl text-[#ff0000] tracking-tighter">TITANTV</Link>
+        <div className="hidden lg:flex items-center gap-10">
+          {['Catalog', 'Networks', 'Tech', 'Pricing'].map(item => (
+            <Link key={item} to={item === 'Pricing' ? '/pricing' : '/'} className="nav-link">{item}</Link>
           ))}
         </div>
       </div>
 
       <div className="flex items-center gap-8">
         {user ? (
-          <div className="flex items-center gap-6">
-            <Link to="/dashboard" className="flex items-center gap-3 bg-white text-black px-10 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-[#00f2ff] transition-all">
-              <Layout size={14} /> My Terminal
-            </Link>
-            <button onClick={() => supabase.auth.signOut()} className="text-white/20 hover:text-[#00f2ff] transition-colors"><Power size={18} /></button>
-          </div>
+          <Link to="/dashboard" className="btn-brutal px-8 py-3 rounded-sm">Dashboard</Link>
         ) : (
-          <button onClick={() => navigate('/auth')} className="btn-premium py-4 px-12">ESTABLISH LINK</button>
+          <button onClick={() => navigate('/auth')} className="btn-brutal px-8 py-3 rounded-sm">Sync Now</button>
         )}
       </div>
     </nav>
   );
 };
 
-// --- Original Quantum Hero ---
+// --- Page: Home (Red Glitch Hero) ---
 
 const HomePage = ({ user }) => {
   const navigate = useNavigate();
   const containerRef = useRef(null);
 
-  useGSAP(() => {
-    gsap.from('.reveal', { y: 100, opacity: 0, duration: 1.5, ease: "power4.out", stagger: 0.2 });
-  }, { scope: containerRef });
-
   return (
-    <div ref={containerRef} className="pt-60 pb-80">
-      <div className="container mx-auto text-center px-6 relative">
-        <div className="reveal mb-32 relative z-10">
-          <span className="label-futur mb-12 block animate-pulse">Quantum Neural v9.0.1</span>
-          <h1 className="h-titan text-[clamp(4.5rem,15vw,18rem)] mb-24 leading-none text-white tracking-tighter">
-            TITAN <br /> <span className="text-white/10">STREAMS.</span>
+    <div ref={containerRef} className="pt-40 pb-40">
+      <div className="container mx-auto px-6 text-center">
+        
+        {/* Stats Grid (Red Ghosting) */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 mb-40 max-w-6xl mx-auto">
+          {[
+            { val: '21K+', label: 'Channels' },
+            { val: '150K+', label: 'VOD' },
+            { val: '<0.8MS', label: 'Latency' },
+            { val: '99.9%', label: 'Uptime' }
+          ].map((stat, i) => (
+            <div key={i} className="text-center group">
+              <h2 className="h-titan text-6xl md:text-8xl text-ghost mb-2 transition-all group-hover:scale-110">{stat.val}</h2>
+              <p className="nav-link opacity-20 group-hover:opacity-100">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Massive Glitch Title */}
+        <div className="mb-60">
+          <h1 className="h-titan text-[12vw] md:text-[15vw] leading-none mb-12 text-white/5 relative">
+            CHANNELS.
+            <span className="absolute inset-0 text-ghost opacity-80">CHANNELS.</span>
           </h1>
+          <button onClick={() => navigate('/pricing')} className="btn-brutal scale-150 mt-10">Get Your Access</button>
         </div>
 
-        {/* Original 3D Floating TV / Command Center */}
-        <div className="reveal relative max-w-5xl mx-auto mb-40 flex items-center justify-center">
-          <motion.div 
-            animate={{ 
-              y: [0, -20, 0],
-              rotateX: [10, 15, 10],
-              rotateY: [-5, 5, -5]
-            }}
-            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="relative z-10 glass-card p-20 rounded-[5rem] border-[#00f2ff]/20 shadow-[0_0_100px_rgba(0,242,255,0.1)] overflow-hidden"
-          >
-            <div className="scanline" />
-            <Tv size={80} className="mx-auto mb-12 text-[#00f2ff] animate-pulse" />
-            <h3 className="h-titan text-5xl mb-8">QUANTUM GRID.</h3>
-            <p className="label-futur opacity-40 text-center leading-loose mb-16 max-w-sm mx-auto">Neural Streaming Infrastructure with Zero-Latency Uplink.</p>
-            {!user ? (
-              <button onClick={() => navigate('/auth')} className="btn-premium scale-110">Initialize Sync</button>
-            ) : (
-              <button onClick={() => navigate('/pricing')} className="btn-premium scale-110">Select Protocol</button>
-            )}
-          </motion.div>
-
-          {/* Orbiting Elements (Original Design) */}
-          <div className="absolute inset-0 pointer-events-none">
-            {STABLE_LOGOS.map((logo, i) => (
-              <motion.div
-                key={i}
-                animate={{ 
-                  y: [0, -40, 0],
-                  x: [0, i % 2 === 0 ? 40 : -40, 0],
-                  opacity: [0.2, 0.5, 0.2]
-                }}
-                transition={{ duration: 5 + i, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute"
-                style={{ left: `${5 + (i * 15)}%`, top: `${15 + (i % 2 * 60)}%` }}
-              >
-                <div className="glass-card p-6 rounded-[2.5rem] border-white/10 group shadow-2xl">
-                  <img src={logo.url} className="h-10 md:h-12 opacity-50 group-hover:opacity-100 transition-all filter brightness-[2]" alt={logo.name} />
-                </div>
-              </motion.div>
+        {/* THE MASSIVE LOGO GRID (The "Wall of Content") */}
+        <div className="mt-60 max-w-7xl mx-auto">
+          <h3 className="nav-link mb-12 text-center text-white/20">Network Library</h3>
+          <div className="grid grid-cols-5 md:grid-cols-8 lg:grid-cols-10 gap-4">
+            {GRID_LOGOS.map((name, i) => (
+              <div key={i} className="logo-grid-item p-4">
+                <img 
+                  src={`https://logo.clearbit.com/${name}.com`} 
+                  className="w-full opacity-40 group-hover:opacity-100 transition-all grayscale brightness-[2]" 
+                  alt={name}
+                  onError={(e) => e.target.style.display = 'none'}
+                />
+              </div>
             ))}
-          </div>
-        </div>
-
-        {/* Original Cinematic Marquee */}
-        <div className="reveal marquee-wrapper border-y border-white/5 bg-white/[0.01] backdrop-blur-xl mt-40">
-          <div className="flex gap-40 animate-marquee whitespace-nowrap py-16 px-6">
-            {[...STABLE_LOGOS, ...STABLE_LOGOS].map((logo, i) => (
-              <div key={i} className="flex items-center gap-8 group cursor-pointer px-12">
-                <img src={logo.url} className="h-10 md:h-14 opacity-20 group-hover:opacity-100 transition-all filter brightness-[3]" alt={logo.name} />
-                <span className="label-futur text-[10px] opacity-10 group-hover:opacity-100 transition-all">{logo.name}</span>
+            {/* Double the logos for density */}
+            {GRID_LOGOS.map((name, i) => (
+              <div key={`2-${i}`} className="logo-grid-item p-4">
+                <img 
+                  src={`https://logo.clearbit.com/${name}.com`} 
+                  className="w-full opacity-40 group-hover:opacity-100 transition-all grayscale brightness-[2]" 
+                  alt={name}
+                  onError={(e) => e.target.style.display = 'none'}
+                />
               </div>
             ))}
           </div>
@@ -177,30 +137,29 @@ const PricingPage = ({ user }) => {
   };
 
   return (
-    <div className="pt-60 pb-80 px-6">
+    <div className="pt-40 pb-80 px-6">
       <div className="container mx-auto">
-        <div className="text-center mb-60">
-          <span className="label-futur mb-8 block text-[#00f2ff]">Network Pricing</span>
-          <h2 className="h-titan text-7xl md:text-[12rem] leading-none mb-12">PRICING.</h2>
+        <div className="text-center mb-40">
+          <h2 className="h-titan text-[10vw] text-ghost leading-none mb-12">PRICING.</h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-16 max-w-7xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {[
-            { t: 'MONTHLY', p: '19', f: ['21K+ Channels', '4K Streaming', '1 Device Access'] },
-            { t: 'ANNUAL ELITE', p: '59', f: ['8K RAW Quality', '3 Devices Access', 'Priority Tunnel', 'Anti-Buffer Pro'], featured: true },
-            { t: 'ULTIMATE', p: '99', f: ['Uncompressed Feed', '5 Devices Access', 'VPN Integrated', 'Ghost Proxy Access'] }
+            { t: 'MONTHLY', p: '19', f: ['21K+ Channels', '4K Quality', '1 Device'] },
+            { t: 'ANNUAL PRO', p: '59', f: ['8K RAW Quality', '3 Devices', 'Anti-Buffer', 'VOD 150K+'], featured: true },
+            { t: 'ULTIMATE', p: '99', f: ['Uncompressed Feed', '5 Devices', 'VPN Ghost', 'Full Support'] }
           ].map((plan, i) => (
-            <div key={i} className={`glass-card p-16 rounded-[4rem] flex flex-col ${plan.featured ? 'md:scale-110 border-[#00f2ff]/40 shadow-[0_0_100px_rgba(0,242,255,0.1)]' : ''}`}>
-              <h3 className="label-futur mb-12 opacity-30 text-xl">{plan.t}</h3>
-              <div className="flex items-baseline gap-4 mb-20">
+            <div key={i} className={`p-12 border border-white/5 bg-white/[0.01] flex flex-col ${plan.featured ? 'md:scale-105 border-[#ff0000]/40' : ''}`}>
+              <h3 className="nav-link mb-8 text-[#ff0000]">{plan.t}</h3>
+              <div className="flex items-baseline gap-2 mb-12">
                 <span className="h-titan text-8xl text-white">${plan.p}</span>
-                <span className="label-futur opacity-20">/ Year</span>
+                <span className="nav-link opacity-20">/ Year</span>
               </div>
-              <div className="space-y-8 mb-32 flex-grow">
+              <div className="space-y-6 mb-16 flex-grow">
                 {plan.f.map((feat, fi) => (
-                  <div key={fi} className="flex items-center gap-6 group">
-                    <div className="w-1.5 h-1.5 bg-[#00f2ff] rounded-full opacity-20 group-hover:opacity-100 transition-opacity" />
-                    <span className="label-futur text-[9px] opacity-20 group-hover:opacity-100 transition-opacity">{feat}</span>
+                  <div key={fi} className="flex items-center gap-4 group">
+                    <div className="w-1 h-1 bg-[#ff0000] rounded-full" />
+                    <span className="nav-link text-[9px] opacity-20 group-hover:opacity-100 transition-opacity">{feat}</span>
                   </div>
                 ))}
               </div>
@@ -209,9 +168,9 @@ const PricingPage = ({ user }) => {
                   if (!user) navigate('/auth');
                   else setCheckoutPlan(plan);
                 }} 
-                className={`w-full py-8 rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] transition-all ${plan.featured ? 'bg-[#00f2ff] text-black' : 'bg-white/5 border border-white/10 hover:bg-white hover:text-black'}`}
+                className={`w-full py-6 text-[10px] font-black uppercase tracking-[0.3em] transition-all ${plan.featured ? 'bg-[#ff0000] text-white' : 'border border-white/20 hover:bg-white hover:text-black'}`}
               >
-                Sync Node
+                Activate Node
               </button>
             </div>
           ))}
@@ -220,27 +179,25 @@ const PricingPage = ({ user }) => {
 
       <AnimatePresence>
         {checkoutPlan && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/98 backdrop-blur-[100px] p-6">
-            <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="max-w-xl w-full glass-card p-20 rounded-[5rem] relative text-center">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/98 p-6 backdrop-blur-xl">
+            <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="max-w-xl w-full border border-[#ff0000]/20 bg-black p-16 relative text-center">
               <button onClick={() => setCheckoutPlan(null)} className="absolute top-12 right-12 text-white/20 hover:text-white"><X size={32} /></button>
-              <div className="w-24 h-24 bg-[#00f2ff]/10 rounded-full flex items-center justify-center mx-auto mb-12 border border-[#00f2ff]/20 animate-pulse"><Crown className="text-[#00f2ff]" size={56} /></div>
-              <h2 className="h-titan text-5xl mb-6 text-white">Authorize.</h2>
-              <p className="label-futur opacity-20 mb-16 italic tracking-[0.4em]">Secure Stripe Session for ${checkoutPlan.p}</p>
-              <button onClick={handlePurchase} className="btn-premium w-full text-[12px]">Confirm Sync</button>
+              <h2 className="h-titan text-5xl mb-6 text-[#ff0000]">Authorize.</h2>
+              <p className="nav-link mb-16 italic tracking-[0.4em]">Secure Session for ${checkoutPlan.p}</p>
+              <button onClick={handlePurchase} className="btn-brutal w-full text-[12px]">Pay with Stripe</button>
             </motion.div>
           </motion.div>
         )}
         {iptvCode && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[1100] flex items-center justify-center bg-black/98 backdrop-blur-[120px] p-6">
-            <motion.div initial={{ scale: 0.7, y: 100 }} animate={{ scale: 1, y: 0 }} className="max-w-2xl w-full glass-card p-24 rounded-[6rem] relative text-center border-[#00f2ff]/40 shadow-[0_0_200px_rgba(0,242,255,0.2)]">
-              <div className="w-32 h-32 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-12 border border-green-500/30 shadow-[0_0_100px_rgba(34,197,94,0.3)]"><CheckCircle2 className="text-green-500" size={64} /></div>
-              <h2 className="h-titan text-7xl mb-8 text-green-500">SUCCESS.</h2>
-              <p className="label-futur opacity-40 mb-20 text-center leading-loose">Access Code Synchronized with your Dashboard.</p>
-              <div className="bg-white/5 p-16 rounded-[4rem] border border-white/10 mb-20 flex items-center justify-center gap-12 group cursor-pointer hover:bg-white/10 transition-all shadow-[inset_0_0_50px_rgba(0,0,0,0.5)]" onClick={() => { navigator.clipboard.writeText(iptvCode); confetti({ particleCount: 50 }); }}>
-                <span className="h-titan text-7xl tracking-[0.4em]">{iptvCode}</span>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[1100] flex items-center justify-center bg-black/98 p-6 backdrop-blur-2xl">
+            <motion.div initial={{ scale: 0.7, y: 100 }} animate={{ scale: 1, y: 0 }} className="max-w-2xl w-full border border-[#ff0000]/60 bg-black p-24 relative text-center shadow-[0_0_100px_rgba(255,0,0,0.2)]">
+              <h2 className="h-titan text-7xl mb-8 text-[#ff0000]">SUCCESS.</h2>
+              <p className="nav-link opacity-40 mb-20">Access Code Synchronized with your Node.</p>
+              <div className="bg-white/5 p-16 border border-white/10 mb-20 flex items-center justify-center gap-12 group cursor-pointer hover:bg-white/10" onClick={() => { navigator.clipboard.writeText(iptvCode); confetti({ particleCount: 50 }); }}>
+                <span className="h-titan text-7xl tracking-[0.4em] text-white">{iptvCode}</span>
                 <Copy size={48} className="text-white/20 group-hover:text-white transition-all" />
               </div>
-              <button onClick={() => setIptvCode(null)} className="label-futur opacity-20 hover:opacity-100 transition-all">Terminate Uplink</button>
+              <button onClick={() => setIptvCode(null)} className="nav-link opacity-20 hover:opacity-100 transition-all">Close Terminal</button>
             </motion.div>
           </motion.div>
         )}
@@ -297,42 +254,33 @@ const DashboardPage = ({ user }) => {
   if (!user) return null;
 
   return (
-    <div className="pt-60 pb-80 px-6 md:px-20 overflow-y-auto">
-      <div className="max-w-6xl mx-auto relative">
+    <div className="pt-40 pb-80 px-6 md:px-16 overflow-y-auto">
+      <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-40">
-          <div>
-            <span className="label-futur mb-6 block text-[#00f2ff]">Node Management</span>
-            <h2 className="h-titan text-7xl md:text-[9rem] text-white">DASHBOARD.</h2>
-          </div>
+          <h2 className="h-titan text-7xl md:text-[9rem] text-ghost">DASHBOARD.</h2>
         </div>
 
         <div className="flex gap-16 mb-20 border-b border-white/5 pb-10">
-          <button onClick={() => setActiveTab('codes')} className={`label-futur text-[10px] transition-all ${activeTab === 'codes' ? 'text-[#00f2ff]' : 'text-white/20'}`}>Active Transmissions</button>
-          <button onClick={() => setActiveTab('billing')} className={`label-futur text-[10px] transition-all ${activeTab === 'billing' ? 'text-[#00f2ff]' : 'text-white/20'}`}>Secure Billing</button>
+          <button onClick={() => setActiveTab('codes')} className={`nav-link ${activeTab === 'codes' ? 'text-[#ff0000]' : ''}`}>Codes</button>
+          <button onClick={() => setActiveTab('billing')} className={`nav-link ${activeTab === 'billing' ? 'text-[#ff0000]' : ''}`}>Billing</button>
         </div>
 
         {loading ? (
-          <div className="py-40 text-center label-futur animate-pulse">Syncing...</div>
+          <div className="py-40 text-center nav-link animate-pulse">Syncing...</div>
         ) : activeTab === 'codes' ? (
-          <div className="grid gap-12">
+          <div className="grid gap-8">
             {purchases.length === 0 ? (
-              <div className="py-40 text-center glass-card rounded-[4rem] opacity-20 text-2xl uppercase font-black">No codes detected.</div>
+              <div className="py-40 text-center border border-white/5 opacity-20 h-titan text-4xl">No Node Access Detected.</div>
             ) : (
               purchases.map(p => (
-                <div key={p.id} className="glass-card p-12 rounded-[4rem] flex flex-col md:flex-row justify-between items-center group relative overflow-hidden">
-                  <div className="flex items-center gap-12">
-                    <div className="w-24 h-24 bg-[#00f2ff]/10 rounded-[2.5rem] flex items-center justify-center text-[#00f2ff] border border-[#00f2ff]/20 group-hover:scale-110 transition-transform"><Monitor size={48} /></div>
-                    <div>
-                      <h4 className="h-titan text-4xl mb-4 text-white">{p.plan_name}</h4>
-                      <div className="flex gap-12 opacity-30 text-[9px] font-black uppercase tracking-widest">
-                        <span className="flex items-center gap-3"><Calendar size={14} /> {new Date(p.created_at).toLocaleDateString()}</span>
-                        <span className="flex items-center gap-3"><CreditCard size={14} /> ${p.amount} PAID</span>
-                      </div>
-                    </div>
+                <div key={p.id} className="border border-white/5 p-12 flex flex-col md:flex-row justify-between items-center group bg-white/[0.01]">
+                  <div>
+                    <h4 className="h-titan text-4xl mb-4 text-[#ff0000]">{p.plan_name}</h4>
+                    <p className="nav-link opacity-20">{new Date(p.created_at).toLocaleDateString()} | ${p.amount} Paid</p>
                   </div>
-                  <div className="flex items-center gap-12 bg-black/40 px-16 py-8 rounded-[2.5rem] border border-white/5 group-hover:border-[#00f2ff]/40 transition-all cursor-pointer" onClick={() => { navigator.clipboard.writeText(p.iptv_code); confetti({ particleCount: 50 }); }}>
-                    <span className="h-titan text-5xl tracking-[0.4em] text-[#00f2ff]">{p.iptv_code}</span>
-                    <Copy size={36} className="text-white/20 group-hover:text-white" />
+                  <div className="flex items-center gap-12 bg-black px-12 py-6 border border-[#ff0000]/20 cursor-pointer" onClick={() => { navigator.clipboard.writeText(p.iptv_code); confetti({ particleCount: 50 }); }}>
+                    <span className="h-titan text-5xl tracking-[0.4em] text-white">{p.iptv_code}</span>
+                    <Copy size={24} className="text-white/20" />
                   </div>
                 </div>
               ))
@@ -340,33 +288,30 @@ const DashboardPage = ({ user }) => {
           </div>
         ) : (
           <div className="grid lg:grid-cols-2 gap-20">
-            <div className="space-y-12">
-              <h3 className="label-futur text-[10px] opacity-30 mb-12 uppercase tracking-[0.5em]">Registered Credentials</h3>
+            <div className="space-y-8">
+              <h3 className="nav-link opacity-30 mb-8">Registered Credentials</h3>
               {cards.map(c => (
-                <div key={c.id} className="glass-card p-10 rounded-[3rem] flex justify-between items-center border-l-4 border-l-[#00f2ff]">
-                  <div className="flex items-center gap-8">
-                    <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center"><CardIcon size={32} /></div>
-                    <div>
-                      <p className="text-2xl font-bold tracking-widest font-mono text-white">{c.card_number}</p>
-                      <p className="label-futur text-[8px] opacity-40">{c.card_holder} | {c.expiry}</p>
-                    </div>
+                <div key={c.id} className="p-8 border border-white/5 bg-white/[0.01] flex justify-between items-center border-l-4 border-l-[#ff0000]">
+                  <div>
+                    <p className="text-2xl font-bold tracking-widest font-mono text-white">{c.card_number}</p>
+                    <p className="nav-link opacity-40">{c.card_holder} | {c.expiry}</p>
                   </div>
-                  <button onClick={async () => { await supabase.from('payment_methods').delete().eq('id', c.id); setCards(cards.filter(x => x.id !== c.id)); }} className="text-white/20 hover:text-[#00f2ff] transition-all"><Trash2 size={24} /></button>
+                  <button onClick={async () => { await supabase.from('payment_methods').delete().eq('id', c.id); setCards(cards.filter(x => x.id !== c.id)); }} className="text-white/20 hover:text-[#ff0000] transition-all"><Trash2 size={24} /></button>
                 </div>
               ))}
             </div>
 
-            <div className="glass-card p-16 rounded-[5rem] border-[#00f2ff]/20">
-              <h3 className="label-futur text-[12px] mb-16 uppercase tracking-[0.5em]">Initialize Card Sync</h3>
+            <div className="border border-white/5 bg-white/[0.01] p-12">
+              <h3 className="nav-link mb-12">Sync New Card</h3>
               <form onSubmit={handleAddCard} className="space-y-8">
-                <input type="text" required placeholder="HOLDER NAME" className="w-full bg-white/5 border border-white/10 rounded-2xl py-8 px-12 text-sm outline-none focus:border-[#00f2ff] transition-all font-mono text-white" value={cardHolder} onChange={e => setCardHolder(e.target.value)} />
-                <input type="text" required placeholder="CARD NUMBER" className="w-full bg-white/5 border border-white/10 rounded-2xl py-8 px-12 text-sm outline-none focus:border-[#00f2ff] transition-all font-mono text-white" value={cardNumber} onChange={e => setCardNumber(e.target.value)} />
+                <input type="text" required placeholder="HOLDER NAME" className="w-full bg-black border border-white/10 p-6 text-sm outline-none focus:border-[#ff0000] transition-all font-mono text-white" value={cardHolder} onChange={e => setCardHolder(e.target.value)} />
+                <input type="text" required placeholder="CARD NUMBER" className="w-full bg-black border border-white/10 p-6 text-sm outline-none focus:border-[#ff0000] transition-all font-mono text-white" value={cardNumber} onChange={e => setCardNumber(e.target.value)} />
                 <div className="grid grid-cols-2 gap-8">
-                  <input type="text" required placeholder="MM/YY" className="w-full bg-white/5 border border-white/10 rounded-2xl py-8 px-12 text-sm outline-none focus:border-[#00f2ff] transition-all font-mono text-white" value={expiry} onChange={e => setExpiry(e.target.value)} />
-                  <input type="text" required placeholder="CVC" className="w-full bg-white/5 border border-white/10 rounded-2xl py-8 px-12 text-sm outline-none focus:border-[#00f2ff] transition-all font-mono text-white" value={cvc} onChange={e => setCvc(e.target.value)} />
+                  <input type="text" required placeholder="MM/YY" className="w-full bg-black border border-white/10 p-6 text-sm outline-none focus:border-[#ff0000] transition-all font-mono text-white" value={expiry} onChange={e => setExpiry(e.target.value)} />
+                  <input type="text" required placeholder="CVC" className="w-full bg-black border border-white/10 p-6 text-sm outline-none focus:border-[#ff0000] transition-all font-mono text-white" value={cvc} onChange={e => setCvc(e.target.value)} />
                 </div>
-                <button disabled={savingCard} className="btn-premium w-full py-8 flex items-center justify-center gap-6">
-                  <Plus size={24} /> {savingCard ? 'Syncing...' : 'Sync Card'}
+                <button disabled={savingCard} className="btn-brutal w-full py-6">
+                  {savingCard ? 'Syncing...' : 'Sync Card'}
                 </button>
               </form>
             </div>
@@ -394,7 +339,7 @@ const AuthPage = () => {
       if (mode === 'signup') {
         const { error } = await supabase.auth.signUp({ email, password });
         if (error) throw error;
-        setMessage("Lien d'activation transmis. Consultez votre Inbox.");
+        setMessage("Activation link transmitted to your node.");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -404,29 +349,28 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center pt-20 px-6">
-      <motion.div initial={{ scale: 0.9, y: 50 }} animate={{ scale: 1, y: 0 }} className="max-w-md w-full glass-card p-16 rounded-[4rem] relative">
+    <div className="min-h-screen flex items-center justify-center px-6">
+      <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} className="max-w-md w-full border border-white/5 bg-black p-12 relative">
         <div className="text-center mb-16">
-          <h2 className="h-titan text-5xl mb-6 text-white">{mode === 'login' ? 'Recall.' : 'Initialize.'}</h2>
-          <p className="label-futur opacity-40">Titan Neural Network Access</p>
+          <h2 className="h-titan text-5xl mb-6 text-[#ff0000]">{mode === 'login' ? 'Recall.' : 'Initialize.'}</h2>
+          <p className="nav-link opacity-40 text-white">Node Authentication</p>
         </div>
 
         {message ? (
           <div className="text-center py-10 space-y-12">
-            <div className="w-24 h-24 bg-[#00f2ff]/10 rounded-full flex items-center justify-center mx-auto border border-[#00f2ff]/20 animate-pulse"><Mail className="text-[#00f2ff]" size={40} /></div>
-            <p className="label-futur text-white/60 leading-loose text-center">{message}</p>
-            <button onClick={() => navigate('/')} className="btn-premium w-full py-5 text-[10px]">Back to Home</button>
+            <p className="nav-link text-white leading-loose">{message}</p>
+            <button onClick={() => navigate('/')} className="btn-brutal w-full py-5 text-[10px]">Back to Home</button>
           </div>
         ) : (
           <form onSubmit={handleAuth} className="space-y-8">
-            <input type="email" required placeholder="NEURAL.ID" className="w-full rounded-2xl py-8 px-12 text-sm outline-none bg-white/5 border border-white/10 focus:border-[#00f2ff] transition-all font-mono text-white" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <input type="password" required placeholder="ACCESS.KEY" className="w-full rounded-2xl py-8 px-12 text-sm outline-none bg-white/5 border border-white/10 focus:border-[#00f2ff] transition-all font-mono text-white" value={password} onChange={(e) => setPassword(e.target.value)} />
-            {error && <div className="text-[#00f2ff] text-[10px] text-center font-bold uppercase tracking-widest bg-[#00f2ff]/05 py-4 rounded-xl">{error}</div>}
-            <button disabled={loading} className="btn-premium w-full py-8 text-[11px] shadow-3xl">
+            <input type="email" required placeholder="NEURAL.ID" className="w-full rounded-sm py-6 px-10 text-sm outline-none bg-black border border-white/10 focus:border-[#ff0000] transition-all font-mono text-white" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input type="password" required placeholder="ACCESS.KEY" className="w-full rounded-sm py-6 px-10 text-sm outline-none bg-black border border-white/10 focus:border-[#ff0000] transition-all font-mono text-white" value={password} onChange={(e) => setPassword(e.target.value)} />
+            {error && <div className="text-[#ff0000] text-[10px] text-center font-bold uppercase tracking-widest py-4">{error}</div>}
+            <button disabled={loading} className="btn-brutal w-full py-6">
               {loading ? 'Transmitting...' : mode === 'login' ? 'Establish Link' : 'Initialize Node'}
             </button>
             <div className="text-center pt-8">
-              <button type="button" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')} className="label-futur text-[9px] opacity-20 hover:opacity-100 transition-all">
+              <button type="button" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')} className="nav-link text-[9px] opacity-20 hover:opacity-100 transition-all">
                 {mode === 'login' ? "New Neural Link? Sync" : "Existing Link? Recall"}
               </button>
             </div>
@@ -448,8 +392,7 @@ export default function App() {
 
   return (
     <Router>
-      <main className="min-h-screen bg-[#020202] text-white">
-        <AmbientBackdrop />
+      <main className="min-h-screen bg-[#000000] text-white">
         <Navbar user={user} />
         
         <Routes>
@@ -459,9 +402,9 @@ export default function App() {
           <Route path="/auth" element={<AuthPage />} />
         </Routes>
 
-        <footer className="py-60 bg-black/40 border-t border-white/5 text-center">
-          <h1 className="h-titan text-[clamp(4rem,10vw,15rem)] opacity-10 mb-20 text-white">TITAN TV</h1>
-          <p className="label-futur opacity-10 text-[8px] tracking-[1em]">ALL DATA ENCRYPTED. [© 2026]</p>
+        <footer className="py-40 bg-black border-t border-white/5 text-center">
+          <h1 className="h-titan text-[10vw] opacity-10 text-white">TITANTV</h1>
+          <p className="nav-link opacity-10 text-[8px] tracking-[1em]">© 2026 INDUSTRIAL GRID INFRASTRUCTURE</p>
         </footer>
       </main>
     </Router>
