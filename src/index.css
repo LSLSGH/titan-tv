@@ -5,9 +5,9 @@
 :root {
   --primary: #00f2ff;
   --secondary: #7000ff;
-  --bg-dark: #020202;
-  --glass-bg: rgba(255, 255, 255, 0.02);
-  --glass-border: rgba(255, 255, 255, 0.05);
+  --bg-dark: #010101;
+  --glass: rgba(255, 255, 255, 0.02);
+  --border: rgba(255, 255, 255, 0.08);
 }
 
 * {
@@ -24,72 +24,79 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* --- Ocean-Purple Aesthetics --- */
+/* --- Immersive Background --- */
 
 .orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(150px);
+  filter: blur(160px);
   z-index: -1;
-  opacity: 0.15;
+  opacity: 0.2;
 }
 
-.orb-primary { background: var(--primary); width: 60vw; height: 60vw; top: -10%; left: -10%; }
-.orb-secondary { background: var(--secondary); width: 50vw; height: 50vw; bottom: -10%; right: -10%; }
+.orb-1 { width: 70vw; height: 70vw; top: -20%; left: -10%; background: radial-gradient(circle, var(--primary), transparent); }
+.orb-2 { width: 60vw; height: 60vw; bottom: -20%; right: -10%; background: radial-gradient(circle, var(--secondary), transparent); }
 
-/* --- Glassmorphism --- */
+/* --- Premium Glassmorphism --- */
 
-.glass-card {
-  background: var(--glass-bg);
-  backdrop-filter: blur(40px) saturate(150%);
-  border: 1px solid var(--glass-border);
-  box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.5);
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+.glass-luxe {
+  background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+  backdrop-filter: blur(50px) saturate(180%);
+  border: 1px solid var(--border);
+  box-shadow: 
+    0 50px 100px -20px rgba(0, 0, 0, 0.8),
+    inset 0 0 20px rgba(255,255,255,0.02);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.glass-card:hover {
+.glass-luxe:hover {
   border-color: var(--primary);
-  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 0 40px rgba(0, 242, 255, 0.1);
+  transform: translateY(-5px);
 }
 
-/* --- Typography --- */
+/* --- Bold Typography --- */
 
 .h-titan {
   font-family: 'Outfit', sans-serif;
   font-weight: 900;
   letter-spacing: -0.06em;
-  line-height: 0.8;
+  line-height: 0.85;
   text-transform: uppercase;
+  background: linear-gradient(180deg, #fff 40%, rgba(255,255,255,0.1) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
-.label-futur {
+.label-tech {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.6em;
+  letter-spacing: 0.8em;
   color: var(--primary);
+  text-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
 }
 
-/* --- Buttons --- */
+/* --- Interactive Buttons --- */
 
 .btn-premium {
-  background: white;
-  color: black;
-  font-weight: 800;
+  background: #fff;
+  color: #000;
+  font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 0.2em;
-  padding: 22px 50px;
-  border-radius: 14px;
-  font-size: 11px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  transition: all 0.4s ease;
+  letter-spacing: 0.25em;
+  padding: 24px 60px;
+  border-radius: 18px;
+  font-size: 12px;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .btn-premium:hover {
-  transform: scale(1.05);
+  transform: scale(1.05) translateY(-2px);
   background: var(--primary);
-  box-shadow: 0 20px 60px rgba(0, 242, 255, 0.3);
+  box-shadow: 0 20px 80px rgba(0, 242, 255, 0.4);
 }
 
 /* Hide Scrollbar */
