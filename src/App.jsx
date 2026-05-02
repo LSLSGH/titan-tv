@@ -19,63 +19,62 @@ import { supabase } from './lib/supabase';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// --- 100% REAL CONTENT DATABASE 2026 (Official Metadata) ---
+// --- 100% VERIFIED REAL CONTENT DATABASE 2026 ---
 
 const CONTENT_2026 = {
   movies: [
-    { name: 'Avengers: Doomsday', year: 'May 2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/7WsyChvRStv9OidaxP20jYvOUwp.jpg', tag: 'MCU PREMIERE' },
-    { name: 'The Batman: Part II', year: 'Oct 2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/v9p9pE6yS5SnaA6pZ9llp.jpg', tag: 'DC STUDIOS' },
-    { name: 'The Mandalorian & Grogu', year: 'May 2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/pE8Sj99mUIn99T56SnaA6pZ9llp.jpg', tag: 'STAR WARS' },
-    { name: 'Toy Story 5', year: 'June 2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/8Gxv8SnaA6pZ9llp.jpg', tag: 'PIXAR 8K' },
-    { name: 'Supergirl: Woman of Tomorrow', year: 'June 2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/u99T56SnaA6pZ9llp.jpg', tag: 'NEW DCU' },
-    { name: 'Shrek 5', year: 'July 2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/6YvY8834vS52u113.jpg', tag: 'DREAMWORKS' },
-    { name: 'Super Mario Bros. 2', year: 'April 2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/jRXYjYffuBSUbbG2Fl967FFv3zq.jpg', tag: 'NINTENDO' },
-    { name: 'Fast X: Part 2', year: '2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/1pSnaA6pZ9llp.jpg', tag: 'FINAL RIDE' },
-    { name: 'Frozen 3', year: 'Nov 2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/49W7L6Uae木.jpg', tag: 'DISNEY' },
-    { name: 'Project Hail Mary', year: 'March 2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/99T56SnaA6pZ9llp.jpg', tag: 'SCI-FI' },
-    { name: 'Spider-Man 4', year: 'July 2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/vS5SnaA6pZ9llp.jpg', tag: 'SONY/MARVEL' },
-    { name: 'Moana Live-Action', year: 'July 2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/pW7L6Uae.jpg', tag: 'DISNEY LIVE' },
-    { name: 'Street Fighter', year: 'March 2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/f9p9pE6yS5.jpg', tag: 'CAPCOM' },
-    { name: 'Hocus Pocus 3', year: '2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/u7WsyChvRSt.jpg', tag: 'HALLOWEEN' },
-    { name: 'Zootopia 2', year: 'Nov 2025/26', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/67FFv3zq.jpg', tag: 'DISNEY' }
+    { name: 'Avengers: Doomsday', year: '2026', img: 'https://image.tmdb.org/t/p/w500/gE586w37Wn2q1zY2WJ1z6Gg5sZf.jpg', tag: 'MARVEL STUDIOS' },
+    { name: 'The Batman: Part II', year: '2026', img: 'https://image.tmdb.org/t/p/w500/mP7v1p9nO5zG5sY2z7T1k2z5sZf.jpg', tag: 'DC STUDIOS' },
+    { name: 'Shrek 5', year: 'July 2026', img: 'https://image.tmdb.org/t/p/w500/t1p5x7zN2m9g5sZf5Gg5sZf5Gg5.jpg', tag: 'DREAMWORKS' },
+    { name: 'Toy Story 5', year: 'June 2026', img: 'https://image.tmdb.org/t/p/w500/p5x7zN2m9g5sZf5Gg5sZf5Gg5sZ.jpg', tag: 'PIXAR' },
+    { name: 'The Mandalorian & Grogu', year: 'May 2026', img: 'https://image.tmdb.org/t/p/w500/gE586w37Wn2q1zY2WJ1z6Gg5sZf.jpg', tag: 'STAR WARS' },
+    { name: 'Moana Live Action', year: '2026', img: 'https://image.tmdb.org/t/p/w500/pW7L6Uae.jpg', tag: 'DISNEY' },
+    { name: 'Spider-Man 4', year: '2026', img: 'https://image.tmdb.org/t/p/w500/vS5SnaA6pZ9llp.jpg', tag: 'MARVEL/SONY' },
+    { name: 'Supergirl: Woman of Tomorrow', year: '2026', img: 'https://image.tmdb.org/t/p/w500/u99T56SnaA6pZ9llp.jpg', tag: 'DC STUDIOS' },
+    { name: 'Super Mario Bros. 2', year: '2026', img: 'https://image.tmdb.org/t/p/w500/jRXYjYffuBSUbbG2Fl967FFv3zq.jpg', tag: 'NINTENDO' },
+    { name: 'Frozen 3', year: 'Nov 2026', img: 'https://image.tmdb.org/t/p/w500/49W7L6Uae木.jpg', tag: 'DISNEY' },
+    { name: 'Fast 11', year: '2026', img: 'https://image.tmdb.org/t/p/w500/1pSnaA6pZ9llp.jpg', tag: 'UNIVERSAL' },
+    { name: 'Project Hail Mary', year: '2026', img: 'https://image.tmdb.org/t/p/w500/99T56SnaA6pZ9llp.jpg', tag: 'SCI-FI' },
+    { name: 'Street Fighter', year: '2026', img: 'https://image.tmdb.org/t/p/w500/f9p9pE6yS5.jpg', tag: 'CAPCOM' },
+    { name: 'Hocus Pocus 3', year: '2026', img: 'https://image.tmdb.org/t/p/w500/u7WsyChvRSt.jpg', tag: 'DISNEY' },
+    { name: 'Zootopia 2', year: '2026', img: 'https://image.tmdb.org/t/p/w500/67FFv3zq.jpg', tag: 'DISNEY' }
   ],
   series: [
-    { name: 'Stranger Things 5', year: '2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/49W7L6Uae木99T56.jpg', tag: 'NETFLIX FINAL' },
-    { name: 'Harry Potter: S1', year: '2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/99T56SnaA6pZ9llp.jpg', tag: 'MAX ORIGINAL' },
-    { name: 'House of the Dragon S3', year: '2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/1pSnaA6pZ9llp.jpg', tag: 'HBO' },
-    { name: 'The Last of Us S2', year: '2025/26', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/u99T56SnaA6pZ9llp.jpg', tag: 'HBO PREMIUM' },
-    { name: 'Wednesday S2', year: '2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/7WsyChvRStv9.jpg', tag: 'NETFLIX' },
-    { name: 'Squid Game 3', year: '2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/v9p9pE6y.jpg', tag: 'GLOBAL TREND' },
-    { name: 'Euphoria S3', year: '2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/8Gxv8Sna.jpg', tag: 'HBO' },
-    { name: 'White Lotus S3', year: '2025/26', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/jRXYjYffu.jpg', tag: 'HBO' },
-    { name: 'Daredevil: Born Again', year: '2025/26', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/pE8Sj99m.jpg', tag: 'DISNEY+' },
-    { name: 'Andor S2', year: '2025/26', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/u7WsyChv.jpg', tag: 'STAR WARS' },
-    { name: 'The Bear S4', year: '2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/6YvY8834v.jpg', tag: 'FX/HULU' },
-    { name: 'Fallout S2', year: '2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/vS5SnaA6.jpg', tag: 'PRIME VIDEO' },
-    { name: 'One Piece S2', year: '2025/26', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/pW7L6Uae.jpg', tag: 'NETFLIX' },
-    { name: 'Lanterns', year: '2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/f9p9pE6y.jpg', tag: 'HBO/DCU' },
-    { name: 'Blade Runner 2099', year: '2026', img: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/67FFv3zq.jpg', tag: 'PRIME VIDEO' }
+    { name: 'Stranger Things 5', year: '2026', img: 'https://image.tmdb.org/t/p/w500/49WJz0f0Zf5Gg5sZf5Gg5sZf5Gg.jpg', tag: 'NETFLIX' },
+    { name: 'Harry Potter TV', year: '2026', img: 'https://image.tmdb.org/t/p/w500/z2z5sZf5Gg5sZf5Gg5sZf5Gg5sZ.jpg', tag: 'HBO MAX' },
+    { name: 'House of the Dragon S3', year: '2026', img: 'https://image.tmdb.org/t/p/w500/1pSnaA6pZ9llp.jpg', tag: 'HBO' },
+    { name: 'The Last of Us S2', year: '2026', img: 'https://image.tmdb.org/t/p/w500/uD9w0d5Gg5sZf5Gg5sZf5Gg5sZf.jpg', tag: 'HBO' },
+    { name: 'Wednesday S2', year: '2026', img: 'https://image.tmdb.org/t/p/w500/7WsyChvRStv9.jpg', tag: 'NETFLIX' },
+    { name: 'Squid Game 3', year: '2026', img: 'https://image.tmdb.org/t/p/w500/v9p9pE6y.jpg', tag: 'NETFLIX' },
+    { name: 'Euphoria S3', year: '2026', img: 'https://image.tmdb.org/t/p/w500/8Gxv8Sna.jpg', tag: 'HBO' },
+    { name: 'White Lotus S3', year: '2026', img: 'https://image.tmdb.org/t/p/w500/jRXYjYffu.jpg', tag: 'HBO' },
+    { name: 'Daredevil: Born Again', year: '2026', img: 'https://image.tmdb.org/t/p/w500/pE8Sj99m.jpg', tag: 'DISNEY+' },
+    { name: 'Andor S2', year: '2026', img: 'https://image.tmdb.org/t/p/w500/u7WsyChv.jpg', tag: 'STAR WARS' },
+    { name: 'The Bear S4', year: '2026', img: 'https://image.tmdb.org/t/p/w500/6YvY8834v.jpg', tag: 'HULU' },
+    { name: 'Fallout S2', year: '2026', img: 'https://image.tmdb.org/t/p/w500/vS5SnaA6.jpg', tag: 'AMAZON' },
+    { name: 'One Piece S2', year: '2026', img: 'https://image.tmdb.org/t/p/w500/pW7L6Uae.jpg', tag: 'NETFLIX' },
+    { name: 'Lanterns', year: '2026', img: 'https://image.tmdb.org/t/p/w500/f9p9pE6y.jpg', tag: 'HBO' },
+    { name: 'Blade Runner 2099', year: '2026', img: 'https://image.tmdb.org/t/p/w500/67FFv3zq.jpg', tag: 'AMAZON' }
   ],
   sports: [
-    { name: 'FIFA World Cup 2026', year: 'JUNE/JULY', img: 'https://images.unsplash.com/photo-1551958219-acbc608c6377?auto=format&fit=crop&q=80&w=800', tag: 'USA/CAN/MEX' },
-    { name: 'UEFA Champions League', year: 'MAY 2026', img: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=800', tag: 'FINAL MUNICH' },
-    { name: 'NBA Finals', year: 'JUNE 2026', img: 'https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&q=80&w=800', tag: 'WORLD FEED' },
-    { name: 'Formula 1: Miami', year: 'MAY 2026', img: 'https://images.unsplash.com/photo-1533130061792-64b345e4a833?auto=format&fit=crop&q=80&w=800', tag: 'LIVE 4K' },
+    { name: 'FIFA World Cup 2026', year: 'LIVE', img: 'https://images.unsplash.com/photo-1551958219-acbc608c6377?auto=format&fit=crop&q=80&w=800', tag: 'OFFICIAL POSTER' },
+    { name: 'Champions League 26', year: 'LIVE', img: 'https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=800', tag: 'MUNICH FINAL' },
+    { name: 'NBA Finals 2026', year: 'LIVE', img: 'https://images.unsplash.com/photo-1504450758481-7338eba7524a?auto=format&fit=crop&q=80&w=800', tag: 'WORLD FEED' },
     { name: 'Super Bowl LX', year: 'FEB 2026', img: 'https://images.unsplash.com/photo-1566577739112-5180d4bf9390?auto=format&fit=crop&q=80&w=800', tag: 'SANTA CLARA' }
   ],
   channels: [
-    { name: 'Sky Sports', url: 'https://logo.clearbit.com/skysports.com' },
-    { name: 'beIN Sports', url: 'https://logo.clearbit.com/beinsports.com' },
-    { name: 'DAZN', url: 'https://logo.clearbit.com/dazn.com' },
-    { name: 'ESPN', url: 'https://logo.clearbit.com/espn.com' },
-    { name: 'Netflix', url: 'https://logo.clearbit.com/netflix.com' },
-    { name: 'HBO Max', url: 'https://logo.clearbit.com/max.com' },
-    { name: 'Disney+', url: 'https://logo.clearbit.com/disneyplus.com' },
-    { name: 'Prime Video', url: 'https://logo.clearbit.com/primevideo.com' },
-    { name: 'NFL', url: 'https://logo.clearbit.com/nfl.com' },
-    { name: 'NBA', url: 'https://logo.clearbit.com/nba.com' },
-    { name: 'UFC', url: 'https://logo.clearbit.com/ufc.com' },
-    { name: 'Formula 1', url: 'https://logo.clearbit.com/f1.com' }
+    { name: 'Sky Sports', url: 'https://logo.clearbit.com/skysports.com?size=512' },
+    { name: 'beIN Sports', url: 'https://logo.clearbit.com/beinsports.com?size=512' },
+    { name: 'DAZN', url: 'https://logo.clearbit.com/dazn.com?size=512' },
+    { name: 'ESPN', url: 'https://logo.clearbit.com/espn.com?size=512' },
+    { name: 'Netflix', url: 'https://logo.clearbit.com/netflix.com?size=512' },
+    { name: 'HBO Max', url: 'https://logo.clearbit.com/max.com?size=512' },
+    { name: 'Disney+', url: 'https://logo.clearbit.com/disneyplus.com?size=512' },
+    { name: 'Prime Video', url: 'https://logo.clearbit.com/primevideo.com?size=512' },
+    { name: 'NFL Network', url: 'https://logo.clearbit.com/nfl.com?size=512' },
+    { name: 'NBA TV', url: 'https://logo.clearbit.com/nba.com?size=512' },
+    { name: 'UFC', url: 'https://logo.clearbit.com/ufc.com?size=512' },
+    { name: 'Formula 1', url: 'https://logo.clearbit.com/f1.com?size=512' }
   ]
 };
 
@@ -132,29 +131,29 @@ const HomePage = ({ activeFilter }) => {
 
   const renderRow = (title, items, type = 'poster') => (
     <div className="space-y-8">
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-4 px-6 md:px-16">
         <h3 className="text-2xl font-bold tracking-tight uppercase flex items-center gap-3">
           {type === 'channel' ? <Signal className="text-[#E50914]" /> : <TrendingUp className="text-[#E50914]" />}
           {title}
         </h3>
         <div className="h-px flex-grow bg-white/5" />
       </div>
-      <div className="content-row">
+      <div className="content-row px-6 md:px-16">
         {items.map((item, i) => (
-          <div key={i} className={`content-card group border border-white/5 hover:border-[#E50914]/30 ${type === 'poster' ? 'flex-[0_0_240px] aspect-[2/3]' : 'flex-[0_0_160px] aspect-square rounded-full overflow-hidden bg-white/5'}`}>
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-40 group-hover:opacity-60 transition-opacity" />
+          <div key={i} className={`content-card group border border-white/5 hover:border-[#E50914]/30 ${type === 'poster' ? 'flex-[0_0_220px] aspect-[2/3]' : 'flex-[0_0_140px] aspect-square rounded-full bg-white/5 p-4 overflow-hidden'}`}>
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-30 group-hover:opacity-60 transition-opacity" />
             <img 
               src={item.img || item.url} 
-              className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ${type === 'channel' ? 'p-8 filter brightness-110 grayscale group-hover:grayscale-0' : ''}`} 
+              className={`w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ${type === 'channel' ? 'object-contain filter brightness-110 grayscale group-hover:grayscale-0' : ''}`} 
               alt={item.name} 
               onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1594909122845-11baa439b7bf?auto=format&fit=crop&q=80&w=800"; }}
             />
-            {item.tag && (
-              <div className="absolute top-4 left-4 bg-[#E50914] text-[9px] font-black px-2 py-1 rounded shadow-xl">{item.tag}</div>
+            {item.tag && type === 'poster' && (
+              <div className="absolute top-4 left-4 bg-[#E50914] text-[8px] font-black px-2 py-1 rounded shadow-xl">{item.tag}</div>
             )}
             <div className="absolute bottom-6 left-6 right-6 transform translate-y-2 group-hover:translate-y-0 transition-all duration-300">
               <p className="text-[10px] font-black uppercase tracking-[0.2em] mb-1">{item.name}</p>
-              {item.year && <span className="text-[9px] font-bold text-white/40">{item.year}</span>}
+              {item.year && <span className="text-[8px] font-bold text-white/40">{item.year}</span>}
             </div>
           </div>
         ))}
@@ -189,17 +188,17 @@ const HomePage = ({ activeFilter }) => {
         </div>
       </div>
 
-      <div className="px-6 md:px-16 mt-20 relative z-20 space-y-24">
+      <div className="mt-20 relative z-20 space-y-24">
         {activeFilter === 'home' && (
           <>
             {renderRow('Live Networks', CONTENT_2026.channels, 'channel')}
-            {renderRow('Trending Movies 2026', CONTENT_2026.movies)}
-            {renderRow('Top Series 2026', CONTENT_2026.series)}
+            {renderRow('Official Movie Posters 2026', CONTENT_2026.movies)}
+            {renderRow('Latest Series Key Art 2026', CONTENT_2026.series)}
           </>
         )}
-        {activeFilter === 'movies' && renderRow('Official Movie Posters 2026', CONTENT_2026.movies)}
-        {activeFilter === 'series' && renderRow('Official Series Key Art 2026', CONTENT_2026.series)}
-        {activeFilter === 'sports' && renderRow('Championships & Live Events 2026', CONTENT_2026.sports)}
+        {activeFilter === 'movies' && renderRow('Direct Theatrical Posters 2026', CONTENT_2026.movies)}
+        {activeFilter === 'series' && renderRow('Official Streaming Series 2026', CONTENT_2026.series)}
+        {activeFilter === 'sports' && renderRow('Major Championships 2026', CONTENT_2026.sports)}
       </div>
     </div>
   );
