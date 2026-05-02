@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useSpring, useTransform } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Play, Info, Plus, Check, ChevronDown, ChevronRight, 
   Search, Bell, User, PlayCircle, Settings, Shield,
@@ -11,49 +11,203 @@ import {
   CreditCard as StripeIcon, ShieldCheck, AlertCircle,
   FileText, ShieldAlert, Terminal, Box, Database, ExternalLink,
   CheckCircle2, ArrowRight, ShieldCheck as ShieldIcon,
-  Crown, Sparkles, Rocket, Fingerprint, MousePointer2
+  Crown, Sparkles, Rocket, Fingerprint, Power, Video,
+  Cpu as Processor, Radio as Signal, Globe as Earth,
+  MousePointer2
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import Lenis from 'lenis';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { supabase } from './lib/supabase';
 
-// --- Fluid Background ---
+gsap.registerPlugin(ScrollTrigger);
 
-const LiquidBackground = () => (
-  <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-    <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#ff0f1b]/10 blur-[150px] rounded-full animate-pulse" />
-    <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-[#ff0f1b]/05 blur-[200px] rounded-full animate-pulse" style={{ animationDelay: '2s' }} />
-    <div className="absolute top-[30%] left-[50%] w-[30%] h-[30%] bg-white/02 blur-[120px] rounded-full animate-pulse" style={{ animationDelay: '4s' }} />
+// --- High-End Visual Assets ---
+
+const MasterBackground = () => (
+  <div className="fixed inset-0 z-0 bg-[#030303] pointer-events-none">
+    <div className="absolute top-0 left-0 w-full h-full opacity-30">
+      <div className="absolute top-[-20%] right-[-10%] w-[80%] h-[80%] bg-[#ff0f1b]/10 blur-[200px] rounded-full animate-plasma" />
+      <div className="absolute bottom-[-20%] left-[-10%] w-[70%] h-[70%] bg-[#ff0f1b]/05 blur-[180px] rounded-full animate-plasma" style={{ animationDelay: '-5s' }} />
+    </div>
   </div>
 );
 
 const CustomCursor = () => {
   const cursorRef = useRef(null);
-  const followerRef = useRef(null);
+  const ringRef = useRef(null);
 
   useEffect(() => {
-    const moveCursor = (e) => {
+    const move = (e) => {
       gsap.to(cursorRef.current, { x: e.clientX, y: e.clientY, duration: 0.1 });
-      gsap.to(followerRef.current, { x: e.clientX, y: e.clientY, duration: 0.4, ease: "power2.out" });
+      gsap.to(ringRef.current, { x: e.clientX, y: e.clientY, duration: 0.5, ease: "power3.out" });
     };
-    window.addEventListener('mousemove', moveCursor);
-    return () => window.removeEventListener('mousemove', moveCursor);
+    window.addEventListener('mousemove', move);
+    return () => window.removeEventListener('mousemove', move);
   }, []);
 
   return (
     <>
-      <div ref={cursorRef} className="fixed top-0 left-0 w-2 h-2 bg-[#ff0f1b] rounded-full z-[1000] pointer-events-none -translate-x-1/2 -translate-y-1/2" />
-      <div ref={followerRef} className="fixed top-0 left-0 w-8 h-8 border border-[#ff0f1b]/30 rounded-full z-[999] pointer-events-none -translate-x-1/2 -translate-y-1/2 mix-blend-difference" />
+      <div ref={cursorRef} className="fixed top-0 left-0 w-1.5 h-1.5 bg-[#ff0f1b] rounded-full z-[1000] pointer-events-none -translate-x-1/2 -translate-y-1/2" />
+      <div ref={ringRef} className="fixed top-0 left-0 w-10 h-10 border border-[#ff0f1b]/20 rounded-full z-[999] pointer-events-none -translate-x-1/2 -translate-y-1/2 mix-blend-difference" />
     </>
   );
 };
 
-// --- Components ---
+// --- Main Components ---
+
+const Navbar = ({ onLoginClick, user }) => {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const handle = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handle);
+    return () => window.removeEventListener('scroll', handle);
+  }, []);
+
+  return (
+    <nav className={`fixed top-0 w-full z-[500] px-10 md:px-20 py-10 flex justify-between items-center transition-all duration-1000 ${scrolled ? 'bg-black/80 backdrop-blur-3xl py-6 border-b border-white/5' : ''}`}>
+      <h1 className="h1-cinematic text-4xl text-[#ff0f1b] text-glow-red">TITAN<span className="text-white">TV</span></h1>
+      
+      <div className="hidden xl:flex items-center gap-16">
+        {['Network', 'Nodes', 'Technology', 'Protocol'].map(item => (
+          <a key={item} href={`#${item.toLowerCase()}`} className="label-luxury text-[8px] opacity-40 hover:opacity-100 transition-opacity">{item}</a>
+        ))}
+      </div>
+
+      <div className="flex items-center gap-10">
+        {user ? (
+          <div className="flex items-center gap-5 glass-panel px-8 py-3 rounded-2xl border-white/10 group cursor-pointer">
+            <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+            <span className="label-luxury text-[8px] text-white/60">{user.email.split('@')[0]}</span>
+            <button onClick={() => supabase.auth.signOut()} className="text-white/20 hover:text-white transition-colors"><Power size={14} /></button>
+          </div>
+        ) : (
+          <button onClick={onLoginClick} className="btn-titan bg-white text-black">Authorize</button>
+        )}
+      </div>
+    </nav>
+  );
+};
+
+const HeroMaster = () => {
+  return (
+    <section className="relative min-h-screen flex items-center pt-20 px-10 md:px-20 overflow-hidden">
+      <div className="container mx-auto grid lg:grid-cols-2 gap-20 items-center relative z-10">
+        <div className="reveal">
+          <span className="label-luxury inline-flex items-center gap-4 mb-16 px-8 py-3 glass-panel rounded-full border-[#ff0f1b]/20">
+            <Signal size={14} className="animate-pulse" /> Global Uplink Synchronized
+          </span>
+          <h1 className="h1-cinematic text-[clamp(4rem,10vw,14rem)] mb-12">
+            <span className="block text-white/20 leading-[0.7]">Elite</span>
+            <span className="block text-white text-glow-red translate-y-[-0.1em]">Vision.</span>
+          </h1>
+          <p className="text-white/40 text-lg max-w-xl mb-16 font-medium leading-relaxed">
+            The world's most stable IPTV infrastructure. 21,000+ Edge Nodes. 
+            8K Uncompressed Native Feeds. Zero-Buffer Protocol.
+          </p>
+          <div className="flex flex-wrap gap-10">
+            <button className="btn-titan bg-[#ff0f1b] text-white shadow-2xl">Initialize Sync</button>
+            <div className="flex items-center gap-10 border-l border-white/10 pl-10">
+              <div className="flex flex-col">
+                <span className="h1-cinematic text-3xl">8K</span>
+                <span className="label-luxury text-[7px] opacity-30">Raw Stream</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="h1-cinematic text-3xl">0.2s</span>
+                <span className="label-luxury text-[7px] opacity-30">Latency</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="relative hidden lg:block reveal">
+          <div className="relative w-full aspect-video glass-panel rounded-[4rem] border-white/10 overflow-hidden shadow-2xl glow-red">
+            <img 
+              src="https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=1920&q=80" 
+              className="w-full h-full object-cover saturate-[1.5] brightness-75 scale-110" 
+              alt="IPTV"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/40" />
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.2)_50%)] bg-[length:100%_4px] opacity-10" />
+            <div className="absolute bottom-12 left-12">
+              <div className="flex items-center gap-4 bg-black/60 backdrop-blur-xl p-4 rounded-3xl border border-white/10">
+                <div className="w-10 h-10 rounded-2xl bg-[#ff0f1b]/20 flex items-center justify-center"><Activity size={20} className="text-[#ff0f1b]" /></div>
+                <div className="flex flex-col"><span className="label-luxury text-[7px] text-white">Neural Feedback</span><span className="text-[10px] font-black uppercase">Channel 214-X Active</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const BentoFeatures = () => {
+  const features = [
+    { title: 'Global Network', val: '21K+', desc: 'Optimized edge nodes worldwide.', size: 'col-span-12 md:col-span-8', icon: <Earth /> },
+    { title: 'Protocol', val: '8K', desc: 'Native raw quality.', size: 'col-span-12 md:col-span-4', icon: <Video /> },
+    { title: 'Encryption', val: 'AES', desc: 'Secure neural transmission.', size: 'col-span-12 md:col-span-4', icon: <Shield /> },
+    { title: 'Uptime', val: '99.9%', desc: 'Industrial grade stability.', size: 'col-span-12 md:col-span-8', icon: <Zap /> }
+  ];
+
+  return (
+    <section id="technology" className="py-40 px-10 md:px-20">
+      <div className="container mx-auto">
+        <div className="mb-32 max-w-4xl">
+          <span className="label-luxury mb-8 block">Infrastructure Matrix</span>
+          <h2 className="h2-display text-7xl md:text-9xl mb-10">Advanced Tech.</h2>
+        </div>
+        <div className="bento-container">
+          {features.map((f, i) => (
+            <div key={i} className={`bento-item group reveal ${f.size}`}>
+              <div className="flex justify-between items-start mb-20">
+                <div className="w-20 h-20 bg-white/03 rounded-[2.5rem] flex items-center justify-center border border-white/05 group-hover:bg-[#ff0f1b]/10 transition-all duration-1000">
+                  <div className="text-[#ff0f1b] group-hover:scale-125 transition-transform duration-700">{f.icon}</div>
+                </div>
+                <div className="h1-cinematic text-6xl text-white/90">{f.val}</div>
+              </div>
+              <div>
+                <h3 className="h1-cinematic text-3xl mb-4">{f.title}</h3>
+                <p className="label-luxury opacity-30">{f.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const ChannelTicker = () => {
+  const getL = (d) => `https://www.google.com/s2/favicons?sz=128&domain=${d}`;
+  const logos = [
+    { n: 'TF1', l: getL('tf1.fr') }, { n: 'BBC', l: getL('bbc.co.uk') }, { n: 'ESPN', l: getL('espn.com') }, 
+    { n: 'beIN', l: getL('beinsports.com') }, { n: 'HBO', l: getL('hbo.com') }, { n: 'DAZN', l: getL('dazn.com') },
+    { n: 'CANAL+', l: getL('canalplus.fr') }, { n: 'SKY', l: getL('sky.com') }, { n: 'RMC', l: getL('rmcsport.tv') }
+  ];
+
+  return (
+    <div className="py-20 border-y border-white/5 overflow-hidden select-none bg-black/40">
+      <div className="marquee-sync">
+        {[...Array(6)].map((_, gi) => (
+          <React.Fragment key={gi}>
+            {logos.map((logo, i) => (
+              <div key={i} className="flex items-center gap-10 px-16 group">
+                <img src={logo.l} className="h-12 w-12 object-contain grayscale opacity-30 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" alt={logo.n} />
+                <span className="h1-cinematic text-3xl text-white/10 group-hover:text-white transition-colors duration-700">{logo.n}</span>
+              </div>
+            ))}
+          </React.Fragment>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const AuthModal = ({ isOpen, onClose }) => {
-  const [mode, setMode] = useState('signup'); 
+  const [mode, setMode] = useState('signup');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -69,7 +223,7 @@ const AuthModal = ({ isOpen, onClose }) => {
       if (mode === 'signup') {
         const { error } = await supabase.auth.signUp({ email, password });
         if (error) throw error;
-        setMessage("Verification link transmitted to your neural mail.");
+        setMessage("Neural uplink confirmation sent to your mail.");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -81,45 +235,29 @@ const AuthModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[600] flex items-center justify-center bg-black/90 backdrop-blur-3xl p-6">
-      <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="max-w-md w-full glass-liquid p-12 rounded-[4rem] border-white/10 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#ff0f1b] to-transparent animate-pulse" />
-        <button onClick={onClose} className="absolute top-8 right-8 text-white/20 hover:text-white transition-colors"><X size={24} /></button>
-        
-        <div className="mb-12">
-          <div className="flex items-center gap-3 mb-4">
-            <Fingerprint className="text-[#ff0f1b]" size={16} />
-            <span className="label-luxury text-[8px]">Biometric Auth</span>
-          </div>
-          <h2 className="h1-cinematic text-5xl text-white">{mode === 'login' ? 'Recall Session' : 'Create Node'}</h2>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[600] flex items-center justify-center bg-black/95 backdrop-blur-3xl p-6">
+      <motion.div initial={{ scale: 0.9, y: 30 }} animate={{ scale: 1, y: 0 }} className="max-w-md w-full glass-panel p-16 rounded-[4rem] border-white/5 relative overflow-hidden">
+        <button onClick={onClose} className="absolute top-10 right-10 text-white/20 hover:text-white transition-colors"><X size={32} /></button>
+        <div className="mb-16">
+          <span className="label-luxury mb-6 block">Access Protocol</span>
+          <h2 className="h1-cinematic text-5xl text-white">{mode === 'login' ? 'Authorize.' : 'Initialize.'}</h2>
         </div>
 
         {message ? (
-          <div className="text-center space-y-8 py-6">
-            <div className="w-24 h-24 bg-[#ff0f1b]/10 rounded-[2.5rem] flex items-center justify-center mx-auto border border-[#ff0f1b]/20">
-              <Mail className="text-[#ff0f1b]" size={36} />
-            </div>
-            <p className="text-white/50 text-xs font-medium leading-relaxed uppercase tracking-widest">{message}</p>
-            <button onClick={onClose} className="w-full py-6 bg-white/5 border border-white/10 rounded-3xl text-[10px] font-black uppercase tracking-widest hover:bg-white/10 transition-all">Close Uplink</button>
+          <div className="text-center space-y-10 py-10">
+            <div className="w-24 h-24 bg-[#ff0f1b]/10 rounded-[3rem] flex items-center justify-center mx-auto border border-[#ff0f1b]/20"><Mail className="text-[#ff0f1b]" size={40} /></div>
+            <p className="text-white/40 text-[10px] font-black uppercase tracking-[0.4em] leading-loose">{message}</p>
+            <button onClick={onClose} className="btn-titan border border-white/10 w-full">Dismiss</button>
           </div>
         ) : (
-          <form onSubmit={handleAuth} className="space-y-6">
-            <div className="space-y-2">
-              <input type="email" required placeholder="neural.id@titan.co" className="w-full rounded-[1.5rem] py-6 px-8 text-xs outline-none bg-white/[0.03] border-white/5" value={email} onChange={(e) => setEmail(e.target.value)} />
-            </div>
-            <div className="space-y-2">
-              <input type="password" required placeholder="access_key_••••" className="w-full rounded-[1.5rem] py-6 px-8 text-xs outline-none bg-white/[0.03] border-white/5" value={password} onChange={(e) => setPassword(e.target.value)} />
-            </div>
-
-            {error && <div className="text-[#ff0f1b] text-[9px] font-black uppercase tracking-widest text-center py-4 bg-[#ff0f1b]/05 rounded-2xl border border-[#ff0f1b]/10">{error}</div>}
-
-            <button disabled={loading} className="w-full py-6 bg-white text-black font-black uppercase tracking-[0.4em] text-[10px] rounded-[1.5rem] hover:bg-[#ff0f1b] hover:text-white transition-all duration-500 shadow-2xl disabled:opacity-50">
-              {loading ? 'Transmitting...' : mode === 'login' ? 'Execute Login' : 'Sync New Node'}
-            </button>
-
-            <div className="text-center pt-6">
-              <button type="button" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')} className="text-[8px] font-black uppercase tracking-[0.4em] text-white/20 hover:text-white transition-colors">
-                {mode === 'login' ? "Protocol not found? Initialize" : "Node already active? Restore"}
+          <form onSubmit={handleAuth} className="space-y-8">
+            <input type="email" required placeholder="neural.id@protocol.co" className="w-full rounded-3xl py-6 px-10 text-xs outline-none bg-white/03 border-white/05 focus:border-[#ff0f1b]" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input type="password" required placeholder="access_key_••••" className="w-full rounded-3xl py-6 px-10 text-xs outline-none bg-white/03 border-white/05 focus:border-[#ff0f1b]" value={password} onChange={(e) => setPassword(e.target.value)} />
+            {error && <div className="text-[#ff0f1b] text-[8px] font-black uppercase tracking-[0.4em] text-center">{error}</div>}
+            <button disabled={loading} className="btn-titan bg-white text-black w-full shadow-2xl">{loading ? 'Processing...' : mode === 'login' ? 'Establish Connection' : 'Sync New Node'}</button>
+            <div className="text-center pt-8">
+              <button type="button" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')} className="label-luxury text-[7px] opacity-20 hover:opacity-100 transition-opacity">
+                {mode === 'login' ? "Protocol not found? Register" : "Node already active? Login"}
               </button>
             </div>
           </form>
@@ -129,78 +267,6 @@ const AuthModal = ({ isOpen, onClose }) => {
   );
 };
 
-const Navbar = ({ onLoginClick, user }) => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  useEffect(() => { const handleScroll = () => setIsScrolled(window.scrollY > 30); window.addEventListener('scroll', handleScroll); return () => window.removeEventListener('scroll', handleScroll); }, []);
-  
-  return (
-    <nav className={`fixed top-0 w-full z-[500] transition-all duration-1000 px-6 md:px-20 py-10 flex justify-between items-center ${isScrolled ? 'bg-black/60 backdrop-blur-3xl py-6 border-b border-white/5' : 'bg-transparent'}`}>
-      <div className="flex items-center gap-20">
-        <h1 className="text-[#ff0f1b] text-4xl font-black tracking-tighter cursor-pointer h1-cinematic text-glow-red">TITAN<span className="text-white">TV</span></h1>
-        <div className="hidden xl:flex items-center gap-12">
-          {['Ecosystem', 'Grid', 'Technology', 'Pricing'].map(item => (
-            <a key={item} href={`#${item.toLowerCase()}`} className="text-[8px] font-black uppercase tracking-[0.5em] text-white/20 hover:text-white hover:tracking-[0.6em] transition-all duration-500">{item}</a>
-          ))}
-        </div>
-      </div>
-      
-      <div className="flex items-center gap-8">
-        {user ? (
-          <div className="flex items-center gap-5 bg-white/05 px-8 py-3.5 rounded-full border border-white/05 group cursor-pointer hover:bg-white/10 transition-all">
-            <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-[8px] font-black uppercase tracking-[0.3em] text-white/60">{user.email.split('@')[0]}</span>
-            <button onClick={() => supabase.auth.signOut()} className="text-white/10 hover:text-[#ff0f1b] transition-colors"><Power size={14} /></button>
-          </div>
-        ) : (
-          <button onClick={onLoginClick} className="relative group px-12 py-4 rounded-[1.2rem] bg-white text-black text-[9px] font-black uppercase tracking-[0.3em] overflow-hidden transition-transform active:scale-95">
-            <span className="relative z-10 group-hover:text-white transition-colors duration-500">Authorize</span>
-            <div className="absolute inset-0 bg-[#ff0f1b] translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-expo" />
-          </button>
-        )}
-      </div>
-    </nav>
-  );
-};
-
-const ChannelWall = () => {
-  const getL = (d) => `https://www.google.com/s2/favicons?sz=128&domain=${d}`;
-  const channels = [
-    { n: 'TF1', l: getL('tf1.fr') }, { n: 'BBC', l: getL('bbc.co.uk') }, { n: 'ESPN', l: getL('espn.com') }, 
-    { n: 'beIN', l: getL('beinsports.com') }, { n: 'HBO', l: getL('hbo.com') }, { n: 'DAZN', l: getL('dazn.com') },
-    { n: 'CANAL+', l: getL('canalplus.fr') }, { n: 'SKY', l: getL('sky.com') }, { n: 'RMC', l: getL('rmcsport.tv') },
-    { n: 'FOX', l: getL('foxsports.com') }
-  ];
-
-  return (
-    <div className="py-20 overflow-hidden relative skew-y-3 md:skew-y-0">
-      {[0, 1].map((row) => (
-        <div key={row} className={`flex gap-10 py-6 ${row === 0 ? 'animate-marquee-fluid' : 'animate-marquee-fluid-reverse'}`}>
-          {[...Array(6)].map((_, gi) => (
-            <React.Fragment key={gi}>
-              {channels.map((ch, i) => (
-                <div key={i} className="group relative w-36 h-36 md:w-56 md:h-56 glass-item rounded-[3rem] flex items-center justify-center p-10 cursor-none">
-                  <img src={ch.l} alt={ch.n} className="w-full h-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-1000 group-hover:scale-110" />
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#ff0f1b]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                </div>
-              ))}
-            </React.Fragment>
-          ))}
-        </div>
-      ))}
-    </div>
-  );
-};
-
-const FeatureCard = ({ icon, title, desc }) => (
-  <div className="group p-12 glass-liquid rounded-[4rem] border-white/05 hover:border-[#ff0f1b]/30 transition-all duration-1000">
-    <div className="w-20 h-20 bg-white/03 rounded-[2.5rem] flex items-center justify-center mb-10 border border-white/05 group-hover:bg-[#ff0f1b]/10 group-hover:scale-110 transition-all duration-1000">
-      <div className="text-[#ff0f1b] group-hover:animate-pulse">{icon}</div>
-    </div>
-    <h3 className="h1-cinematic text-3xl mb-6 text-white/90">{title}</h3>
-    <p className="text-white/30 text-xs font-medium leading-relaxed uppercase tracking-widest">{desc}</p>
-  </div>
-);
-
 export default function App() {
   const [user, setUser] = useState(null);
   const [showAuth, setShowAuth] = useState(false);
@@ -208,17 +274,21 @@ export default function App() {
   const [showCheckout, setShowCheckout] = useState(false);
 
   useEffect(() => {
-    const lenis = new Lenis({ duration: 1.5, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+    const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
     function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
     requestAnimationFrame(raf);
-    
     supabase.auth.getSession().then(({ data: { session } }) => setUser(session?.user ?? null));
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => setUser(session?.user ?? null));
     return () => { subscription.unsubscribe(); lenis.destroy(); };
   }, []);
 
   useGSAP(() => {
-    gsap.from('.reveal', { opacity: 0, y: 100, stagger: 0.2, duration: 1.5, ease: "power4.out", scrollTrigger: { trigger: '.reveal', start: 'top 80%' } });
+    gsap.utils.toArray('.reveal').forEach((el) => {
+      gsap.from(el, { 
+        y: 60, opacity: 0, duration: 1.5, ease: "power4.out",
+        scrollTrigger: { trigger: el, start: "top 90%" }
+      });
+    });
   });
 
   const handlePlanSelect = (plan) => {
@@ -228,108 +298,48 @@ export default function App() {
   };
 
   return (
-    <main className="min-h-screen bg-[#020202] text-white selection:bg-[#ff0f1b] selection:text-white bg-aurora">
+    <main className="min-h-screen bg-[#030303] text-white selection:bg-[#ff0f1b] selection:text-white">
       <CustomCursor />
-      <LiquidBackground />
+      <MasterBackground />
       <Navbar onLoginClick={() => setShowAuth(true)} user={user} />
 
-      {/* --- HERO --- */}
-      <section className="relative min-h-screen flex items-center justify-center pt-32 px-6">
+      <HeroMaster />
+      <ChannelTicker />
+      <BentoFeatures />
+
+      {/* --- LUXURY PRICING --- */}
+      <section id="pricing" className="py-60 px-10 md:px-20 relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[#ff0f1b]/02 blur-[200px] rounded-full pointer-events-none" />
         <div className="container mx-auto relative z-10">
-          <div className="text-center max-w-6xl mx-auto">
-            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 2, ease: "circOut" }}>
-              <span className="inline-flex items-center gap-4 px-8 py-3 rounded-full glass-liquid mb-16 border-[#ff0f1b]/10 animate-float">
-                <div className="w-2 h-2 rounded-full bg-[#ff0f1b] animate-pulse" />
-                <span className="label-luxury text-[8px] text-white/60">Quantum Network 2.0 Active</span>
-              </span>
-              
-              <h1 className="h1-cinematic text-[clamp(4rem,16vw,16rem)] mb-16 relative">
-                <span className="block text-white/10 leading-none">Infinite</span>
-                <span className="block text-glow-red translate-y-[-0.2em]">Stream.</span>
-              </h1>
-
-              <div className="flex flex-col md:flex-row items-center justify-center gap-10 mt-10">
-                <button 
-                  onClick={() => document.getElementById('pricing').scrollIntoView()}
-                  className="group relative px-20 py-8 bg-[#ff0f1b] rounded-[2rem] font-black uppercase tracking-[0.5em] text-[11px] shadow-[0_30px_100px_rgba(255,15,27,0.3)] hover:scale-110 active:scale-95 transition-all duration-700"
-                >
-                  Initialize Protocol
-                  <div className="absolute inset-0 rounded-[2rem] bg-white opacity-0 group-hover:opacity-20 transition-opacity" />
-                </button>
-                
-                <div className="flex items-center gap-12 glass-liquid px-12 py-6 rounded-[2rem] border-white/05">
-                  <div className="flex flex-col items-start">
-                    <span className="h1-cinematic text-3xl">21K+</span>
-                    <span className="label-luxury text-[7px] opacity-30">Nodes</span>
-                  </div>
-                  <div className="w-px h-10 bg-white/10" />
-                  <div className="flex flex-col items-start">
-                    <span className="h1-cinematic text-3xl">0.0ms</span>
-                    <span className="label-luxury text-[7px] opacity-30">Jitter</span>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-
-        {/* Cinematic Scanlines Overlay */}
-        <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,4px_100%] opacity-20" />
-      </section>
-
-      {/* --- GRID --- */}
-      <section id="grid" className="py-40 relative">
-        <div className="container mx-auto px-6 md:px-20 mb-20 text-center">
-          <span className="label-luxury mb-8 block">Neural Visuals</span>
-          <h2 className="h1-cinematic text-7xl md:text-9xl mb-20">The Grid.</h2>
-        </div>
-        <ChannelWall />
-      </section>
-
-      {/* --- FEATURES --- */}
-      <section id="technology" className="py-40 relative">
-        <div className="container mx-auto px-6 md:px-20">
-          <div className="grid md:grid-cols-3 gap-12">
-            <FeatureCard icon={<Zap size={32} />} title="Flash Sync" desc="Proprietary buffering engine for instant content delivery." />
-            <FeatureCard icon={<Shield size={32} />} title="Ghost VPN" desc="Integrated military-grade encryption in every stream node." />
-            <FeatureCard icon={<Monitor size={32} />} title="8K Vision" desc="Uncompressed raw feeds delivered in native 8K resolution." />
-          </div>
-        </div>
-      </section>
-
-      {/* --- PRICING --- */}
-      <section id="pricing" className="py-60 relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[#ff0f1b]/03 blur-[200px] rounded-full pointer-events-none" />
-        <div className="container mx-auto px-6 md:px-20 relative z-10">
           <div className="text-center max-w-4xl mx-auto mb-40">
-            <h2 className="h1-cinematic text-[clamp(3rem,10vw,12rem)] leading-none text-white/90">Select Plan.</h2>
-            <p className="label-luxury text-[9px] mt-10 opacity-30">All protocols encrypted via SSL-256</p>
+            <span className="label-luxury mb-8 block">Protocol Access</span>
+            <h2 className="h2-display text-8xl md:text-[10rem] mb-10 leading-none">Subscription.</h2>
           </div>
 
           <div className="grid lg:grid-cols-3 gap-12 max-w-7xl mx-auto">
             {[
-              { t: 'Standard', p: '29', f: ['4K Streaming', '2 Nodes', 'SLA 99%'] },
-              { t: 'Titan Elite', p: '59', f: ['8K Native', 'Unlimited Nodes', 'Priority Feed'], featured: true },
-              { t: 'Ultimate', p: '99', f: ['8K RAW', 'Custom Proxy', 'Beta Access'] }
+              { t: 'Standard', p: '39', f: ['4K Streaming', '2 Nodes Active', 'SLA 99.9%'] },
+              { t: 'Titan Master', p: '69', f: ['8K RAW Native', 'Unlimited Nodes', 'Priority Uplink', 'Zero-Latency'], featured: true },
+              { t: 'Infinite', p: '129', f: ['8K Uncompressed', 'Custom DNS Access', 'Beta Features', 'VOD 150K+'] }
             ].map((plan, i) => (
-              <div key={i} className={`relative group p-16 rounded-[5rem] glass-liquid border-white/05 hover:border-[#ff0f1b]/40 transition-all duration-1000 ${plan.featured ? 'scale-110 z-20 bg-white/03 ring-1 ring-[#ff0f1b]/30 shadow-[0_50px_150px_-20px_rgba(255,15,27,0.2)]' : 'z-10'}`}>
+              <div key={i} className={`relative group p-16 rounded-[5rem] glass-panel border-white/05 transition-all duration-1000 ${plan.featured ? 'scale-110 z-20 bg-white/03 border-[#ff0f1b]/40 shadow-2xl' : 'z-10 hover:border-white/20'}`}>
                 {plan.featured && <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-[#ff0f1b] text-white px-10 py-3 rounded-full text-[9px] font-black uppercase tracking-[0.4em] shadow-2xl">Elite Protocol</div>}
-                <div className="mb-16">
+                <div className="mb-20">
                   <span className="label-luxury opacity-40 block mb-6">{plan.t}</span>
-                  <div className="flex items-baseline gap-2">
+                  <div className="flex items-baseline gap-4">
                     <span className="h1-cinematic text-8xl group-hover:text-[#ff0f1b] transition-colors duration-1000">${plan.p}</span>
-                    <span className="text-white/10 text-[11px] font-black uppercase tracking-widest">/ Year</span>
+                    <span className="label-luxury text-[10px] opacity-20">/ Year</span>
                   </div>
                 </div>
-                <div className="space-y-6 mb-20">
+                <div className="space-y-6 mb-24 flex-grow">
                   {plan.f.map((feat, fi) => (
                     <div key={fi} className="flex items-center gap-6 group/item">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#ff0f1b] opacity-30 group-hover/item:opacity-100 transition-opacity" />
-                      <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30 group-hover/item:text-white transition-colors">{feat}</span>
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#ff0f1b] opacity-20 group-hover/item:opacity-100 transition-opacity" />
+                      <span className="label-luxury text-[10px] opacity-40 group-hover/item:opacity-100 transition-opacity">{feat}</span>
                     </div>
                   ))}
                 </div>
-                <button onClick={() => handlePlanSelect(plan)} className={`w-full py-7 rounded-[2.5rem] font-black uppercase tracking-[0.4em] text-[10px] transition-all duration-700 ${plan.featured ? 'bg-[#ff0f1b] text-white shadow-3xl hover:bg-white hover:text-black' : 'bg-white/05 hover:bg-white hover:text-black border border-white/10'}`}>Initialize Sync</button>
+                <button onClick={() => handlePlanSelect(plan)} className={`btn-titan w-full ${plan.featured ? 'bg-[#ff0f1b] text-white' : 'bg-white/05 border border-white/10'}`}>Initialize Sync</button>
               </div>
             ))}
           </div>
@@ -337,27 +347,23 @@ export default function App() {
       </section>
 
       {/* --- FOOTER --- */}
-      <footer className="py-40 bg-black/80 relative z-10 border-t border-white/05">
-        <div className="container mx-auto px-6 md:px-20">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-32">
-            <h1 className="h1-cinematic text-6xl text-[#ff0f1b] text-glow-red">TITAN<span className="text-white">TV</span></h1>
-            <div className="flex gap-24">
-              {['Network', 'Legal', 'Social'].map((cat) => (
-                <div key={cat} className="flex flex-col gap-10">
-                  <span className="label-luxury opacity-30">{cat}</span>
-                  <div className="flex flex-col gap-5 text-[10px] font-black uppercase tracking-[0.3em] text-white/40">
-                    <a href="#" className="hover:text-[#ff0f1b] transition-colors">Uplink Status</a>
-                    <a href="#" className="hover:text-[#ff0f1b] transition-colors">Global Nodes</a>
-                  </div>
+      <footer className="py-40 bg-black border-t border-white/05">
+        <div className="container mx-auto px-10 md:px-20 text-center">
+          <h1 className="h1-cinematic text-8xl text-[#ff0f1b] text-glow-red mb-20">TITAN<span className="text-white">TV</span></h1>
+          <div className="flex flex-wrap justify-center gap-20 mb-32">
+            {['Network', 'Legal', 'Social'].map(cat => (
+              <div key={cat} className="flex flex-col gap-8">
+                <span className="label-luxury opacity-30">{cat}</span>
+                <div className="flex flex-col gap-4 text-[9px] font-black uppercase tracking-[0.4em] text-white/40">
+                  <a href="#" className="hover:text-white transition-colors">Protocol Status</a>
+                  <a href="#" className="hover:text-white transition-colors">Global Grid</a>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
-          <div className="mt-40 pt-20 border-t border-white/05 flex flex-col md:flex-row justify-between items-center opacity-20">
-            <span className="label-luxury text-[7px]">© 2026 TITAN CORE SYSTEMS. ALL TRANSMISSIONS ENCRYPTED.</span>
-            <div className="flex gap-10">
-              <StripeIcon size={20} /><Fingerprint size={20} /><ShieldAlert size={20} />
-            </div>
+          <div className="pt-20 border-t border-white/05 flex flex-col md:flex-row justify-between items-center opacity-20 gap-10">
+            <span className="label-luxury text-[7px]">© 2026 TITAN CORE SYNDICATE. ALL TRANSMISSIONS ENCRYPTED.</span>
+            <div className="flex gap-10"><StripeIcon size={20} /><Bitcoin size={20} /><ShieldAlert size={20} /></div>
           </div>
         </div>
       </footer>
@@ -367,12 +373,12 @@ export default function App() {
         {showAuth && <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />}
         {showCheckout && activePlan && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[700] flex items-center justify-center bg-black/98 backdrop-blur-3xl p-6">
-            <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="max-w-md w-full glass-liquid p-16 rounded-[5rem] border-white/10 relative text-center bg-black/80">
+            <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="max-w-md w-full glass-panel p-20 rounded-[5rem] border-white/10 relative text-center bg-black/80">
               <button onClick={() => setShowCheckout(false)} className="absolute top-12 right-12 text-white/20 hover:text-white transition-colors"><X size={32} /></button>
-              <div className="w-24 h-24 bg-[#ff0f1b]/10 rounded-[3rem] flex items-center justify-center mx-auto mb-12 border border-[#ff0f1b]/20"><Crown className="text-[#ff0f1b]" size={40} /></div>
-              <h2 className="h1-cinematic text-5xl mb-6">Finalize.</h2>
-              <p className="label-luxury opacity-40 mb-12">Securing ${activePlan.price} transaction</p>
-              <button onClick={handleStripeCheckout} className="w-full py-8 bg-white text-black font-black uppercase tracking-[0.5em] text-[11px] rounded-[2.5rem] hover:bg-[#ff0f1b] hover:text-white transition-all duration-700 shadow-[0_30px_100px_rgba(255,255,255,0.1)]">Sync with Stripe</button>
+              <div className="w-24 h-24 bg-[#ff0f1b]/10 rounded-[3rem] flex items-center justify-center mx-auto mb-16 border border-[#ff0f1b]/20 shadow-2xl"><Crown className="text-[#ff0f1b]" size={40} /></div>
+              <h2 className="h1-cinematic text-5xl mb-6">Authorize.</h2>
+              <p className="label-luxury opacity-40 mb-16">Establishing secure Stripe tunnel</p>
+              <button onClick={() => { confetti({ particleCount: 200, spread: 90, origin: { y: 0.7 } }); setShowCheckout(false); }} className="btn-titan bg-white text-black w-full shadow-2xl">Pay with Stripe</button>
             </motion.div>
           </motion.div>
         )}
