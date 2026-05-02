@@ -3,9 +3,11 @@
 @config "../tailwind.config.js";
 
 :root {
-  --primary: #ff003c;
-  --accent: #00f2ff;
-  --bg: #000000;
+  --primary: #00f2ff;
+  --secondary: #7000ff;
+  --bg-dark: #020202;
+  --glass-bg: rgba(255, 255, 255, 0.02);
+  --glass-border: rgba(255, 255, 255, 0.05);
 }
 
 * {
@@ -15,78 +17,79 @@
 }
 
 body {
-  background-color: var(--bg);
+  background-color: var(--bg-dark);
   color: white;
   font-family: 'Plus Jakarta Sans', sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* --- High-End Visuals --- */
+/* --- Ocean-Purple Aesthetics --- */
 
-.titan-text {
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(150px);
+  z-index: -1;
+  opacity: 0.15;
+}
+
+.orb-primary { background: var(--primary); width: 60vw; height: 60vw; top: -10%; left: -10%; }
+.orb-secondary { background: var(--secondary); width: 50vw; height: 50vw; bottom: -10%; right: -10%; }
+
+/* --- Glassmorphism --- */
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(40px) saturate(150%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.5);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card:hover {
+  border-color: var(--primary);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* --- Typography --- */
+
+.h-titan {
   font-family: 'Outfit', sans-serif;
   font-weight: 900;
-  letter-spacing: -0.08em;
+  letter-spacing: -0.06em;
   line-height: 0.8;
   text-transform: uppercase;
-  background: linear-gradient(135deg, #fff 0%, var(--primary) 50%, #7000ff 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 0 30px rgba(255, 0, 60, 0.3));
 }
 
-.tv-frame-luxe {
-  background: #050505;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 
-    0 50px 100px -20px rgba(255, 0, 60, 0.4),
-    0 0 80px rgba(0, 242, 255, 0.1);
-  border-radius: 40px;
-  overflow: hidden;
-  position: relative;
+.label-futur {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6em;
+  color: var(--primary);
 }
+
+/* --- Buttons --- */
 
 .btn-premium {
-  background: var(--primary);
-  color: white;
-  font-weight: 900;
+  background: white;
+  color: black;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.4em;
-  padding: 26px 70px;
-  border-radius: 4px;
-  font-size: 13px;
-  box-shadow: 0 10px 40px rgba(255, 0, 60, 0.3);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  letter-spacing: 0.2em;
+  padding: 22px 50px;
+  border-radius: 14px;
+  font-size: 11px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s ease;
 }
 
 .btn-premium:hover {
-  transform: scale(1.08);
-  box-shadow: 0 20px 80px rgba(255, 0, 60, 0.5);
-  background: white;
-  color: black;
-}
-
-.label-lux {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 1em;
-  color: var(--accent);
-}
-
-/* --- Animations --- */
-
-@keyframes pulse-red {
-  0% { box-shadow: 0 0 0 0 rgba(255, 0, 60, 0.4); }
-  70% { box-shadow: 0 0 0 20px rgba(255, 0, 60, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(255, 0, 60, 0); }
-}
-
-.pulse-red {
-  animation: pulse-red 2s infinite;
+  transform: scale(1.05);
+  background: var(--primary);
+  box-shadow: 0 20px 60px rgba(0, 242, 255, 0.3);
 }
 
 /* Hide Scrollbar */
