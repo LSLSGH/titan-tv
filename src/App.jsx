@@ -216,7 +216,7 @@ const PricingPage = ({ user }) => {
                 onClick={() => { if (!user) navigate('/auth'); else setCheckoutPlan(plan); }} 
                 className={`w-full py-6 rounded-xl font-black text-sm uppercase tracking-[0.3em] transition-all duration-500 transform ${plan.featured ? 'bg-[#E50914] text-white hover:scale-105 hover:shadow-[0_0_50px_rgba(229,9,20,0.4)]' : 'bg-white/5 hover:bg-white hover:text-black border border-white/10'}`}
               >
-                Sync This Node
+                Purchase Plan
               </button>
             </motion.div>
           ))}
@@ -322,7 +322,7 @@ const DashboardPage = ({ user }) => {
         </div>
 
         {loading ? (
-          <div className="py-40 text-center text-xs font-black animate-pulse text-[#E50914]">Syncing Node Protocols...</div>
+          <div className="py-40 text-center text-xs font-black animate-pulse text-[#E50914]">Processing Node Protocols...</div>
         ) : activeTab === 'codes' ? (
           <div className="grid gap-6">
             {purchases.length === 0 ? (
@@ -373,7 +373,7 @@ const DashboardPage = ({ user }) => {
                   <input type="text" required placeholder="CVC" className="w-full bg-black border border-white/10 p-6 rounded-xl text-sm outline-none focus:border-[#E50914] transition-all font-mono text-white" value={cvc} onChange={e => setCvc(e.target.value)} />
                 </div>
                 <button disabled={savingCard} className="btn-netflix-red w-full py-6 text-sm uppercase tracking-[0.4em] font-black shadow-xl">
-                  {savingCard ? 'Syncing...' : 'Initialize Card Sync'}
+                  {savingCard ? 'Processing...' : 'Add Payment Method'}
                 </button>
               </form>
             </div>
@@ -429,7 +429,7 @@ const AuthPage = () => {
             <input type="password" required placeholder="ACCESS.KEY" className="w-full rounded-xl py-6 px-10 text-sm outline-none bg-black border border-white/10 focus:border-[#E50914] transition-all font-mono text-white" value={password} onChange={(e) => setPassword(e.target.value)} />
             {error && <div className="text-[#E50914] text-[10px] text-center font-bold uppercase tracking-widest py-4">{error}</div>}
             <button disabled={loading} className="btn-netflix-red w-full py-6 text-sm uppercase tracking-widest font-black shadow-2xl">
-              {loading ? 'Transmitting...' : mode === 'login' ? 'Establish Link' : 'Initialize Node'}
+              {loading ? 'Processing...' : mode === 'login' ? 'Secure Access' : 'Create Account'}
             </button>
             <div className="text-center pt-8">
               <button type="button" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')} className="text-[10px] font-black text-white/20 hover:text-white uppercase tracking-[0.3em] transition-all">
