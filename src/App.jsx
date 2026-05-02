@@ -18,21 +18,21 @@ import { supabase } from './lib/supabase';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// --- Official SVG Logos (Guaranteed Display) ---
+// --- Guaranteed Reliable Logos (Clearbit API) ---
 
-const OFFICIAL_LOGOS = [
-  { name: 'Netflix', url: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg' },
-  { name: 'HBO Max', url: 'https://upload.wikimedia.org/wikipedia/commons/1/17/HBO_logo.svg' },
-  { name: 'Disney+', url: 'https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg' },
-  { name: 'Prime Video', url: 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video_logo.svg' },
-  { name: 'DAZN', url: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/DAZN_logo.svg' },
-  { name: 'beIN SPORTS', url: 'https://upload.wikimedia.org/wikipedia/commons/2/25/BeIN_Sports_logo.svg' },
-  { name: 'Canal+', url: 'https://upload.wikimedia.org/wikipedia/commons/d/d3/Canal%2B_logo.svg' }
+const STABLE_LOGOS = [
+  { name: 'Netflix', url: 'https://logo.clearbit.com/netflix.com' },
+  { name: 'HBO Max', url: 'https://logo.clearbit.com/hbomax.com' },
+  { name: 'Disney+', url: 'https://logo.clearbit.com/disneyplus.com' },
+  { name: 'Prime Video', url: 'https://logo.clearbit.com/amazon.com' },
+  { name: 'beIN SPORTS', url: 'https://logo.clearbit.com/beinsports.com' },
+  { name: 'DAZN', url: 'https://logo.clearbit.com/dazn.com' },
+  { name: 'Canal+', url: 'https://logo.clearbit.com/canalplus.com' }
 ];
 
-// --- Cinematic Background ---
+// --- Global UI Components ---
 
-const Background3D = () => (
+const AmbientBackdrop = () => (
   <div className="fixed inset-0 z-[-1] pointer-events-none overflow-hidden bg-[#010101]">
     <div className="orb orb-1" />
     <div className="orb orb-2" />
@@ -56,7 +56,7 @@ const Navbar = ({ user }) => {
         <Link to="/" className="h-titan text-5xl text-white">TITAN <span className="text-[#00f2ff]">TV</span></Link>
         <div className="hidden xl:flex items-center gap-12">
           {['Network', 'Pricing', 'Dashboard'].map(item => (
-            <Link key={item} to={item === 'Pricing' ? '/pricing' : item === 'Dashboard' ? '/dashboard' : '/'} className="label-tech text-[10px] opacity-40 hover:opacity-100 transition-all">{item}</Link>
+            <Link key={item} to={item === 'Pricing' ? '/pricing' : item === 'Dashboard' ? '/dashboard' : '/'} className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 hover:text-white transition-all">{item}</Link>
           ))}
         </div>
       </div>
@@ -77,17 +77,17 @@ const Navbar = ({ user }) => {
   );
 };
 
-// --- Interactive 3D TV Hero ---
+// --- Samsung 4K TV Hero with Football ---
 
-const Hero3D = ({ user, navigate }) => {
+const SamsungHero = ({ user, navigate }) => {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
   const mouseXSpring = useSpring(x);
   const mouseYSpring = useSpring(y);
 
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-15deg", "15deg"]);
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["12deg", "-12deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-18deg", "18deg"]);
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -95,10 +95,8 @@ const Hero3D = ({ user, navigate }) => {
     const height = rect.height;
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
-    x.set(xPct);
-    y.set(yPct);
+    x.set(mouseX / width - 0.5);
+    y.set(mouseY / height - 0.5);
   };
 
   const handleMouseLeave = () => {
@@ -108,35 +106,46 @@ const Hero3D = ({ user, navigate }) => {
 
   return (
     <div className="scene-3d w-full max-w-[1400px] mx-auto pt-40 pb-40 px-6 cursor-crosshair" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
-      <motion.div style={{ rotateX, rotateY }} className="tv-container relative">
+      <motion.div style={{ rotateX, rotateY }} className="relative">
+        
         {/* Floating Logos around the TV */}
         <div className="absolute inset-0 z-0 pointer-events-none">
-          {OFFICIAL_LOGOS.map((logo, i) => (
+          {STABLE_LOGOS.map((logo, i) => (
             <motion.div
               key={i}
-              animate={{ y: [0, -40, 0], x: [0, i % 2 === 0 ? 30 : -30, 0] }}
-              transition={{ duration: 6 + i, repeat: Infinity, ease: "easeInOut" }}
+              animate={{ y: [0, -50, 0], x: [0, i % 2 === 0 ? 50 : -50, 0] }}
+              transition={{ duration: 7 + i, repeat: Infinity, ease: "easeInOut" }}
               className="absolute"
-              style={{ left: `${5 + (i * 14)}%`, top: `${10 + (i % 2 * 60)}%` }}
+              style={{ left: `${10 + (i * 14)}%`, top: `${15 + (i % 2 * 50)}%` }}
             >
-              <div className="bg-white/[0.03] backdrop-blur-3xl p-6 rounded-[2rem] border border-white/10 group shadow-2xl">
-                <img src={logo.url} className="h-10 md:h-12 opacity-50 group-hover:opacity-100 transition-all filter brightness-[2]" alt={logo.name} />
+              <div className="bg-black/60 backdrop-blur-3xl p-6 rounded-[2.5rem] border border-white/10 group shadow-2xl overflow-hidden">
+                <img src={logo.url} className="h-10 md:h-12 opacity-50 group-hover:opacity-100 transition-all filter brightness-[3]" alt={logo.name} />
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* MASSIVE TV FRAME */}
-        <div className="tv-frame relative z-10 aspect-video rounded-[5rem] overflow-hidden">
-          <div className="tv-screen absolute inset-0 flex flex-col items-center justify-center">
-            <div className="scanlines" />
+        {/* SAMSUNG TV FRAME WITH FOOTBALL */}
+        <div className="samsung-tv relative z-10 aspect-video rounded-[3rem]">
+          <video 
+            autoPlay 
+            muted 
+            loop 
+            playsInline 
+            className="w-full h-full object-cover brightness-[0.9]"
+          >
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-football-player-kicking-the-ball-in-a-stadium-4654-large.mp4" type="video/mp4" />
+          </video>
+          <div className="video-overlay" />
+          <div className="samsung-logo">SAMSUNG</div>
+
+          <div className="absolute inset-0 flex flex-col items-center justify-center z-20">
             <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 1.5 }} className="text-center">
-              <span className="label-tech mb-8 block animate-pulse">Neural Grid Infrastructure</span>
-              <h1 className="text-3d text-[clamp(4rem,12vw,14rem)] leading-none mb-12">TITAN <br /> <span className="text-white/10">STREAMS.</span></h1>
+              <h1 className="h-titan text-[clamp(4rem,10vw,12rem)] leading-none mb-12">TITAN <br /> <span className="text-white/10">STREAMS.</span></h1>
               {!user ? (
-                <button onClick={() => navigate('/auth')} className="btn-premium scale-125">INITIALIZE UPLINK</button>
+                <button onClick={() => navigate('/auth')} className="btn-premium scale-125 shadow-[0_0_80px_rgba(255,255,255,0.2)]">INITIALIZE UPLINK</button>
               ) : (
-                <button onClick={() => navigate('/pricing')} className="btn-premium scale-125">SELECT PROTOCOL</button>
+                <button onClick={() => navigate('/pricing')} className="btn-premium scale-125 shadow-[0_0_100px_rgba(0,242,255,0.3)]">SELECT PROTOCOL</button>
               )}
             </motion.div>
           </div>
@@ -158,15 +167,15 @@ const HomePage = ({ user }) => {
 
   return (
     <div ref={containerRef} className="pt-40">
-      <Hero3D user={user} navigate={navigate} />
+      <SamsungHero user={user} navigate={navigate} />
 
       {/* REFINED LOGO MARQUEE */}
       <div className="reveal mt-20 border-y border-white/5 bg-white/[0.01]">
         <div className="flex gap-60 animate-marquee whitespace-nowrap py-20 px-6">
-          {[...OFFICIAL_LOGOS, ...OFFICIAL_LOGOS].map((logo, i) => (
+          {[...STABLE_LOGOS, ...STABLE_LOGOS].map((logo, i) => (
             <div key={i} className="flex items-center gap-10 group cursor-pointer px-12 transition-all">
               <img src={logo.url} className="h-12 md:h-16 opacity-30 group-hover:opacity-100 transition-all filter brightness-[3]" alt={logo.name} />
-              <span className="label-tech text-[10px] opacity-10 group-hover:opacity-100 transition-all">{logo.name}</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/10 group-hover:text-white transition-all">{logo.name}</span>
             </div>
           ))}
         </div>
@@ -197,7 +206,7 @@ const PricingPage = ({ user }) => {
     <div className="pt-60 pb-80 px-6">
       <div className="container mx-auto">
         <div className="text-center mb-60">
-          <span className="label-tech mb-8 block text-[#00f2ff]">Network Pricing</span>
+          <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[#00f2ff] mb-8 block">Network Pricing</span>
           <h2 className="h-titan text-7xl md:text-[12rem] leading-none mb-12">PRICING.</h2>
         </div>
 
@@ -208,16 +217,16 @@ const PricingPage = ({ user }) => {
             { t: 'ULTIMATE', p: '99', f: ['Uncompressed Feed', '5 Devices Access', 'VPN Integrated', 'Ghost Proxy Access'] }
           ].map((plan, i) => (
             <div key={i} className={`bg-white/[0.02] backdrop-blur-3xl border border-white/5 p-16 rounded-[4rem] flex flex-col ${plan.featured ? 'md:scale-110 border-[#00f2ff]/40 shadow-[0_0_100px_rgba(0,242,255,0.1)]' : ''}`}>
-              <h3 className="label-tech mb-12 opacity-30 text-xl">{plan.t}</h3>
+              <h3 className="text-[10px] font-black uppercase tracking-[0.5em] opacity-30 mb-12">{plan.t}</h3>
               <div className="flex items-baseline gap-4 mb-20">
                 <span className="h-titan text-8xl text-white">${plan.p}</span>
-                <span className="label-tech opacity-20">/ Year</span>
+                <span className="text-[10px] font-black uppercase tracking-widest opacity-20">/ Year</span>
               </div>
               <div className="space-y-8 mb-32 flex-grow">
                 {plan.f.map((feat, fi) => (
                   <div key={fi} className="flex items-center gap-6 group">
                     <div className="w-1.5 h-1.5 bg-[#00f2ff] rounded-full opacity-20 group-hover:opacity-100 transition-opacity" />
-                    <span className="label-tech text-[9px] opacity-20 group-hover:opacity-100 transition-opacity">{feat}</span>
+                    <span className="text-[9px] font-black uppercase tracking-widest opacity-20 group-hover:opacity-100 transition-opacity">{feat}</span>
                   </div>
                 ))}
               </div>
@@ -242,7 +251,7 @@ const PricingPage = ({ user }) => {
               <button onClick={() => setCheckoutPlan(null)} className="absolute top-12 right-12 text-white/20 hover:text-white"><X size={32} /></button>
               <div className="w-24 h-24 bg-[#00f2ff]/10 rounded-full flex items-center justify-center mx-auto mb-12 border border-[#00f2ff]/20 animate-pulse"><Crown className="text-[#00f2ff]" size={56} /></div>
               <h2 className="h-titan text-5xl mb-6 text-white">Authorize.</h2>
-              <p className="label-tech opacity-20 mb-16 italic tracking-[0.4em]">Secure Stripe Session for ${checkoutPlan.p}</p>
+              <p className="text-[9px] font-black uppercase tracking-[0.4em] text-white/20 mb-16 italic">Secure Stripe Session for ${checkoutPlan.p}</p>
               <button onClick={handlePurchase} className="btn-premium w-full text-[12px]">Confirm Sync</button>
             </motion.div>
           </motion.div>
@@ -252,12 +261,12 @@ const PricingPage = ({ user }) => {
             <motion.div initial={{ scale: 0.7, y: 100 }} animate={{ scale: 1, y: 0 }} className="max-w-2xl w-full bg-black/40 backdrop-blur-3xl border border-[#00f2ff]/40 p-24 rounded-[6rem] relative text-center shadow-[0_0_200px_rgba(0,242,255,0.2)]">
               <div className="w-32 h-32 bg-green-500/10 rounded-full flex items-center justify-center mx-auto mb-12 border border-green-500/30 shadow-[0_0_100px_rgba(34,197,94,0.3)]"><CheckCircle2 className="text-green-500" size={64} /></div>
               <h2 className="h-titan text-7xl mb-8 text-green-500">SUCCESS.</h2>
-              <p className="label-tech opacity-40 mb-20 text-center leading-loose">Access Code Synchronized with your Dashboard.</p>
+              <p className="text-[10px] font-black uppercase tracking-widest text-white/40 mb-20 text-center leading-loose">Access Code Synchronized with your Dashboard.</p>
               <div className="bg-white/5 p-16 rounded-[4rem] border border-white/10 mb-20 flex items-center justify-center gap-12 group cursor-pointer hover:bg-white/10 transition-all shadow-[inset_0_0_50px_rgba(0,0,0,0.5)]" onClick={() => { navigator.clipboard.writeText(iptvCode); confetti({ particleCount: 50 }); }}>
-                <span className="h-titan text-7xl tracking-[0.4em]">{iptvCode}</span>
+                <span className="h-titan text-7xl tracking-[0.4em] text-white">{iptvCode}</span>
                 <Copy size={48} className="text-white/20 group-hover:text-white transition-all" />
               </div>
-              <button onClick={() => setIptvCode(null)} className="label-tech opacity-20 hover:opacity-100 transition-all">Terminate Uplink</button>
+              <button onClick={() => setIptvCode(null)} className="text-[9px] font-black uppercase tracking-[0.5em] opacity-30 hover:opacity-100 transition-all text-white">Terminate Uplink</button>
             </motion.div>
           </motion.div>
         )}
@@ -314,40 +323,40 @@ const DashboardPage = ({ user }) => {
   if (!user) return null;
 
   return (
-    <div className="pt-60 pb-80 px-6 md:px-20 overflow-y-auto">
+    <div className="pt-60 pb-80 px-6 md:px-20 overflow-y-auto text-white">
       <div className="max-w-6xl mx-auto relative">
         <div className="flex justify-between items-center mb-40">
           <div>
-            <span className="label-tech mb-6 block text-[#00f2ff]">Node Management</span>
-            <h2 className="h-titan text-7xl md:text-[9rem]">DASHBOARD.</h2>
+            <span className="text-[10px] font-black uppercase tracking-[0.5em] text-[#00f2ff] mb-6 block text-white">Node Management</span>
+            <h2 className="h-titan text-7xl md:text-[9rem] text-white">DASHBOARD.</h2>
           </div>
         </div>
 
         <div className="flex gap-16 mb-20 border-b border-white/5 pb-10">
-          <button onClick={() => setActiveTab('codes')} className={`label-tech text-[10px] transition-all ${activeTab === 'codes' ? 'text-[#00f2ff]' : 'text-white/20'}`}>Active Transmissions</button>
-          <button onClick={() => setActiveTab('billing')} className={`label-tech text-[10px] transition-all ${activeTab === 'billing' ? 'text-[#00f2ff]' : 'text-white/20'}`}>Secure Billing</button>
+          <button onClick={() => setActiveTab('codes')} className={`text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'codes' ? 'text-[#00f2ff]' : 'text-white/20'}`}>Active Transmissions</button>
+          <button onClick={() => setActiveTab('billing')} className={`text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'billing' ? 'text-[#00f2ff]' : 'text-white/20'}`}>Secure Billing</button>
         </div>
 
         {loading ? (
-          <div className="py-40 text-center label-tech animate-pulse">Syncing...</div>
+          <div className="py-40 text-center text-[10px] font-black uppercase tracking-widest animate-pulse text-white">Syncing...</div>
         ) : activeTab === 'codes' ? (
-          <div className="grid gap-12">
+          <div className="grid gap-12 text-white">
             {purchases.length === 0 ? (
-              <div className="py-40 text-center bg-white/[0.01] border border-white/5 rounded-[4rem] opacity-20 text-2xl uppercase font-black">No codes detected.</div>
+              <div className="py-40 text-center bg-white/[0.01] border border-white/5 rounded-[4rem] opacity-20 text-2xl uppercase font-black text-white">No codes detected.</div>
             ) : (
               purchases.map(p => (
-                <div key={p.id} className="bg-white/[0.01] border border-white/5 p-12 rounded-[4rem] flex flex-col md:flex-row justify-between items-center group relative overflow-hidden">
+                <div key={p.id} className="bg-white/[0.01] border border-white/5 p-12 rounded-[4rem] flex flex-col md:flex-row justify-between items-center group relative overflow-hidden text-white">
                   <div className="flex items-center gap-12">
                     <div className="w-24 h-24 bg-[#00f2ff]/10 rounded-[2.5rem] flex items-center justify-center text-[#00f2ff] border border-[#00f2ff]/20 group-hover:scale-110 transition-transform"><Monitor size={48} /></div>
                     <div>
                       <h4 className="h-titan text-4xl mb-4 text-white">{p.plan_name}</h4>
-                      <div className="flex gap-12 opacity-30 text-[9px] font-black uppercase tracking-widest">
+                      <div className="flex gap-12 opacity-30 text-[9px] font-black uppercase tracking-widest text-white">
                         <span className="flex items-center gap-3"><Calendar size={14} /> {new Date(p.created_at).toLocaleDateString()}</span>
                         <span className="flex items-center gap-3"><CreditCard size={14} /> ${p.amount} PAID</span>
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-12 bg-black/40 px-16 py-8 rounded-[2.5rem] border border-white/5 group-hover:border-[#00f2ff]/40 transition-all cursor-pointer" onClick={() => { navigator.clipboard.writeText(p.iptv_code); confetti({ particleCount: 50 }); }}>
+                  <div className="flex items-center gap-12 bg-black/40 px-16 py-8 rounded-[2.5rem] border border-white/5 group-hover:border-[#00f2ff]/40 transition-all cursor-pointer text-white" onClick={() => { navigator.clipboard.writeText(p.iptv_code); confetti({ particleCount: 50 }); }}>
                     <span className="h-titan text-5xl tracking-[0.4em] text-[#00f2ff]">{p.iptv_code}</span>
                     <Copy size={36} className="text-white/20 group-hover:text-white" />
                   </div>
@@ -356,31 +365,31 @@ const DashboardPage = ({ user }) => {
             )}
           </div>
         ) : (
-          <div className="grid lg:grid-cols-2 gap-20">
+          <div className="grid lg:grid-cols-2 gap-20 text-white">
             <div className="space-y-12">
-              <h3 className="label-tech text-[10px] opacity-30 mb-12 uppercase tracking-[0.5em]">Registered Credentials</h3>
+              <h3 className="text-[10px] font-black opacity-30 mb-12 uppercase tracking-[0.5em] text-white">Registered Credentials</h3>
               {cards.map(c => (
-                <div key={c.id} className="bg-white/[0.02] p-10 rounded-[3rem] flex justify-between items-center border border-white/5 border-l-4 border-l-[#00f2ff]">
+                <div key={c.id} className="bg-white/[0.02] p-10 rounded-[3rem] flex justify-between items-center border border-white/5 border-l-4 border-l-[#00f2ff] text-white">
                   <div className="flex items-center gap-8">
                     <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center"><CardIcon size={32} /></div>
                     <div>
                       <p className="text-2xl font-bold tracking-widest font-mono text-white">{c.card_number}</p>
-                      <p className="label-tech text-[8px] opacity-40">{c.card_holder} | {c.expiry}</p>
+                      <p className="text-[10px] font-black opacity-40 uppercase tracking-widest text-white">{c.card_holder} | {c.expiry}</p>
                     </div>
                   </div>
-                  <button onClick={async () => { await supabase.from('payment_methods').delete().eq('id', c.id); setCards(cards.filter(x => x.id !== c.id)); }} className="text-white/20 hover:text-[#00f2ff] transition-all"><Trash2 size={24} /></button>
+                  <button onClick={async () => { await supabase.from('payment_methods').delete().eq('id', c.id); setCards(cards.filter(x => x.id !== c.id)); }} className="text-white/20 hover:text-[#00f2ff] transition-all text-white"><Trash2 size={24} /></button>
                 </div>
               ))}
             </div>
 
-            <div className="bg-white/[0.02] p-16 rounded-[5rem] border border-[#00f2ff]/20">
-              <h3 className="label-tech text-[12px] mb-16 uppercase tracking-[0.5em]">Initialize Card Sync</h3>
-              <form onSubmit={handleAddCard} className="space-y-8">
-                <input type="text" required placeholder="HOLDER NAME" className="w-full bg-white/5 border border-white/10 rounded-2xl py-8 px-12 text-sm outline-none focus:border-[#00f2ff] transition-all font-mono" value={cardHolder} onChange={e => setCardHolder(e.target.value)} />
-                <input type="text" required placeholder="CARD NUMBER" className="w-full bg-white/5 border border-white/10 rounded-2xl py-8 px-12 text-sm outline-none focus:border-[#00f2ff] transition-all font-mono" value={cardNumber} onChange={e => setCardNumber(e.target.value)} />
+            <div className="bg-white/[0.02] p-16 rounded-[5rem] border border-[#00f2ff]/20 text-white">
+              <h3 className="text-[12px] font-black mb-16 uppercase tracking-[0.5em] text-white">Initialize Secure Card Sync</h3>
+              <form onSubmit={handleAddCard} className="space-y-8 text-white">
+                <input type="text" required placeholder="HOLDER NAME" className="w-full bg-white/5 border border-white/10 rounded-2xl py-8 px-12 text-sm outline-none focus:border-[#00f2ff] transition-all font-mono text-white" value={cardHolder} onChange={e => setCardHolder(e.target.value)} />
+                <input type="text" required placeholder="CARD NUMBER" className="w-full bg-white/5 border border-white/10 rounded-2xl py-8 px-12 text-sm outline-none focus:border-[#00f2ff] transition-all font-mono text-white" value={cardNumber} onChange={e => setCardNumber(e.target.value)} />
                 <div className="grid grid-cols-2 gap-8">
-                  <input type="text" required placeholder="MM/YY" className="w-full bg-white/5 border border-white/10 rounded-2xl py-8 px-12 text-sm outline-none focus:border-[#00f2ff] transition-all font-mono" value={expiry} onChange={e => setExpiry(e.target.value)} />
-                  <input type="text" required placeholder="CVC" className="w-full bg-white/5 border border-white/10 rounded-2xl py-8 px-12 text-sm outline-none focus:border-[#00f2ff] transition-all font-mono" value={cvc} onChange={e => setCvc(e.target.value)} />
+                  <input type="text" required placeholder="MM/YY" className="w-full bg-white/5 border border-white/10 rounded-2xl py-8 px-12 text-sm outline-none focus:border-[#00f2ff] transition-all font-mono text-white" value={expiry} onChange={e => setExpiry(e.target.value)} />
+                  <input type="text" required placeholder="CVC" className="w-full bg-white/5 border border-white/10 rounded-2xl py-8 px-12 text-sm outline-none focus:border-[#00f2ff] transition-all font-mono text-white" value={cvc} onChange={e => setCvc(e.target.value)} />
                 </div>
                 <button disabled={savingCard} className="btn-premium w-full py-8 flex items-center justify-center gap-6">
                   <Plus size={24} /> {savingCard ? 'Syncing...' : 'Sync Card'}
@@ -425,25 +434,25 @@ const AuthPage = () => {
       <motion.div initial={{ scale: 0.9, y: 50 }} animate={{ scale: 1, y: 0 }} className="max-w-md w-full bg-black/40 backdrop-blur-3xl border border-white/10 p-16 rounded-[4rem] relative">
         <div className="text-center mb-16">
           <h2 className="h-titan text-5xl mb-6 text-white">{mode === 'login' ? 'Recall.' : 'Initialize.'}</h2>
-          <p className="label-tech opacity-40">Titan Neural Network Access</p>
+          <p className="text-[10px] font-black uppercase tracking-widest opacity-40 text-white">Titan Neural Network Access</p>
         </div>
 
         {message ? (
           <div className="text-center py-10 space-y-12">
             <div className="w-24 h-24 bg-[#00f2ff]/10 rounded-full flex items-center justify-center mx-auto border border-[#00f2ff]/20 animate-pulse"><Mail className="text-[#00f2ff]" size={40} /></div>
-            <p className="label-tech text-white/60 leading-loose text-center">{message}</p>
+            <p className="text-[10px] font-black uppercase tracking-widest text-white/60 leading-loose text-center">{message}</p>
             <button onClick={() => navigate('/')} className="btn-premium w-full py-5 text-[10px]">Back to Home</button>
           </div>
         ) : (
           <form onSubmit={handleAuth} className="space-y-8">
-            <input type="email" required placeholder="NEURAL.ID" className="w-full rounded-2xl py-8 px-12 text-sm outline-none bg-white/5 border border-white/10 focus:border-[#00f2ff] transition-all font-mono" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <input type="password" required placeholder="ACCESS.KEY" className="w-full rounded-2xl py-8 px-12 text-sm outline-none bg-white/5 border border-white/10 focus:border-[#00f2ff] transition-all font-mono" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <input type="email" required placeholder="NEURAL.ID" className="w-full rounded-2xl py-8 px-12 text-sm outline-none bg-white/5 border border-white/10 focus:border-[#00f2ff] transition-all font-mono text-white" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input type="password" required placeholder="ACCESS.KEY" className="w-full rounded-2xl py-8 px-12 text-sm outline-none bg-white/5 border border-white/10 focus:border-[#00f2ff] transition-all font-mono text-white" value={password} onChange={(e) => setPassword(e.target.value)} />
             {error && <div className="text-[#00f2ff] text-[10px] text-center font-bold uppercase tracking-widest bg-[#00f2ff]/05 py-4 rounded-xl">{error}</div>}
             <button disabled={loading} className="btn-premium w-full py-8 text-[11px] shadow-3xl">
               {loading ? 'Transmitting...' : mode === 'login' ? 'Establish Link' : 'Initialize Node'}
             </button>
             <div className="text-center pt-8">
-              <button type="button" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')} className="label-tech text-[9px] opacity-20 hover:opacity-100 transition-all">
+              <button type="button" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')} className="text-[9px] font-black uppercase tracking-widest opacity-20 hover:opacity-100 transition-all text-white">
                 {mode === 'login' ? "New Neural Link? Sync" : "Existing Link? Recall"}
               </button>
             </div>
@@ -466,7 +475,7 @@ export default function App() {
   return (
     <Router>
       <main className="min-h-screen bg-[#010101] text-white">
-        <Background3D />
+        <AmbientBackdrop />
         <Navbar user={user} />
         
         <Routes>
@@ -478,7 +487,7 @@ export default function App() {
 
         <footer className="py-60 bg-black/40 border-t border-white/5 text-center">
           <h1 className="h-titan text-[clamp(4rem,10vw,15rem)] opacity-10 mb-20 text-white">TITAN TV</h1>
-          <p className="label-tech opacity-10 text-[8px] tracking-[1em]">ALL DATA ENCRYPTED. [© 2026]</p>
+          <p className="text-[8px] font-black opacity-10 uppercase tracking-[1em]">ALL DATA ENCRYPTED. [© 2026]</p>
         </footer>
       </main>
     </Router>
