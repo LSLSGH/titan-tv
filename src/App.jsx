@@ -7,7 +7,7 @@ import {
   Smartphone, Tv, CheckCircle2, Monitor, Lock, AlertCircle,
   Copy, Check, History, CreditCard, Calendar, Hash, Layout,
   Cpu, Wifi, Database, Layers, ExternalLink, Plus, Trash2, 
-  CreditCard as CardIcon, Info
+  CreditCard as CardIcon, Info, HelpCircle, RefreshCcw, ShieldCheck
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import Lenis from 'lenis';
@@ -18,38 +18,44 @@ import { supabase } from './lib/supabase';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// --- High-Resolution Stable Channels ---
+// --- Official SVG Logos (Raw Links for Reliability) ---
 
 const CHANNEL_CATEGORIES = [
   {
     title: 'Sports & Live TV',
     logos: [
-      { name: 'Sky Sports', url: 'https://upload.wikimedia.org/wikipedia/en/3/3e/Sky_Sports_logo_2017.svg' },
-      { name: 'beIN SPORTS', url: 'https://upload.wikimedia.org/wikipedia/commons/2/25/BeIN_Sports_logo.svg' },
-      { name: 'DAZN', url: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/DAZN_logo.svg' },
-      { name: 'ESPN', url: 'https://upload.wikimedia.org/wikipedia/commons/b/bd/ESPN_wordmark.svg' },
-      { name: 'Eurosport', url: 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Eurosport_logo.svg' },
-      { name: 'UFC', url: 'https://upload.wikimedia.org/wikipedia/commons/0/0d/UFC_logo.svg' },
-      { name: 'Fox Sports', url: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Fox_Sports_logo.svg' },
-      { name: 'Formula 1', url: 'https://upload.wikimedia.org/wikipedia/commons/3/33/F1.svg' }
+      { name: 'Sky Sports', url: 'https://logo.clearbit.com/sky.com?size=512' },
+      { name: 'beIN SPORTS', url: 'https://logo.clearbit.com/beinsports.com?size=512' },
+      { name: 'DAZN', url: 'https://logo.clearbit.com/dazn.com?size=512' },
+      { name: 'ESPN', url: 'https://logo.clearbit.com/espn.com?size=512' },
+      { name: 'NFL', url: 'https://logo.clearbit.com/nfl.com?size=512' },
+      { name: 'NBA', url: 'https://logo.clearbit.com/nba.com?size=512' },
+      { name: 'MLB', url: 'https://logo.clearbit.com/mlb.com?size=512' },
+      { name: 'NHL', url: 'https://logo.clearbit.com/nhl.com?size=512' },
+      { name: 'Formula 1', url: 'https://logo.clearbit.com/f1.com?size=512' },
+      { name: 'UFC', url: 'https://logo.clearbit.com/ufc.com?size=512' },
+      { name: 'Fox Sports', url: 'https://logo.clearbit.com/foxsports.com?size=512' },
+      { name: 'Eurosport', url: 'https://logo.clearbit.com/eurosport.com?size=512' }
     ]
   },
   {
     title: 'Cinema & Series',
     logos: [
-      { name: 'Netflix', url: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg' },
-      { name: 'HBO Max', url: 'https://upload.wikimedia.org/wikipedia/commons/c/ce/HBO_Max_logo.svg' },
-      { name: 'Disney+', url: 'https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg' },
-      { name: 'Prime Video', url: 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video_logo.svg' },
-      { name: 'Canal+', url: 'https://upload.wikimedia.org/wikipedia/commons/d/d3/Canal%2B_logo.svg' },
-      { name: 'Paramount+', url: 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Paramount_Plus.svg' },
-      { name: 'Apple TV+', url: 'https://upload.wikimedia.org/wikipedia/commons/2/28/Apple_TV_Plus_Logo.svg' },
-      { name: 'Warner Bros', url: 'https://upload.wikimedia.org/wikipedia/commons/6/64/Warner_Bros_logo.svg' }
+      { name: 'Netflix', url: 'https://logo.clearbit.com/netflix.com?size=512' },
+      { name: 'HBO Max', url: 'https://logo.clearbit.com/hbomax.com?size=512' },
+      { name: 'Disney+', url: 'https://logo.clearbit.com/disneyplus.com?size=512' },
+      { name: 'Prime Video', url: 'https://logo.clearbit.com/amazon.com?size=512' },
+      { name: 'Canal+', url: 'https://logo.clearbit.com/canalplus.com?size=512' },
+      { name: 'Hulu', url: 'https://logo.clearbit.com/hulu.com?size=512' },
+      { name: 'Paramount+', url: 'https://logo.clearbit.com/paramountplus.com?size=512' },
+      { name: 'Apple TV+', url: 'https://logo.clearbit.com/apple.com?size=512' },
+      { name: 'Warner Bros', url: 'https://logo.clearbit.com/warnerbros.com?size=512' },
+      { name: 'Universal', url: 'https://logo.clearbit.com/universalpictures.com?size=512' },
+      { name: 'Marvel', url: 'https://logo.clearbit.com/marvel.com?size=512' },
+      { name: 'Sony Pictures', url: 'https://logo.clearbit.com/sonypictures.com?size=512' }
     ]
   }
 ];
-
-// --- Global UI Components ---
 
 const Navbar = ({ user }) => {
   const navigate = useNavigate();
@@ -62,93 +68,80 @@ const Navbar = ({ user }) => {
   }, []);
 
   return (
-    <nav className={`fixed top-0 w-full z-[1000] px-6 md:px-16 py-6 flex justify-between items-center transition-all duration-500 ${scrolled ? 'bg-black shadow-2xl' : 'bg-gradient-to-b from-black/80 to-transparent'}`}>
+    <nav className={`fixed top-0 w-full z-[1000] px-6 md:px-16 py-6 flex justify-between items-center transition-all duration-500 ${scrolled ? 'bg-black/90 backdrop-blur-xl border-b border-white/5' : 'bg-gradient-to-b from-black/80 to-transparent'}`}>
       <div className="flex items-center gap-12">
         <Link to="/" className="h-netflix text-4xl text-[#E50914]">TITANTV</Link>
         <div className="hidden lg:flex items-center gap-8">
-          {['Home', 'Series', 'Movies', 'Sports', 'My List'].map(item => (
-            <Link key={item} to="/" className="text-sm font-medium text-white/70 hover:text-white transition-colors">{item}</Link>
+          {['Home', 'Series', 'Movies', 'Sports', 'Pricing'].map(item => (
+            <Link key={item} to={item === 'Pricing' ? '/pricing' : '/'} className="text-sm font-bold text-white/70 hover:text-white transition-colors">{item}</Link>
           ))}
         </div>
       </div>
 
       <div className="flex items-center gap-6">
         {user ? (
-          <Link to="/dashboard" className="text-sm font-bold text-white hover:text-[#E50914] transition-colors">Dashboard</Link>
+          <Link to="/dashboard" className="text-sm font-bold text-white hover:text-[#E50914] transition-colors flex items-center gap-2">
+             <Layout size={18} /> My Node
+          </Link>
         ) : (
-          <button onClick={() => navigate('/auth')} className="btn-netflix-red text-sm">Sign In</button>
+          <button onClick={() => navigate('/auth')} className="btn-netflix-red text-sm">Join Now</button>
         )}
       </div>
     </nav>
   );
 };
 
-// --- Page: Home (Netflix Style) ---
-
 const HomePage = ({ user }) => {
   const navigate = useNavigate();
-  
   return (
     <div className="pb-40">
-      {/* Netflix Cinematic Hero */}
-      <div className="relative h-[85vh] w-full overflow-hidden">
+      <div className="relative h-[90vh] w-full overflow-hidden">
         <img 
           src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=2000" 
           className="w-full h-full object-cover" 
           alt="Hero" 
         />
         <div className="hero-overlay" />
-        
         <div className="absolute bottom-[15%] left-[5%] max-w-2xl z-10">
           <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
-            <h1 className="h-netflix text-6xl md:text-8xl mb-6">LIVE SPORTS & <br /> ENT. HUB</h1>
-            <p className="text-lg text-white/80 mb-10 leading-relaxed">Stream the world's biggest matches and movies in 4K RAW. Zero buffering, unlimited access on all your devices.</p>
-            <div className="flex items-center gap-4">
-              <button onClick={() => navigate('/pricing')} className="btn-netflix-main">
-                <Play fill="black" size={24} /> Subscribe
+            <h1 className="h-netflix text-6xl md:text-9xl mb-6">TITAN<br /><span className="text-white/20">ACCESS.</span></h1>
+            <p className="text-xl text-white/80 mb-12 leading-relaxed font-medium">Unleash the full power of your display. 21,000+ channels, movies, and sports in uncompressed 4K. No contracts, just pure entertainment.</p>
+            <div className="flex items-center gap-6">
+              <button onClick={() => navigate('/pricing')} className="btn-netflix-main px-10 py-4 scale-110 shadow-2xl">
+                <Play fill="black" size={24} /> Get Access
               </button>
-              <button className="bg-white/20 backdrop-blur-md text-white px-8 py-3 rounded-md flex items-center gap-3 font-bold hover:bg-white/30 transition-all">
-                <Info size={24} /> More Info
+              <button className="bg-white/10 backdrop-blur-xl text-white px-10 py-4 rounded-md flex items-center gap-3 font-bold hover:bg-white/20 transition-all border border-white/10">
+                <Info size={24} /> Network Info
               </button>
             </div>
           </motion.div>
         </div>
       </div>
 
-      {/* Content Rows */}
-      <div className="px-6 md:px-16 -mt-20 relative z-20 space-y-16">
+      <div className="px-6 md:px-16 -mt-32 relative z-20 space-y-24">
         {CHANNEL_CATEGORIES.map((cat, ci) => (
           <div key={ci}>
-            <h3 className="text-2xl font-bold mb-6">{cat.title}</h3>
+            <div className="flex items-center gap-4 mb-8">
+              <h3 className="text-2xl font-bold tracking-tight">{cat.title}</h3>
+              <div className="h-px flex-grow bg-white/5" />
+            </div>
             <div className="content-row">
               {cat.logos.map((logo, i) => (
-                <div key={i} className="content-card group">
+                <div key={i} className="content-card group border border-white/5 hover:border-[#E50914]/30">
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <div className="w-full h-full flex items-center justify-center p-8 bg-zinc-900">
+                  <div className="w-full h-full flex items-center justify-center p-10 bg-zinc-950/50">
                     <img 
                       src={logo.url} 
-                      className="w-full h-full object-contain filter brightness-[1.2]" 
+                      className="w-full h-full object-contain filter brightness-[1.2] group-hover:scale-110 transition-transform duration-500" 
                       alt={logo.name} 
                     />
                   </div>
-                  <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <p className="text-xs font-bold uppercase tracking-widest">{logo.name}</p>
-                    <div className="flex gap-2 mt-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full" />
-                      <span className="text-[10px] text-green-500">Live 4K</span>
+                  <div className="absolute bottom-6 left-6 right-6 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0">
+                    <p className="text-xs font-black uppercase tracking-[0.2em] mb-1">{logo.name}</p>
+                    <div className="flex items-center gap-2">
+                      <Signal size={12} className="text-[#E50914] animate-pulse" />
+                      <span className="text-[10px] font-bold text-white/40">ULTRA HD 8K READY</span>
                     </div>
-                  </div>
-                </div>
-              ))}
-              {/* Duplicate for length */}
-              {cat.logos.map((logo, i) => (
-                <div key={`2-${i}`} className="content-card group">
-                  <div className="w-full h-full flex items-center justify-center p-8 bg-zinc-900">
-                    <img 
-                      src={logo.url} 
-                      className="w-full h-full object-contain filter brightness-[2]" 
-                      alt={logo.name} 
-                    />
                   </div>
                 </div>
               ))}
@@ -179,65 +172,88 @@ const PricingPage = ({ user }) => {
   };
 
   return (
-    <div className="pt-40 pb-80 px-6">
-      <div className="container mx-auto max-w-4xl">
-        <div className="text-center mb-16">
-          <span className="text-sm font-bold text-[#E50914] uppercase tracking-[0.3em] mb-4 block">Pick Your Plan</span>
-          <h2 className="h-netflix text-6xl mb-4">NO COMMITMENT. <br /> CANCEL ANYTIME.</h2>
+    <div className="pt-60 pb-80 px-6 md:px-16 bg-gradient-to-b from-black via-zinc-950 to-black">
+      <div className="container mx-auto max-w-7xl">
+        <div className="text-center mb-32 relative">
+          <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[#E50914] font-black uppercase tracking-[0.6em] text-xs mb-8 block">Network Protocols</motion.span>
+          <h2 className="h-netflix text-6xl md:text-9xl leading-none mb-8 tracking-tighter">SELECT YOUR <br /><span className="text-white/10">TRANSMISSION.</span></h2>
+          <p className="text-white/40 max-w-xl mx-auto text-sm font-medium leading-relaxed">Choose a subscription plan that fits your streaming needs. No long-term contracts, cancel your node anytime.</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid lg:grid-cols-3 gap-10 items-center">
           {[
-            { t: 'BASIC', p: '19', f: ['21K+ Channels', '4K Streaming', '1 Device'] },
-            { t: 'STANDARD', p: '59', f: ['8K RAW Quality', '3 Devices', 'Anti-Buffer Pro'], featured: true },
-            { t: 'PREMIUM', p: '99', f: ['Uncompressed Feed', '5 Devices', 'Priority Support'] }
+            { t: 'BASIC NODE', p: '19', f: ['21,000+ Channels', '4K UHD Streaming', '1 Device Connection', 'Standard Tunneling', '24/7 Server Access'] },
+            { t: 'PRO NODE', p: '59', f: ['8K RAW Feed Quality', '3 Simultaneous Devices', 'Anti-Buffer V3 Tech', 'VOD 150K+ Library', 'Priority Node Access', 'Premium Routing'], featured: true },
+            { t: 'ULTIMATE NODE', p: '99', f: ['Uncompressed Data Feed', '5 Simultaneous Devices', 'Integrated VPN Shield', 'Personal Account Manager', 'Ghost Proxy Protocol', 'Max Latency Optimization'] }
           ].map((plan, i) => (
-            <div key={i} className={`p-10 bg-zinc-900 border border-white/5 rounded-lg flex flex-col ${plan.featured ? 'scale-105 border-[#E50914]/50' : ''}`}>
-              <h3 className="text-lg font-bold mb-6">{plan.t}</h3>
-              <div className="flex items-baseline gap-2 mb-10">
-                <span className="text-5xl font-black">${plan.p}</span>
-                <span className="text-xs text-white/40 font-bold uppercase">/ Year</span>
+            <motion.div 
+              key={i} 
+              initial={{ opacity: 0, y: 50 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              transition={{ delay: i * 0.1 }}
+              className={`pricing-card p-12 flex flex-col ${plan.featured ? 'featured min-h-[700px]' : 'min-h-[600px]'}`}
+            >
+              {plan.featured && <div className="absolute top-0 left-0 right-0 py-2 bg-[#E50914] text-center text-[10px] font-black uppercase tracking-widest">MOST POPULAR SYNC</div>}
+              <div className="mb-16">
+                <h3 className="text-xs font-black uppercase tracking-[0.4em] text-white/30 mb-8">{plan.t}</h3>
+                <div className="flex items-baseline gap-2 mb-4">
+                  <span className="text-7xl font-black price-glow">${plan.p}</span>
+                  <span className="text-sm text-white/20 font-bold uppercase tracking-widest">/ Year</span>
+                </div>
+                <div className="h-1 w-12 bg-[#E50914]" />
               </div>
-              <div className="space-y-4 mb-12 flex-grow">
+
+              <div className="space-y-6 mb-20 flex-grow">
                 {plan.f.map((feat, fi) => (
-                  <div key={fi} className="flex items-center gap-3">
-                    <CheckCircle2 size={18} className="text-[#E50914]" />
-                    <span className="text-sm text-white/70">{feat}</span>
+                  <div key={fi} className="flex items-center gap-4 group">
+                    <CheckCircle2 size={20} className={plan.featured ? 'text-[#E50914]' : 'text-white/20'} />
+                    <span className="text-[13px] text-white/70 font-medium group-hover:text-white transition-colors">{feat}</span>
                   </div>
                 ))}
               </div>
+
               <button 
                 onClick={() => { if (!user) navigate('/auth'); else setCheckoutPlan(plan); }} 
-                className={`w-full py-4 rounded-md font-bold text-sm transition-all ${plan.featured ? 'bg-[#E50914] text-white hover:bg-[#f40612]' : 'bg-white/10 hover:bg-white/20'}`}
+                className={`w-full py-6 rounded-xl font-black text-sm uppercase tracking-[0.3em] transition-all duration-500 transform ${plan.featured ? 'bg-[#E50914] text-white hover:scale-105 hover:shadow-[0_0_50px_rgba(229,9,20,0.4)]' : 'bg-white/5 hover:bg-white hover:text-black border border-white/10'}`}
               >
-                Join Now
+                Sync This Node
               </button>
-            </div>
+            </motion.div>
           ))}
+        </div>
+
+        {/* Trust Badges Section */}
+        <div className="mt-32 flex flex-wrap justify-center gap-8">
+          <div className="trust-badge"><ShieldCheck className="text-[#E50914]" size={20} /> 256-Bit SSL Secured</div>
+          <div className="trust-badge"><RefreshCcw className="text-[#E50914]" size={20} /> 7-Day Money Back</div>
+          <div className="trust-badge"><HelpCircle className="text-[#E50914]" size={20} /> 24/7 Expert Support</div>
         </div>
       </div>
 
       <AnimatePresence>
         {checkoutPlan && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/98 p-6 backdrop-blur-xl">
-            <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="max-w-xl w-full bg-zinc-900 p-16 rounded-xl relative text-center shadow-2xl">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[2000] flex items-center justify-center bg-black/95 p-6 backdrop-blur-2xl">
+            <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="max-w-xl w-full bg-zinc-950 p-16 rounded-3xl relative text-center border border-white/5 shadow-[0_0_100px_rgba(0,0,0,1)]">
               <button onClick={() => setCheckoutPlan(null)} className="absolute top-12 right-12 text-white/20 hover:text-white"><X size={32} /></button>
-              <h2 className="h-netflix text-5xl mb-6">Subscribe.</h2>
-              <p className="text-white/40 mb-16 font-bold uppercase tracking-widest text-sm">Secure Payment for ${checkoutPlan.p}</p>
-              <button onClick={handlePurchase} className="btn-netflix-red w-full py-5 text-lg">Confirm Subscription</button>
+              <div className="mb-12">
+                 <Lock className="mx-auto text-[#E50914] mb-6" size={48} />
+                 <h2 className="h-netflix text-5xl mb-4">AUTHORIZE.</h2>
+                 <p className="text-white/40 text-xs font-black uppercase tracking-widest">Protocol Sync for ${checkoutPlan.p}</p>
+              </div>
+              <button onClick={handlePurchase} className="btn-netflix-red w-full py-6 text-lg tracking-widest shadow-2xl">Confirm Transaction</button>
             </motion.div>
           </motion.div>
         )}
         {iptvCode && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[1100] flex items-center justify-center bg-black/98 p-6 backdrop-blur-2xl">
-            <motion.div initial={{ scale: 0.7, y: 100 }} animate={{ scale: 1, y: 0 }} className="max-w-2xl w-full bg-zinc-900 border border-[#E50914]/40 p-24 rounded-2xl relative text-center shadow-[0_0_100px_rgba(229,9,20,0.2)]">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[2100] flex items-center justify-center bg-black/98 p-6 backdrop-blur-3xl">
+            <motion.div initial={{ scale: 0.7, y: 100 }} animate={{ scale: 1, y: 0 }} className="max-w-2xl w-full bg-zinc-950 border border-[#E50914]/40 p-24 rounded-3xl relative text-center shadow-[0_0_200px_rgba(229,9,20,0.15)]">
               <h2 className="h-netflix text-7xl mb-8 text-[#E50914]">SUCCESS.</h2>
-              <p className="text-white/40 mb-20 font-bold uppercase tracking-widest">Your Neural Sync Code is ready.</p>
-              <div className="bg-black p-16 border border-white/10 mb-20 flex items-center justify-center gap-12 group cursor-pointer hover:bg-white/5 rounded-xl" onClick={() => { navigator.clipboard.writeText(iptvCode); confetti({ particleCount: 50 }); }}>
+              <p className="text-white/40 mb-20 font-bold uppercase tracking-widest text-sm">Your Neural Sync Code is Live.</p>
+              <div className="bg-black p-20 border border-white/5 mb-20 flex items-center justify-center gap-12 group cursor-pointer hover:bg-white/5 rounded-2xl shadow-inner" onClick={() => { navigator.clipboard.writeText(iptvCode); confetti({ particleCount: 50 }); }}>
                 <span className="h-netflix text-7xl tracking-[0.4em] text-white">{iptvCode}</span>
                 <Copy size={48} className="text-white/20 group-hover:text-white transition-all" />
               </div>
-              <button onClick={() => setIptvCode(null)} className="text-sm font-bold opacity-30 hover:opacity-100 transition-all text-white uppercase tracking-widest">Dismiss</button>
+              <button onClick={() => setIptvCode(null)} className="text-xs font-black opacity-30 hover:opacity-100 transition-all text-white uppercase tracking-[0.5em]">Close Uplink</button>
             </motion.div>
           </motion.div>
         )}
@@ -253,7 +269,6 @@ const DashboardPage = ({ user }) => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Card form state
   const [cardHolder, setCardHolder] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [expiry, setExpiry] = useState('');
@@ -294,33 +309,37 @@ const DashboardPage = ({ user }) => {
   if (!user) return null;
 
   return (
-    <div className="pt-32 pb-80 px-6 md:px-16 overflow-y-auto">
+    <div className="pt-40 pb-80 px-6 md:px-16 overflow-y-auto bg-black">
       <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-center mb-16">
+        <div className="mb-20">
+          <span className="text-[#E50914] font-black uppercase tracking-[0.6em] text-[10px] mb-4 block">System Interface</span>
           <h2 className="h-netflix text-7xl text-white">DASHBOARD.</h2>
         </div>
 
         <div className="flex gap-12 mb-16 border-b border-white/5 pb-4">
-          <button onClick={() => setActiveTab('codes')} className={`text-sm font-bold uppercase tracking-widest transition-all ${activeTab === 'codes' ? 'text-[#E50914]' : 'text-white/30'}`}>Active Codes</button>
-          <button onClick={() => setActiveTab('billing')} className={`text-sm font-bold uppercase tracking-widest transition-all ${activeTab === 'billing' ? 'text-[#E50914]' : 'text-white/30'}`}>Secure Billing</button>
+          <button onClick={() => setActiveTab('codes')} className={`text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'codes' ? 'text-[#E50914]' : 'text-white/20'}`}>Transmissions</button>
+          <button onClick={() => setActiveTab('billing')} className={`text-xs font-black uppercase tracking-widest transition-all ${activeTab === 'billing' ? 'text-[#E50914]' : 'text-white/20'}`}>Credentials</button>
         </div>
 
         {loading ? (
-          <div className="py-40 text-center text-sm font-bold animate-pulse text-white/20">Syncing Node...</div>
+          <div className="py-40 text-center text-xs font-black animate-pulse text-[#E50914]">Syncing Node Protocols...</div>
         ) : activeTab === 'codes' ? (
           <div className="grid gap-6">
             {purchases.length === 0 ? (
-              <div className="py-40 text-center bg-zinc-900 rounded-xl opacity-20 text-4xl font-black text-white">NO ACTIVE CODES</div>
+              <div className="py-40 text-center bg-zinc-950 rounded-3xl border border-white/5 opacity-20 text-5xl font-black text-white italic tracking-tighter">ZERO CODES DETECTED</div>
             ) : (
               purchases.map(p => (
-                <div key={p.id} className="bg-zinc-900 p-8 rounded-xl flex flex-col md:flex-row justify-between items-center group border border-white/5 hover:border-white/20 transition-all">
+                <div key={p.id} className="bg-zinc-900/50 p-10 rounded-3xl flex flex-col md:flex-row justify-between items-center group border border-white/5 hover:border-[#E50914]/40 transition-all duration-500 shadow-xl">
                   <div>
-                    <h4 className="text-2xl font-bold mb-2 text-white">{p.plan_name}</h4>
-                    <p className="text-xs font-bold text-white/30 uppercase tracking-widest">{new Date(p.created_at).toLocaleDateString()} | ${p.amount} Paid</p>
+                    <h4 className="text-3xl font-black mb-4 text-white tracking-tight">{p.plan_name}</h4>
+                    <div className="flex gap-8 text-[10px] font-black text-white/30 uppercase tracking-[0.2em]">
+                      <span className="flex items-center gap-2"><Calendar size={14} /> {new Date(p.created_at).toLocaleDateString()}</span>
+                      <span className="flex items-center gap-2"><CreditCard size={14} /> ${p.amount} SETTLED</span>
+                    </div>
                   </div>
-                  <div className="flex items-center gap-8 bg-black px-12 py-4 rounded-lg border border-white/10 group-hover:border-[#E50914]/40 transition-all cursor-pointer" onClick={() => { navigator.clipboard.writeText(p.iptv_code); confetti({ particleCount: 50 }); }}>
-                    <span className="h-netflix text-5xl tracking-[0.3em] text-white">{p.iptv_code}</span>
-                    <Copy size={24} className="text-white/20 group-hover:text-white" />
+                  <div className="flex items-center gap-8 bg-black px-12 py-6 rounded-2xl border border-white/10 group-hover:border-[#E50914]/60 transition-all cursor-pointer shadow-2xl" onClick={() => { navigator.clipboard.writeText(p.iptv_code); confetti({ particleCount: 50 }); }}>
+                    <span className="h-netflix text-6xl tracking-[0.3em] text-white">{p.iptv_code}</span>
+                    <Copy size={32} className="text-white/20 group-hover:text-white" />
                   </div>
                 </div>
               ))
@@ -328,30 +347,33 @@ const DashboardPage = ({ user }) => {
           </div>
         ) : (
           <div className="grid lg:grid-cols-2 gap-12 text-white">
-            <div className="space-y-6">
-              <h3 className="text-sm font-bold text-white/30 uppercase tracking-widest mb-4">Credentials</h3>
+            <div className="space-y-8">
+              <h3 className="text-xs font-black text-white/20 uppercase tracking-[0.4em] mb-4">Saved Payment Methods</h3>
               {cards.map(c => (
-                <div key={c.id} className="p-8 bg-zinc-900 rounded-xl flex justify-between items-center border-l-4 border-[#E50914]">
-                  <div>
-                    <p className="text-2xl font-bold tracking-widest font-mono text-white">{c.card_number}</p>
-                    <p className="text-xs font-bold text-white/30 uppercase tracking-widest">{c.card_holder} | {c.expiry}</p>
+                <div key={c.id} className="p-10 bg-zinc-950 rounded-3xl flex justify-between items-center border border-white/5 border-l-4 border-[#E50914] shadow-xl">
+                  <div className="flex items-center gap-8">
+                    <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center text-[#E50914]"><CardIcon size={32} /></div>
+                    <div>
+                      <p className="text-2xl font-bold tracking-[0.3em] font-mono text-white">{c.card_number}</p>
+                      <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em]">{c.card_holder} | {c.expiry}</p>
+                    </div>
                   </div>
                   <button onClick={async () => { await supabase.from('payment_methods').delete().eq('id', c.id); setCards(cards.filter(x => x.id !== c.id)); }} className="text-white/20 hover:text-[#E50914] transition-all"><Trash2 size={24} /></button>
                 </div>
               ))}
             </div>
 
-            <div className="bg-zinc-900 p-12 rounded-xl">
-              <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-10">Add Secure Method</h3>
+            <div className="bg-zinc-950 p-12 rounded-[2rem] border border-white/5 shadow-2xl">
+              <h3 className="text-xs font-black text-white uppercase tracking-[0.4em] mb-12">Register New Credential</h3>
               <form onSubmit={handleAddCard} className="space-y-8">
-                <input type="text" required placeholder="HOLDER NAME" className="w-full bg-black border border-white/10 p-5 rounded-lg text-sm outline-none focus:border-[#E50914] transition-all font-mono text-white" value={cardHolder} onChange={e => setCardHolder(e.target.value)} />
-                <input type="text" required placeholder="CARD NUMBER" className="w-full bg-black border border-white/10 p-5 rounded-lg text-sm outline-none focus:border-[#E50914] transition-all font-mono text-white" value={cardNumber} onChange={e => setCardNumber(e.target.value)} />
-                <div className="grid grid-cols-2 gap-6">
-                  <input type="text" required placeholder="MM/YY" className="w-full bg-black border border-white/10 p-5 rounded-lg text-sm outline-none focus:border-[#E50914] transition-all font-mono text-white" value={expiry} onChange={e => setExpiry(e.target.value)} />
-                  <input type="text" required placeholder="CVC" className="w-full bg-black border border-white/10 p-5 rounded-lg text-sm outline-none focus:border-[#E50914] transition-all font-mono text-white" value={cvc} onChange={e => setCvc(e.target.value)} />
+                <input type="text" required placeholder="HOLDER NAME" className="w-full bg-black border border-white/10 p-6 rounded-xl text-sm outline-none focus:border-[#E50914] transition-all font-mono text-white" value={cardHolder} onChange={e => setCardHolder(e.target.value)} />
+                <input type="text" required placeholder="CARD NUMBER" className="w-full bg-black border border-white/10 p-6 rounded-xl text-sm outline-none focus:border-[#E50914] transition-all font-mono text-white" value={cardNumber} onChange={e => setCardNumber(e.target.value)} />
+                <div className="grid grid-cols-2 gap-8">
+                  <input type="text" required placeholder="MM/YY" className="w-full bg-black border border-white/10 p-6 rounded-xl text-sm outline-none focus:border-[#E50914] transition-all font-mono text-white" value={expiry} onChange={e => setExpiry(e.target.value)} />
+                  <input type="text" required placeholder="CVC" className="w-full bg-black border border-white/10 p-6 rounded-xl text-sm outline-none focus:border-[#E50914] transition-all font-mono text-white" value={cvc} onChange={e => setCvc(e.target.value)} />
                 </div>
-                <button disabled={savingCard} className="btn-netflix-red w-full py-5 text-sm uppercase tracking-widest font-black">
-                  {savingCard ? 'Syncing...' : 'Sync Card'}
+                <button disabled={savingCard} className="btn-netflix-red w-full py-6 text-sm uppercase tracking-[0.4em] font-black shadow-xl">
+                  {savingCard ? 'Syncing...' : 'Initialize Card Sync'}
                 </button>
               </form>
             </div>
@@ -379,7 +401,7 @@ const AuthPage = () => {
       if (mode === 'signup') {
         const { error } = await supabase.auth.signUp({ email, password });
         if (error) throw error;
-        setMessage("Activation link transmitted.");
+        setMessage("Activation protocol transmitted to your node.");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -389,28 +411,28 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-6">
-      <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} className="max-w-md w-full bg-zinc-900 p-16 rounded-lg relative border border-white/5 shadow-3xl">
+    <div className="min-h-screen flex items-center justify-center px-6 bg-black">
+      <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} className="max-w-md w-full bg-zinc-950 p-16 rounded-[3rem] relative border border-white/5 shadow-[0_0_100px_rgba(0,0,0,1)]">
         <div className="text-center mb-16">
           <h2 className="h-netflix text-5xl mb-6 text-white">{mode === 'login' ? 'Recall.' : 'Initialize.'}</h2>
-          <p className="text-xs font-bold text-white/30 uppercase tracking-widest">Neural Link Access</p>
+          <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.4em]">Neural Network Link</p>
         </div>
 
         {message ? (
           <div className="text-center py-10 space-y-12">
-            <p className="text-sm font-bold text-white leading-loose">{message}</p>
-            <button onClick={() => navigate('/')} className="btn-netflix-red w-full py-5 text-[10px]">Back to Home</button>
+            <p className="text-sm font-bold text-white/60 leading-loose">{message}</p>
+            <button onClick={() => navigate('/')} className="btn-netflix-red w-full py-5 text-[10px] tracking-widest">Back to Home</button>
           </div>
         ) : (
           <form onSubmit={handleAuth} className="space-y-8">
-            <input type="email" required placeholder="NEURAL.ID" className="w-full rounded-md py-5 px-10 text-sm outline-none bg-black border border-white/10 focus:border-[#E50914] transition-all font-mono text-white" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <input type="password" required placeholder="ACCESS.KEY" className="w-full rounded-md py-5 px-10 text-sm outline-none bg-black border border-white/10 focus:border-[#E50914] transition-all font-mono text-white" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <input type="email" required placeholder="NEURAL.ID" className="w-full rounded-xl py-6 px-10 text-sm outline-none bg-black border border-white/10 focus:border-[#E50914] transition-all font-mono text-white" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input type="password" required placeholder="ACCESS.KEY" className="w-full rounded-xl py-6 px-10 text-sm outline-none bg-black border border-white/10 focus:border-[#E50914] transition-all font-mono text-white" value={password} onChange={(e) => setPassword(e.target.value)} />
             {error && <div className="text-[#E50914] text-[10px] text-center font-bold uppercase tracking-widest py-4">{error}</div>}
-            <button disabled={loading} className="btn-netflix-red w-full py-5 text-sm uppercase tracking-widest">
+            <button disabled={loading} className="btn-netflix-red w-full py-6 text-sm uppercase tracking-widest font-black shadow-2xl">
               {loading ? 'Transmitting...' : mode === 'login' ? 'Establish Link' : 'Initialize Node'}
             </button>
             <div className="text-center pt-8">
-              <button type="button" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')} className="text-[10px] font-bold text-white/30 hover:text-white uppercase tracking-widest transition-all">
+              <button type="button" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')} className="text-[10px] font-black text-white/20 hover:text-white uppercase tracking-[0.3em] transition-all">
                 {mode === 'login' ? "New Neural Link? Join" : "Existing Link? Sync"}
               </button>
             </div>
@@ -432,7 +454,7 @@ export default function App() {
 
   return (
     <Router>
-      <main className="min-h-screen bg-[#000000] text-white">
+      <main className="min-h-screen bg-black text-white">
         <Navbar user={user} />
         
         <Routes>
@@ -442,9 +464,9 @@ export default function App() {
           <Route path="/auth" element={<AuthPage />} />
         </Routes>
 
-        <footer className="py-40 bg-black border-t border-white/5 text-center">
-          <h1 className="h-netflix text-[10vw] opacity-10 text-[#E50914]">TITANTV</h1>
-          <p className="text-[8px] font-bold opacity-10 uppercase tracking-[1em] text-white">© 2026 NETFLIX LUXE INFRASTRUCTURE</p>
+        <footer className="py-60 bg-black border-t border-white/5 text-center">
+          <h1 className="h-netflix text-[12vw] opacity-10 text-[#E50914] tracking-tighter">TITANTV</h1>
+          <p className="text-[9px] font-black opacity-10 uppercase tracking-[1em] text-white">© 2026 PREMIUM STREAMING INFRASTRUCTURE</p>
         </footer>
       </main>
     </Router>
