@@ -37,49 +37,68 @@ body {
 .orb-1 { width: 70vw; height: 70vw; top: -20%; left: -10%; background: radial-gradient(circle, var(--primary), transparent); }
 .orb-2 { width: 60vw; height: 60vw; bottom: -20%; right: -10%; background: radial-gradient(circle, var(--secondary), transparent); }
 
-/* --- Premium Glassmorphism --- */
+/* --- 3D TV & Title Aesthetics --- */
 
-.glass-luxe {
-  background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-  backdrop-filter: blur(50px) saturate(180%);
-  border: 1px solid var(--border);
+.scene-3d {
+  perspective: 2000px;
+  transform-style: preserve-3d;
+}
+
+.tv-container {
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease-out;
+}
+
+.tv-frame {
+  background: #050505;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 
-    0 50px 100px -20px rgba(0, 0, 0, 0.8),
-    inset 0 0 20px rgba(255,255,255,0.02);
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    0 50px 150px -20px rgba(0, 242, 255, 0.2),
+    0 0 50px rgba(112, 0, 255, 0.1);
+  border-radius: 40px;
+  position: relative;
+  overflow: hidden;
 }
 
-.glass-luxe:hover {
-  border-color: var(--primary);
-  box-shadow: 0 0 40px rgba(0, 242, 255, 0.1);
-  transform: translateY(-5px);
+.tv-screen {
+  background: radial-gradient(circle at center, #111 0%, #000 100%);
+  position: relative;
+  overflow: hidden;
 }
 
-/* --- Bold Typography --- */
-
-.h-titan {
+.text-3d {
   font-family: 'Outfit', sans-serif;
   font-weight: 900;
-  letter-spacing: -0.06em;
-  line-height: 0.85;
   text-transform: uppercase;
-  background: linear-gradient(180deg, #fff 40%, rgba(255,255,255,0.1) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: white;
+  letter-spacing: -0.04em;
+  text-shadow: 
+    0 1px 0 #ccc,
+    0 2px 0 #c9c9c9,
+    0 3px 0 #bbb,
+    0 4px 0 #b9b9b9,
+    0 5px 0 #aaa,
+    0 6px 1px rgba(0,0,0,.1),
+    0 0 5px rgba(0,0,0,.1),
+    0 1px 3px rgba(0,0,0,.3),
+    0 3px 5px rgba(0,0,0,.2),
+    0 5px 10px rgba(0,0,0,.25),
+    0 10px 10px rgba(0,0,0,.2),
+    0 20px 20px rgba(0,0,0,.15),
+    0 0 80px var(--primary);
 }
 
-.label-tech {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.8em;
-  color: var(--primary);
-  text-shadow: 0 0 10px rgba(0, 242, 255, 0.3);
+.scanlines {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 50%);
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.1;
 }
 
-/* --- Interactive Buttons --- */
+/* --- Premium Buttons --- */
 
 .btn-premium {
   background: #fff;
@@ -94,7 +113,7 @@ body {
 }
 
 .btn-premium:hover {
-  transform: scale(1.05) translateY(-2px);
+  transform: scale(1.05);
   background: var(--primary);
   box-shadow: 0 20px 80px rgba(0, 242, 255, 0.4);
 }
