@@ -24,27 +24,27 @@ const CHANNEL_CATEGORIES = [
   {
     title: 'Sports & Live TV',
     logos: [
-      { name: 'Sky Sports', url: 'https://upload.wikimedia.org/wikipedia/en/thumb/3/3e/Sky_Sports_logo_2017.svg/512px-Sky_Sports_logo_2017.svg.png' },
-      { name: 'beIN SPORTS', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/BeIN_Sports_logo.svg/512px-BeIN_Sports_logo.svg.png' },
-      { name: 'DAZN', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/DAZN_logo.svg/512px-DAZN_logo.svg.png' },
-      { name: 'ESPN', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/ESPN_wordmark.svg/512px-ESPN_wordmark.svg.png' },
-      { name: 'Eurosport', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Eurosport_logo.svg/512px-Eurosport_logo.svg.png' },
-      { name: 'UFC', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/UFC_logo.svg/512px-UFC_logo.svg.png' },
-      { name: 'Fox Sports', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Fox_Sports_logo.svg/512px-Fox_Sports_logo.svg.png' },
-      { name: 'Formula 1', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/F1.svg/512px-F1.svg.png' }
+      { name: 'Sky Sports', url: 'https://upload.wikimedia.org/wikipedia/en/3/3e/Sky_Sports_logo_2017.svg' },
+      { name: 'beIN SPORTS', url: 'https://upload.wikimedia.org/wikipedia/commons/2/25/BeIN_Sports_logo.svg' },
+      { name: 'DAZN', url: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/DAZN_logo.svg' },
+      { name: 'ESPN', url: 'https://upload.wikimedia.org/wikipedia/commons/b/bd/ESPN_wordmark.svg' },
+      { name: 'Eurosport', url: 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Eurosport_logo.svg' },
+      { name: 'UFC', url: 'https://upload.wikimedia.org/wikipedia/commons/0/0d/UFC_logo.svg' },
+      { name: 'Fox Sports', url: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Fox_Sports_logo.svg' },
+      { name: 'Formula 1', url: 'https://upload.wikimedia.org/wikipedia/commons/3/33/F1.svg' }
     ]
   },
   {
     title: 'Cinema & Series',
     logos: [
-      { name: 'Netflix', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/512px-Netflix_2015_logo.svg.png' },
-      { name: 'HBO Max', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/HBO_Max_logo.svg/512px-HBO_Max_logo.svg.png' },
-      { name: 'Disney+', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Disney%2B_logo.svg/512px-Disney%2B_logo.svg.png' },
-      { name: 'Prime Video', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Prime_Video_logo.svg/512px-Prime_Video_logo.svg.png' },
-      { name: 'Canal+', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Canal%2B_logo.svg/512px-Canal%2B_logo.svg.png' },
-      { name: 'Paramount+', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Paramount_Plus.svg/512px-Paramount_Plus.svg.png' },
-      { name: 'Apple TV+', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Apple_TV_Plus_Logo.svg/512px-Apple_TV_Plus_Logo.svg.png' },
-      { name: 'Warner Bros', url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/64/Warner_Bros_logo.svg/512px-Warner_Bros_logo.svg.png' }
+      { name: 'Netflix', url: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg' },
+      { name: 'HBO Max', url: 'https://upload.wikimedia.org/wikipedia/commons/c/ce/HBO_Max_logo.svg' },
+      { name: 'Disney+', url: 'https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg' },
+      { name: 'Prime Video', url: 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video_logo.svg' },
+      { name: 'Canal+', url: 'https://upload.wikimedia.org/wikipedia/commons/d/d3/Canal%2B_logo.svg' },
+      { name: 'Paramount+', url: 'https://upload.wikimedia.org/wikipedia/commons/a/a5/Paramount_Plus.svg' },
+      { name: 'Apple TV+', url: 'https://upload.wikimedia.org/wikipedia/commons/2/28/Apple_TV_Plus_Logo.svg' },
+      { name: 'Warner Bros', url: 'https://upload.wikimedia.org/wikipedia/commons/6/64/Warner_Bros_logo.svg' }
     ]
   }
 ];
