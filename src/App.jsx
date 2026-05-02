@@ -7,7 +7,7 @@ import {
   Smartphone, Tv, CheckCircle2, Monitor, Lock, AlertCircle,
   Copy, Check, History, CreditCard, Calendar, Hash, Layout,
   Cpu, Wifi, Database, Layers, ExternalLink, Plus, Trash2, 
-  CreditCard as CardIcon
+  CreditCard as CardIcon, Info
 } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import Lenis from 'lenis';
@@ -18,112 +18,140 @@ import { supabase } from './lib/supabase';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// --- Guaranteed Official SVG Logos ---
+// --- High-Resolution Stable Channels ---
 
-const MAIN_CHANNELS = [
-  { name: 'Netflix', url: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg' },
-  { name: 'HBO Max', url: 'https://upload.wikimedia.org/wikipedia/commons/1/17/HBO_logo.svg' },
-  { name: 'Disney+', url: 'https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg' },
-  { name: 'Prime Video', url: 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video_logo.svg' },
-  { name: 'DAZN', url: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/DAZN_logo.svg' },
-  { name: 'beIN SPORTS', url: 'https://upload.wikimedia.org/wikipedia/commons/2/25/BeIN_Sports_logo.svg' },
-  { name: 'Canal+', url: 'https://upload.wikimedia.org/wikipedia/commons/d/d3/Canal%2B_logo.svg' }
+const CHANNEL_CATEGORIES = [
+  {
+    title: 'Featured Networks',
+    logos: [
+      { name: 'Netflix', url: 'https://logo.clearbit.com/netflix.com' },
+      { name: 'HBO Max', url: 'https://logo.clearbit.com/hbomax.com' },
+      { name: 'Disney+', url: 'https://logo.clearbit.com/disneyplus.com' },
+      { name: 'Prime Video', url: 'https://logo.clearbit.com/amazon.com' },
+      { name: 'DAZN', url: 'https://logo.clearbit.com/dazn.com' },
+      { name: 'beIN Sports', url: 'https://logo.clearbit.com/beinsports.com' },
+      { name: 'Canal+', url: 'https://logo.clearbit.com/canalplus.com' }
+    ]
+  },
+  {
+    title: 'Sports & Live TV',
+    logos: [
+      { name: 'Sky Sports', url: 'https://logo.clearbit.com/sky.com' },
+      { name: 'ESPN', url: 'https://logo.clearbit.com/espn.com' },
+      { name: 'Fox Sports', url: 'https://logo.clearbit.com/fox.com' },
+      { name: 'BT Sport', url: 'https://logo.clearbit.com/bt.com' },
+      { name: 'Eurosport', url: 'https://logo.clearbit.com/eurosport.com' }
+    ]
+  }
 ];
 
-const GRID_DOMAINS = [
-  'netflix.com', 'hbo.com', 'disneyplus.com', 'amazon.com', 'espn.com', 'fox.com', 'cnn.com', 
-  'discovery.com', 'natgeo.com', 'mtv.com', 'bbc.co.uk', 'sky.com', 'dazn.com', 'beinsports.com',
-  'canalplus.com', 'warnerbros.com', 'paramount.com', 'universalpictures.com', 'sony.com', 'marvel.com'
-];
+// --- Global UI Components ---
 
 const Navbar = ({ user }) => {
   const navigate = useNavigate();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handle = () => setScrolled(window.scrollY > 50);
+    window.addEventListener('scroll', handle);
+    return () => window.removeEventListener('scroll', handle);
+  }, []);
+
   return (
-    <nav className="fixed top-0 w-full z-[1000] px-6 md:px-16 py-8 flex justify-between items-center bg-black/80 backdrop-blur-md border-b border-white/5">
-      <div className="flex items-center gap-16">
-        <Link to="/" className="h-titan text-2xl text-[#ff0000] tracking-tighter">TITAN<span className="text-white">TV</span></Link>
-        <div className="hidden lg:flex items-center gap-10">
-          {['Catalog', 'Networks', 'Tech', 'Pricing'].map(item => (
-            <Link key={item} to={item === 'Pricing' ? '/pricing' : '/'} className="nav-link">{item}</Link>
+    <nav className={`fixed top-0 w-full z-[1000] px-6 md:px-16 py-6 flex justify-between items-center transition-all duration-500 ${scrolled ? 'bg-black shadow-2xl' : 'bg-gradient-to-b from-black/80 to-transparent'}`}>
+      <div className="flex items-center gap-12">
+        <Link to="/" className="h-netflix text-4xl text-[#E50914]">TITANTV</Link>
+        <div className="hidden lg:flex items-center gap-8">
+          {['Home', 'Series', 'Movies', 'Sports', 'My List'].map(item => (
+            <Link key={item} to="/" className="text-sm font-medium text-white/70 hover:text-white transition-colors">{item}</Link>
           ))}
         </div>
       </div>
 
-      <div className="flex items-center gap-8">
+      <div className="flex items-center gap-6">
         {user ? (
-          <Link to="/dashboard" className="btn-fine px-8 py-3">Dashboard</Link>
+          <Link to="/dashboard" className="text-sm font-bold text-white hover:text-[#E50914] transition-colors">Dashboard</Link>
         ) : (
-          <button onClick={() => navigate('/auth')} className="btn-fine px-8 py-3">Sync Now</button>
+          <button onClick={() => navigate('/auth')} className="btn-netflix-red text-sm">Sign In</button>
         )}
       </div>
     </nav>
   );
 };
 
-// --- Page: Home ---
+// --- Page: Home (Netflix Style) ---
 
 const HomePage = ({ user }) => {
   const navigate = useNavigate();
-  const containerRef = useRef(null);
-
+  
   return (
-    <div ref={containerRef} className="pt-40 pb-40">
-      <div className="container mx-auto px-6 text-center">
+    <div className="pb-40">
+      {/* Netflix Cinematic Hero */}
+      <div className="relative h-[85vh] w-full overflow-hidden">
+        <img 
+          src="https://images.unsplash.com/photo-1574629810360-7efbbe195018?auto=format&fit=crop&q=80&w=2000" 
+          className="w-full h-full object-cover" 
+          alt="Hero" 
+        />
+        <div className="hero-overlay" />
         
-        {/* Finer Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-40 max-w-6xl mx-auto">
-          {[
-            { val: '21K+', label: 'Channels' },
-            { val: '150K+', label: 'VOD' },
-            { val: '<0.8MS', label: 'Latency' },
-            { val: '99.9%', label: 'Uptime' }
-          ].map((stat, i) => (
-            <div key={i} className="text-center group border-l border-white/5 pl-6">
-              <h2 className="h-titan text-5xl md:text-7xl text-ghost-fine mb-2">{stat.val}</h2>
-              <p className="nav-link opacity-20">{stat.label}</p>
+        <div className="absolute bottom-[15%] left-[5%] max-w-2xl z-10">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 }}>
+            <h1 className="h-netflix text-6xl md:text-8xl mb-6">LIVE SPORTS & <br /> ENT. HUB</h1>
+            <p className="text-lg text-white/80 mb-10 leading-relaxed">Stream the world's biggest matches and movies in 4K RAW. Zero buffering, unlimited access on all your devices.</p>
+            <div className="flex items-center gap-4">
+              <button onClick={() => navigate('/pricing')} className="btn-netflix-main">
+                <Play fill="black" size={24} /> Subscribe
+              </button>
+              <button className="bg-white/20 backdrop-blur-md text-white px-8 py-3 rounded-md flex items-center gap-3 font-bold hover:bg-white/30 transition-all">
+                <Info size={24} /> More Info
+              </button>
             </div>
-          ))}
+          </motion.div>
         </div>
+      </div>
 
-        {/* Finer Hero Title */}
-        <div className="mb-60">
-          <h1 className="h-titan text-[10vw] leading-none mb-12 text-white relative">
-            CHANNELS.
-            <span className="absolute inset-0 text-[#ff0000] opacity-10 -translate-x-1">CHANNELS.</span>
-          </h1>
-          <button onClick={() => navigate('/pricing')} className="btn-fine scale-110 mt-6">Initialize Link</button>
-        </div>
-
-        {/* ELEGANT LOGO GRID */}
-        <div className="mt-60 max-w-7xl mx-auto">
-          <div className="flex items-center justify-center gap-4 mb-20">
-            <div className="h-px w-20 bg-white/10" />
-            <h3 className="nav-link text-white/40">Network Infrastructure</h3>
-            <div className="h-px w-20 bg-white/10" />
+      {/* Content Rows */}
+      <div className="px-6 md:px-16 -mt-20 relative z-20 space-y-16">
+        {CHANNEL_CATEGORIES.map((cat, ci) => (
+          <div key={ci}>
+            <h3 className="text-2xl font-bold mb-6">{cat.title}</h3>
+            <div className="content-row">
+              {cat.logos.map((logo, i) => (
+                <div key={i} className="content-card group">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="w-full h-full flex items-center justify-center p-8 bg-zinc-900">
+                    <img 
+                      src={logo.url} 
+                      className="w-full h-full object-contain filter brightness-[2]" 
+                      alt={logo.name} 
+                      onError={(e) => { e.target.src = `https://ui-avatars.com/api/?name=${logo.name}&background=E50914&color=fff`; }}
+                    />
+                  </div>
+                  <div className="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <p className="text-xs font-bold uppercase tracking-widest">{logo.name}</p>
+                    <div className="flex gap-2 mt-2">
+                      <div className="w-2 h-2 bg-green-500 rounded-full" />
+                      <span className="text-[10px] text-green-500">Live 4K</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+              {/* Duplicate for length */}
+              {cat.logos.map((logo, i) => (
+                <div key={`2-${i}`} className="content-card group">
+                  <div className="w-full h-full flex items-center justify-center p-8 bg-zinc-900">
+                    <img 
+                      src={logo.url} 
+                      className="w-full h-full object-contain filter brightness-[2]" 
+                      alt={logo.name} 
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          
-          <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
-            {MAIN_CHANNELS.map((logo, i) => (
-              <div key={i} className="logo-grid-item p-6 group">
-                <img 
-                  src={logo.url} 
-                  className="w-full h-10 object-contain opacity-40 group-hover:opacity-100 transition-all filter brightness-[3]" 
-                  alt={logo.name} 
-                />
-              </div>
-            ))}
-            {/* Fill with domains for density */}
-            {GRID_DOMAINS.map((domain, i) => (
-              <div key={`domain-${i}`} className="logo-grid-item p-6 group">
-                <img 
-                  src={`https://logo.clearbit.com/${domain}`} 
-                  className="w-full h-10 object-contain opacity-40 group-hover:opacity-100 transition-all filter brightness-[3] grayscale" 
-                  alt={domain} 
-                />
-              </div>
-            ))}
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );
@@ -149,39 +177,37 @@ const PricingPage = ({ user }) => {
 
   return (
     <div className="pt-40 pb-80 px-6">
-      <div className="container mx-auto">
-        <div className="text-center mb-40">
-          <h2 className="h-titan text-[8vw] text-ghost-fine leading-none mb-12">PRICING.</h2>
+      <div className="container mx-auto max-w-4xl">
+        <div className="text-center mb-16">
+          <span className="text-sm font-bold text-[#E50914] uppercase tracking-[0.3em] mb-4 block">Pick Your Plan</span>
+          <h2 className="h-netflix text-6xl mb-4">NO COMMITMENT. <br /> CANCEL ANYTIME.</h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-6">
           {[
-            { t: 'MONTHLY', p: '19', f: ['21K+ Channels', '4K Quality', '1 Device'] },
-            { t: 'ANNUAL ELITE', p: '59', f: ['8K RAW Quality', '3 Devices', 'Anti-Buffer', 'VOD 150K+'], featured: true },
-            { t: 'ULTIMATE', p: '99', f: ['Uncompressed Feed', '5 Devices', 'VPN Ghost', 'Full Support'] }
+            { t: 'BASIC', p: '19', f: ['21K+ Channels', '4K Streaming', '1 Device'] },
+            { t: 'STANDARD', p: '59', f: ['8K RAW Quality', '3 Devices', 'Anti-Buffer Pro'], featured: true },
+            { t: 'PREMIUM', p: '99', f: ['Uncompressed Feed', '5 Devices', 'Priority Support'] }
           ].map((plan, i) => (
-            <div key={i} className={`p-12 border border-white/5 bg-white/[0.01] flex flex-col ${plan.featured ? 'md:scale-105 border-[#ff0000]/40' : ''}`}>
-              <h3 className="nav-link mb-8 text-[#ff0000]">{plan.t}</h3>
-              <div className="flex items-baseline gap-2 mb-12">
-                <span className="h-titan text-7xl text-white">${plan.p}</span>
-                <span className="nav-link opacity-20">/ Year</span>
+            <div key={i} className={`p-10 bg-zinc-900 border border-white/5 rounded-lg flex flex-col ${plan.featured ? 'scale-105 border-[#E50914]/50' : ''}`}>
+              <h3 className="text-lg font-bold mb-6">{plan.t}</h3>
+              <div className="flex items-baseline gap-2 mb-10">
+                <span className="text-5xl font-black">${plan.p}</span>
+                <span className="text-xs text-white/40 font-bold uppercase">/ Year</span>
               </div>
-              <div className="space-y-6 mb-16 flex-grow">
+              <div className="space-y-4 mb-12 flex-grow">
                 {plan.f.map((feat, fi) => (
-                  <div key={fi} className="flex items-center gap-4 group">
-                    <div className="w-1 h-1 bg-[#ff0000] rounded-full" />
-                    <span className="nav-link text-[9px] opacity-20 group-hover:opacity-100 transition-opacity">{feat}</span>
+                  <div key={fi} className="flex items-center gap-3">
+                    <CheckCircle2 size={18} className="text-[#E50914]" />
+                    <span className="text-sm text-white/70">{feat}</span>
                   </div>
                 ))}
               </div>
               <button 
-                onClick={() => {
-                  if (!user) navigate('/auth');
-                  else setCheckoutPlan(plan);
-                }} 
-                className={`w-full py-6 text-[10px] font-black uppercase tracking-[0.3em] transition-all ${plan.featured ? 'bg-[#ff0000] text-white' : 'border border-white/20 hover:bg-white hover:text-black'}`}
+                onClick={() => { if (!user) navigate('/auth'); else setCheckoutPlan(plan); }} 
+                className={`w-full py-4 rounded-md font-bold text-sm transition-all ${plan.featured ? 'bg-[#E50914] text-white hover:bg-[#f40612]' : 'bg-white/10 hover:bg-white/20'}`}
               >
-                Sync Node
+                Join Now
               </button>
             </div>
           ))}
@@ -191,24 +217,24 @@ const PricingPage = ({ user }) => {
       <AnimatePresence>
         {checkoutPlan && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/98 p-6 backdrop-blur-xl">
-            <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="max-w-xl w-full border border-white/10 bg-black p-16 relative text-center">
+            <motion.div initial={{ scale: 0.8 }} animate={{ scale: 1 }} className="max-w-xl w-full bg-zinc-900 p-16 rounded-xl relative text-center shadow-2xl">
               <button onClick={() => setCheckoutPlan(null)} className="absolute top-12 right-12 text-white/20 hover:text-white"><X size={32} /></button>
-              <h2 className="h-titan text-5xl mb-6 text-[#ff0000]">Authorize.</h2>
-              <p className="nav-link mb-16 italic tracking-[0.4em]">Secure Session for ${checkoutPlan.p}</p>
-              <button onClick={handlePurchase} className="btn-fine w-full text-[12px]">Pay Securely</button>
+              <h2 className="h-netflix text-5xl mb-6">Subscribe.</h2>
+              <p className="text-white/40 mb-16 font-bold uppercase tracking-widest text-sm">Secure Payment for ${checkoutPlan.p}</p>
+              <button onClick={handlePurchase} className="btn-netflix-red w-full py-5 text-lg">Confirm Subscription</button>
             </motion.div>
           </motion.div>
         )}
         {iptvCode && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[1100] flex items-center justify-center bg-black/98 p-6 backdrop-blur-2xl">
-            <motion.div initial={{ scale: 0.7, y: 100 }} animate={{ scale: 1, y: 0 }} className="max-w-2xl w-full border border-[#ff0000]/60 bg-black p-24 relative text-center">
-              <h2 className="h-titan text-7xl mb-8 text-[#ff0000]">SUCCESS.</h2>
-              <p className="nav-link opacity-40 mb-20">Access Code Synchronized.</p>
-              <div className="bg-white/5 p-16 border border-white/10 mb-20 flex items-center justify-center gap-12 group cursor-pointer hover:bg-white/10" onClick={() => { navigator.clipboard.writeText(iptvCode); confetti({ particleCount: 50 }); }}>
-                <span className="h-titan text-7xl tracking-[0.4em] text-white">{iptvCode}</span>
+            <motion.div initial={{ scale: 0.7, y: 100 }} animate={{ scale: 1, y: 0 }} className="max-w-2xl w-full bg-zinc-900 border border-[#E50914]/40 p-24 rounded-2xl relative text-center shadow-[0_0_100px_rgba(229,9,20,0.2)]">
+              <h2 className="h-netflix text-7xl mb-8 text-[#E50914]">SUCCESS.</h2>
+              <p className="text-white/40 mb-20 font-bold uppercase tracking-widest">Your Neural Sync Code is ready.</p>
+              <div className="bg-black p-16 border border-white/10 mb-20 flex items-center justify-center gap-12 group cursor-pointer hover:bg-white/5 rounded-xl" onClick={() => { navigator.clipboard.writeText(iptvCode); confetti({ particleCount: 50 }); }}>
+                <span className="h-netflix text-7xl tracking-[0.4em] text-white">{iptvCode}</span>
                 <Copy size={48} className="text-white/20 group-hover:text-white transition-all" />
               </div>
-              <button onClick={() => setIptvCode(null)} className="nav-link opacity-20 hover:opacity-100 transition-all">Close</button>
+              <button onClick={() => setIptvCode(null)} className="text-sm font-bold opacity-30 hover:opacity-100 transition-all text-white uppercase tracking-widest">Dismiss</button>
             </motion.div>
           </motion.div>
         )}
@@ -265,63 +291,63 @@ const DashboardPage = ({ user }) => {
   if (!user) return null;
 
   return (
-    <div className="pt-40 pb-80 px-6 md:px-16 overflow-y-auto">
+    <div className="pt-32 pb-80 px-6 md:px-16 overflow-y-auto">
       <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-center mb-40">
-          <h2 className="h-titan text-7xl text-ghost-fine">DASHBOARD.</h2>
+        <div className="flex justify-between items-center mb-16">
+          <h2 className="h-netflix text-7xl text-white">DASHBOARD.</h2>
         </div>
 
-        <div className="flex gap-16 mb-20 border-b border-white/5 pb-10">
-          <button onClick={() => setActiveTab('codes')} className={`nav-link ${activeTab === 'codes' ? 'text-[#ff0000]' : ''}`}>Active Codes</button>
-          <button onClick={() => setActiveTab('billing')} className={`nav-link ${activeTab === 'billing' ? 'text-[#ff0000]' : ''}`}>Secure Billing</button>
+        <div className="flex gap-12 mb-16 border-b border-white/5 pb-4">
+          <button onClick={() => setActiveTab('codes')} className={`text-sm font-bold uppercase tracking-widest transition-all ${activeTab === 'codes' ? 'text-[#E50914]' : 'text-white/30'}`}>Active Codes</button>
+          <button onClick={() => setActiveTab('billing')} className={`text-sm font-bold uppercase tracking-widest transition-all ${activeTab === 'billing' ? 'text-[#E50914]' : 'text-white/30'}`}>Secure Billing</button>
         </div>
 
         {loading ? (
-          <div className="py-40 text-center nav-link animate-pulse">Syncing...</div>
+          <div className="py-40 text-center text-sm font-bold animate-pulse text-white/20">Syncing Node...</div>
         ) : activeTab === 'codes' ? (
-          <div className="grid gap-8">
+          <div className="grid gap-6">
             {purchases.length === 0 ? (
-              <div className="py-40 text-center border border-white/5 opacity-20 h-titan text-4xl">No Node Access.</div>
+              <div className="py-40 text-center bg-zinc-900 rounded-xl opacity-20 text-4xl font-black text-white">NO ACTIVE CODES</div>
             ) : (
               purchases.map(p => (
-                <div key={p.id} className="border border-white/5 p-12 flex flex-col md:flex-row justify-between items-center group bg-white/[0.01]">
+                <div key={p.id} className="bg-zinc-900 p-8 rounded-xl flex flex-col md:flex-row justify-between items-center group border border-white/5 hover:border-white/20 transition-all">
                   <div>
-                    <h4 className="h-titan text-4xl mb-4 text-[#ff0000]">{p.plan_name}</h4>
-                    <p className="nav-link opacity-20">{new Date(p.created_at).toLocaleDateString()} | ${p.amount} Paid</p>
+                    <h4 className="text-2xl font-bold mb-2 text-white">{p.plan_name}</h4>
+                    <p className="text-xs font-bold text-white/30 uppercase tracking-widest">{new Date(p.created_at).toLocaleDateString()} | ${p.amount} Paid</p>
                   </div>
-                  <div className="flex items-center gap-12 bg-black px-12 py-6 border border-[#ff0000]/20 cursor-pointer" onClick={() => { navigator.clipboard.writeText(p.iptv_code); confetti({ particleCount: 50 }); }}>
-                    <span className="h-titan text-5xl tracking-[0.4em] text-white">{p.iptv_code}</span>
-                    <Copy size={24} className="text-white/20" />
+                  <div className="flex items-center gap-8 bg-black px-12 py-4 rounded-lg border border-white/10 group-hover:border-[#E50914]/40 transition-all cursor-pointer" onClick={() => { navigator.clipboard.writeText(p.iptv_code); confetti({ particleCount: 50 }); }}>
+                    <span className="h-netflix text-5xl tracking-[0.3em] text-white">{p.iptv_code}</span>
+                    <Copy size={24} className="text-white/20 group-hover:text-white" />
                   </div>
                 </div>
               ))
             )}
           </div>
         ) : (
-          <div className="grid lg:grid-cols-2 gap-20">
-            <div className="space-y-8">
-              <h3 className="nav-link opacity-30 mb-8">Registered Credentials</h3>
+          <div className="grid lg:grid-cols-2 gap-12 text-white">
+            <div className="space-y-6">
+              <h3 className="text-sm font-bold text-white/30 uppercase tracking-widest mb-4">Credentials</h3>
               {cards.map(c => (
-                <div key={c.id} className="p-8 border border-white/5 bg-white/[0.01] flex justify-between items-center border-l-4 border-l-[#ff0000]">
+                <div key={c.id} className="p-8 bg-zinc-900 rounded-xl flex justify-between items-center border-l-4 border-[#E50914]">
                   <div>
                     <p className="text-2xl font-bold tracking-widest font-mono text-white">{c.card_number}</p>
-                    <p className="nav-link opacity-40">{c.card_holder} | {c.expiry}</p>
+                    <p className="text-xs font-bold text-white/30 uppercase tracking-widest">{c.card_holder} | {c.expiry}</p>
                   </div>
-                  <button onClick={async () => { await supabase.from('payment_methods').delete().eq('id', c.id); setCards(cards.filter(x => x.id !== c.id)); }} className="text-white/20 hover:text-[#ff0000] transition-all"><Trash2 size={24} /></button>
+                  <button onClick={async () => { await supabase.from('payment_methods').delete().eq('id', c.id); setCards(cards.filter(x => x.id !== c.id)); }} className="text-white/20 hover:text-[#E50914] transition-all"><Trash2 size={24} /></button>
                 </div>
               ))}
             </div>
 
-            <div className="border border-white/5 bg-white/[0.01] p-12">
-              <h3 className="nav-link mb-12">Sync New Card</h3>
+            <div className="bg-zinc-900 p-12 rounded-xl">
+              <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-10">Add Secure Method</h3>
               <form onSubmit={handleAddCard} className="space-y-8">
-                <input type="text" required placeholder="HOLDER NAME" className="w-full bg-black border border-white/10 p-6 text-sm outline-none focus:border-[#ff0000] transition-all font-mono text-white" value={cardHolder} onChange={e => setCardHolder(e.target.value)} />
-                <input type="text" required placeholder="CARD NUMBER" className="w-full bg-black border border-white/10 p-6 text-sm outline-none focus:border-[#ff0000] transition-all font-mono text-white" value={cardNumber} onChange={e => setCardNumber(e.target.value)} />
-                <div className="grid grid-cols-2 gap-8">
-                  <input type="text" required placeholder="MM/YY" className="w-full bg-black border border-white/10 p-6 text-sm outline-none focus:border-[#ff0000] transition-all font-mono text-white" value={expiry} onChange={e => setExpiry(e.target.value)} />
-                  <input type="text" required placeholder="CVC" className="w-full bg-black border border-white/10 p-6 text-sm outline-none focus:border-[#ff0000] transition-all font-mono text-white" value={cvc} onChange={e => setCvc(e.target.value)} />
+                <input type="text" required placeholder="HOLDER NAME" className="w-full bg-black border border-white/10 p-5 rounded-lg text-sm outline-none focus:border-[#E50914] transition-all font-mono text-white" value={cardHolder} onChange={e => setCardHolder(e.target.value)} />
+                <input type="text" required placeholder="CARD NUMBER" className="w-full bg-black border border-white/10 p-5 rounded-lg text-sm outline-none focus:border-[#E50914] transition-all font-mono text-white" value={cardNumber} onChange={e => setCardNumber(e.target.value)} />
+                <div className="grid grid-cols-2 gap-6">
+                  <input type="text" required placeholder="MM/YY" className="w-full bg-black border border-white/10 p-5 rounded-lg text-sm outline-none focus:border-[#E50914] transition-all font-mono text-white" value={expiry} onChange={e => setExpiry(e.target.value)} />
+                  <input type="text" required placeholder="CVC" className="w-full bg-black border border-white/10 p-5 rounded-lg text-sm outline-none focus:border-[#E50914] transition-all font-mono text-white" value={cvc} onChange={e => setCvc(e.target.value)} />
                 </div>
-                <button disabled={savingCard} className="btn-fine w-full py-6">
+                <button disabled={savingCard} className="btn-netflix-red w-full py-5 text-sm uppercase tracking-widest font-black">
                   {savingCard ? 'Syncing...' : 'Sync Card'}
                 </button>
               </form>
@@ -361,28 +387,28 @@ const AuthPage = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center px-6">
-      <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} className="max-w-md w-full border border-white/10 bg-black p-12 relative">
+      <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} className="max-w-md w-full bg-zinc-900 p-16 rounded-lg relative border border-white/5 shadow-3xl">
         <div className="text-center mb-16">
-          <h2 className="h-titan text-5xl mb-6 text-[#ff0000]">{mode === 'login' ? 'Recall.' : 'Initialize.'}</h2>
-          <p className="nav-link opacity-40">Node Authentication</p>
+          <h2 className="h-netflix text-5xl mb-6 text-white">{mode === 'login' ? 'Recall.' : 'Initialize.'}</h2>
+          <p className="text-xs font-bold text-white/30 uppercase tracking-widest">Neural Link Access</p>
         </div>
 
         {message ? (
           <div className="text-center py-10 space-y-12">
-            <p className="nav-link text-white leading-loose">{message}</p>
-            <button onClick={() => navigate('/')} className="btn-fine w-full py-5 text-[10px]">Back to Home</button>
+            <p className="text-sm font-bold text-white leading-loose">{message}</p>
+            <button onClick={() => navigate('/')} className="btn-netflix-red w-full py-5 text-[10px]">Back to Home</button>
           </div>
         ) : (
           <form onSubmit={handleAuth} className="space-y-8">
-            <input type="email" required placeholder="NEURAL.ID" className="w-full rounded-sm py-6 px-10 text-sm outline-none bg-black border border-white/10 focus:border-[#ff0000] transition-all font-mono text-white" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <input type="password" required placeholder="ACCESS.KEY" className="w-full rounded-sm py-6 px-10 text-sm outline-none bg-black border border-white/10 focus:border-[#ff0000] transition-all font-mono text-white" value={password} onChange={(e) => setPassword(e.target.value)} />
-            {error && <div className="text-[#ff0000] text-[10px] text-center font-bold uppercase tracking-widest py-4">{error}</div>}
-            <button disabled={loading} className="btn-fine w-full py-6">
+            <input type="email" required placeholder="NEURAL.ID" className="w-full rounded-md py-5 px-10 text-sm outline-none bg-black border border-white/10 focus:border-[#E50914] transition-all font-mono text-white" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input type="password" required placeholder="ACCESS.KEY" className="w-full rounded-md py-5 px-10 text-sm outline-none bg-black border border-white/10 focus:border-[#E50914] transition-all font-mono text-white" value={password} onChange={(e) => setPassword(e.target.value)} />
+            {error && <div className="text-[#E50914] text-[10px] text-center font-bold uppercase tracking-widest py-4">{error}</div>}
+            <button disabled={loading} className="btn-netflix-red w-full py-5 text-sm uppercase tracking-widest">
               {loading ? 'Transmitting...' : mode === 'login' ? 'Establish Link' : 'Initialize Node'}
             </button>
             <div className="text-center pt-8">
-              <button type="button" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')} className="nav-link text-[9px] opacity-20 hover:opacity-100 transition-all text-white">
-                {mode === 'login' ? "New Neural Link? Sync" : "Existing Link? Recall"}
+              <button type="button" onClick={() => setMode(mode === 'login' ? 'signup' : 'login')} className="text-[10px] font-bold text-white/30 hover:text-white uppercase tracking-widest transition-all">
+                {mode === 'login' ? "New Neural Link? Join" : "Existing Link? Sync"}
               </button>
             </div>
           </form>
@@ -414,8 +440,8 @@ export default function App() {
         </Routes>
 
         <footer className="py-40 bg-black border-t border-white/5 text-center">
-          <h1 className="h-titan text-[10vw] opacity-10 text-white">TITANTV</h1>
-          <p className="nav-link opacity-10 text-[8px] tracking-[1em]">© 2026 REFINED INDUSTRIAL GRID</p>
+          <h1 className="h-netflix text-[10vw] opacity-10 text-[#E50914]">TITANTV</h1>
+          <p className="text-[8px] font-bold opacity-10 uppercase tracking-[1em] text-white">© 2026 NETFLIX LUXE INFRASTRUCTURE</p>
         </footer>
       </main>
     </Router>
