@@ -24,23 +24,23 @@ const CHANNEL_CATEGORIES = [
   {
     title: 'Featured Networks',
     logos: [
-      { name: 'Netflix', url: 'https://logo.clearbit.com/netflix.com' },
-      { name: 'HBO Max', url: 'https://logo.clearbit.com/hbomax.com' },
-      { name: 'Disney+', url: 'https://logo.clearbit.com/disneyplus.com' },
-      { name: 'Prime Video', url: 'https://logo.clearbit.com/amazon.com' },
-      { name: 'DAZN', url: 'https://logo.clearbit.com/dazn.com' },
-      { name: 'beIN Sports', url: 'https://logo.clearbit.com/beinsports.com' },
-      { name: 'Canal+', url: 'https://logo.clearbit.com/canalplus.com' }
+      { name: 'Netflix', url: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg' },
+      { name: 'HBO Max', url: 'https://upload.wikimedia.org/wikipedia/commons/c/ce/HBO_Max_logo.svg' },
+      { name: 'Disney+', url: 'https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg' },
+      { name: 'Prime Video', url: 'https://upload.wikimedia.org/wikipedia/commons/f/f1/Prime_Video_logo.svg' },
+      { name: 'DAZN', url: 'https://upload.wikimedia.org/wikipedia/commons/e/e0/DAZN_logo.svg' },
+      { name: 'beIN SPORTS', url: 'https://upload.wikimedia.org/wikipedia/commons/2/25/BeIN_Sports_logo.svg' },
+      { name: 'Canal+', url: 'https://upload.wikimedia.org/wikipedia/commons/d/d3/Canal%2B_logo.svg' }
     ]
   },
   {
     title: 'Sports & Live TV',
     logos: [
-      { name: 'Sky Sports', url: 'https://logo.clearbit.com/sky.com' },
-      { name: 'ESPN', url: 'https://logo.clearbit.com/espn.com' },
-      { name: 'Fox Sports', url: 'https://logo.clearbit.com/fox.com' },
-      { name: 'BT Sport', url: 'https://logo.clearbit.com/bt.com' },
-      { name: 'Eurosport', url: 'https://logo.clearbit.com/eurosport.com' }
+      { name: 'Sky Sports', url: 'https://upload.wikimedia.org/wikipedia/en/3/3e/Sky_Sports_logo_2017.svg' },
+      { name: 'ESPN', url: 'https://upload.wikimedia.org/wikipedia/commons/b/bd/ESPN_wordmark.svg' },
+      { name: 'Fox Sports', url: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Fox_Sports_logo.svg' },
+      { name: 'Eurosport', url: 'https://upload.wikimedia.org/wikipedia/commons/3/3b/Eurosport_logo.svg' },
+      { name: 'UFC', url: 'https://upload.wikimedia.org/wikipedia/commons/0/0d/UFC_logo.svg' }
     ]
   }
 ];
