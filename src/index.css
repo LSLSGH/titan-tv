@@ -17,7 +17,19 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  cursor: none !important; /* Force custom cursor */
+}
+
+/* Hide custom cursor on touch devices */
+@media (hover: hover) and (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+}
+
+@media (hover: none) {
+  .custom-cursor {
+    display: none !important;
+  }
 }
 
 html.lenis {
